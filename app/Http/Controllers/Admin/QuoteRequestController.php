@@ -28,9 +28,9 @@ class QuoteRequestController extends Controller
      */
     public function show(QuoteRequest $quote)
     {
-        // The 'with' method eagerly loads the 'fruits' relationship
+        // The 'with' method eagerly loads the 'fruits' relationship along with each fruit's category
         // to prevent the N+1 query problem, making the application more efficient.
-        $quote->load('fruits');
+        $quote->load('fruits.category');
 
         // Rename to quoteRequest for backward compatibility with the view
         $quoteRequest = $quote;

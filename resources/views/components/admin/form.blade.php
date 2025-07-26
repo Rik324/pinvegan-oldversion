@@ -6,7 +6,7 @@
     @csrf
     
     @if(strtolower($method) !== 'get' && strtolower($method) !== 'post')
-        @method($method)
+        @method(strtoupper($method))
     @endif
     
     <div class="space-y-6">

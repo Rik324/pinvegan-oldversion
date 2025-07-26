@@ -154,4 +154,35 @@ class QuoteController extends Controller
         return redirect()->route('quote.index')
             ->with('success', 'All items have been removed from your quote request.');
     }
+    
+    /**
+     * Update the quantity of a fruit in the quote request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateQuoteItem(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+        
+        // Get existing quote items from session
+        $sessionItems = Session::get('quote_items', []);
+        
+        // Update the quantity for this fruit
+        if (isset($sessionItems[$id])) {
+            $sessionItems[$id] = $validated['quantity'];
+            
+            // Store updated quote items in session
+            Session::put('quote_items', $sessionItems);
+            
+            return redirect()->route('quote.index')
+                ->with('success', 'Item quantity updated successfully.');
+        }
+        
+        return redirect()->route('quote.index')
+            ->with('error', 'Item not found in your quote request.');
+    }
 }

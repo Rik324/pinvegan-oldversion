@@ -20,6 +20,7 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 Route::get('/quote', [QuoteController::class, 'index'])->name('quote.index');
 Route::post('/quote', [QuoteController::class, 'store'])->name('quote.store');
 Route::post('/quote/add', [QuoteController::class, 'addToQuote'])->name('quote.add');
+Route::put('/quote/update/{id}', [QuoteController::class, 'updateQuoteItem'])->name('quote.update');
 Route::delete('/quote/remove/{id}', [QuoteController::class, 'removeFromQuote'])->name('quote.remove');
 Route::post('/quote/clear', [QuoteController::class, 'clearQuote'])->name('quote.clear');
 
@@ -44,6 +45,10 @@ Route::middleware('auth')->group(function () {
         
         // Categories management
         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+        
+        // Quote requests management
+        Route::resource('quotes', \App\Http\Controllers\Admin\QuoteRequestController::class)->except(['create', 'store', 'edit', 'update']);
+        Route::put('quotes/{quoteRequest}/status', [\App\Http\Controllers\Admin\QuoteRequestController::class, 'updateStatus'])->name('quotes.update-status');
     });
 });
 

@@ -22,7 +22,7 @@
                             <p>Organize your fruits with categories.</p>
                         </a>
                         
-                        <a href="#" class="block p-6 bg-gray-700 text-white rounded-lg shadow-md hover:bg-gray-600 transition">
+                        <a href="{{ route('admin.quotes.index') }}" class="block p-6 bg-gray-700 text-white rounded-lg shadow-md hover:bg-gray-600 transition">
                             <h2 class="text-xl font-bold mb-2">Quote Requests</h2>
                             <p>View and manage customer quote requests.</p>
                         </a>

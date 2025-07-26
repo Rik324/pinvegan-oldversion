@@ -162,18 +162,31 @@
     </div>
 
     <!-- Map Section -->
-    <div class="w-full h-96 bg-gray-300 dark:bg-gray-700">
-        <!-- In a real application, you would embed a map here using Google Maps or another mapping service -->
-        <div class="w-full h-full flex items-center justify-center">
-            <div class="text-center">
-                <svg class="w-16 h-16 text-gray-500 dark:text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                </svg>
-                <p class="text-gray-700 dark:text-gray-300 text-lg">Map would be embedded here in a production environment</p>
-                <p class="text-gray-600 dark:text-gray-400 mt-2">{{ $contactInfo['address'] }}</p>
-            </div>
-        </div>
+    <div class="w-full">
+        <!-- Leaflet.js Map -->
+        <div id="map" class="w-full h-96"></div>
     </div>
+    
+    <!-- Leaflet.js CSS and JavaScript -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the map
+            var map = L.map('map').setView([{{ $contactInfo['map_location'][0] }}, {{ $contactInfo['map_location'][1] }}], 15);
+            
+            // Add the tile layer (OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            // Add a marker at the business location
+            var marker = L.marker([{{ $contactInfo['map_location'][0] }}, {{ $contactInfo['map_location'][1] }}]).addTo(map);
+            
+            // Add a popup to the marker
+            marker.bindPopup("<b>Fahad Mart</b><br>{{ $contactInfo['address'] }}").openPopup();
+        });
+    </script>
 </div>
 </x-layout.app>

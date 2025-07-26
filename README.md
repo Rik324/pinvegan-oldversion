@@ -97,6 +97,17 @@ Fruit Shop is a professional web application designed for fruit vendors to showc
 - Manage fruits, categories, and quote requests
 - Update site content and settings
 
+## Screenshots
+
+### Homepage
+![Fruit Shop Homepage](screenshots/homepage.png)
+
+*To add your own screenshot:*
+1. Take a screenshot of your homepage
+2. Create a 'screenshots' folder in the project root
+3. Save the screenshot as 'homepage.png' in the screenshots folder
+4. Replace the placeholder reference in this README
+
 ## License
 
 The Fruit Shop application is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

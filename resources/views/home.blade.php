@@ -1,8 +1,6 @@
 <x-layout.app>
     <x-slot:header>
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-            {{ __('Home') }}
-        </h2>
+        
     </x-slot>
 <div class="bg-white dark:bg-gray-900">
     <!-- Hero Section -->

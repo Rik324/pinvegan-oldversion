@@ -186,7 +186,7 @@ class QuoteController extends Controller
             Log::error('Failed to send quote request notification: ' . $e->getMessage());
         }
         
-        return redirect()->route('home')
+        return redirect()->route('quote.index')
             ->with('success', 'Your quote request has been submitted successfully. We will contact you soon!');
     }
     

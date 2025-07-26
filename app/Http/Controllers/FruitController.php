@@ -17,8 +17,11 @@ class FruitController extends Controller
         $query = Fruit::query();
         
         // Apply category filter if provided
-        if ($request->has('category') && !empty($request->category)) {
-            $query->where('category_id', $request->category);
+        if ($request->has('category_id') && !empty($request->category_id)) {
+            $query->where('category_id', $request->category_id);
+        } elseif ($request->has('category') && !empty($request->category)) {
+            // For backward compatibility
+            $query->where('category', $request->category);
         }
         
         // Apply sorting if provided

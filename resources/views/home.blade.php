@@ -92,8 +92,11 @@
             @if($categories->count() > 0)
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 @foreach($categories as $category)
-                <a href="{{ route('fruits.index', ['category' => $category]) }}" class="bg-white dark:bg-gray-700 rounded-lg shadow p-6 text-center hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $category }}</h3>
+                <a href="{{ route('fruits.index', ['category_id' => $category->id]) }}" class="bg-white dark:bg-gray-700 rounded-lg shadow p-6 text-center hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $category->name }}</h3>
+                    @if($category->description)
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 line-clamp-2">{{ $category->description }}</p>
+                    @endif
                 </a>
                 @endforeach
             </div>

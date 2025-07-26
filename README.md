@@ -101,14 +101,9 @@ Fruit Shop is a professional web application designed for fruit vendors to showc
 
 ### Homepage
 
-```
-[Add your homepage screenshot here]
-```
+![Fruit Shop Homepage](https://github.com/Ekaluk52003/laravel_fruitshop/raw/main/screenshots/homepage.png)
 
-*To add your screenshot:*
-1. Take a screenshot of your homepage
-2. Add it to your GitHub repository's README using the GitHub interface
-3. Or replace the placeholder text above with a proper Markdown image link
+The homepage features a vibrant yellow hero section with the tagline "Fresh Fruits for Every Occasion" and showcases the clean, professional navigation design with the green header.
 
 ## License
 

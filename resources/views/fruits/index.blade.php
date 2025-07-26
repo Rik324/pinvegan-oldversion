@@ -1,28 +1,28 @@
 <x-layout.app>
     <x-slot:header>
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
             {{ __('Our Fruits') }}
         </h2>
     </x-slot>
 <div class="bg-white dark:bg-gray-900">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Our Fruits</h1>
+    <div class="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <h1 class="mb-8 text-3xl font-bold text-gray-900 dark:text-white">Our Fruits</h1>
         
         <!-- Filters and Sorting -->
-        <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 mb-8">
-            <form action="{{ route('fruits.index') }}" method="GET" class="flex flex-col md:flex-row gap-4">
+        <div class="p-4 mb-8 bg-gray-100 rounded-lg dark:bg-gray-800">
+            <form action="{{ route('fruits.index') }}" method="GET" class="flex flex-col gap-4 md:flex-row">
                 <div class="md:w-1/3">
-                    <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Category</label>
-                    <select name="category" id="category" class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50">
+                    <label for="category_id" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Filter by Category</label>
+                    <select name="category_id" id="category_id" class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50">
                         <option value="">All Categories</option>
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 
                 <div class="md:w-1/3">
-                    <label for="sort" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sort By</label>
+                    <label for="sort" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Sort By</label>
                     <select name="sort" id="sort" class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50">
                         <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Name</option>
                         <option value="origin" {{ request('sort') == 'origin' ? 'selected' : '' }}>Origin</option>
@@ -31,7 +31,7 @@
                 </div>
                 
                 <div class="md:w-1/3">
-                    <label for="direction" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sort Direction</label>
+                    <label for="direction" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Sort Direction</label>
                     <select name="direction" id="direction" class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50">
                         <option value="asc" {{ request('direction') == 'asc' ? 'selected' : '' }}>Ascending</option>
                         <option value="desc" {{ request('direction') == 'desc' ? 'selected' : '' }}>Descending</option>
@@ -39,7 +39,7 @@
                 </div>
                 
                 <div class="md:self-end">
-                    <button type="submit" class="w-full md:w-auto bg-green-800 hover:bg-green-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                    <button type="submit" class="px-4 py-2 w-full font-medium text-white bg-green-800 rounded md:w-auto hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
                         Apply Filters
                     </button>
                 </div>
@@ -48,7 +48,7 @@
         
         <!-- Fruits Grid -->
         @if($fruits->count() > 0)
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 @foreach($fruits as $fruit)
                     <x-fruit.card :fruit="$fruit" />
                 @endforeach
@@ -59,9 +59,9 @@
                 {{ $fruits->withQueryString()->links() }}
             </div>
         @else
-            <div class="text-center py-12 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <div class="py-12 text-center bg-gray-100 rounded-lg dark:bg-gray-800">
                 <p class="text-xl text-gray-600 dark:text-gray-400">No fruits found matching your criteria.</p>
-                <a href="{{ route('fruits.index') }}" class="mt-4 inline-block text-green-800 dark:text-yellow-400 hover:underline">Clear filters</a>
+                <a href="{{ route('fruits.index') }}" class="inline-block mt-4 text-green-800 dark:text-yellow-400 hover:underline">Clear filters</a>
             </div>
         @endif
     </div>

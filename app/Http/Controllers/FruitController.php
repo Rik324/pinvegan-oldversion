@@ -17,8 +17,8 @@ class FruitController extends Controller
         $query = Fruit::query();
         
         // Apply category filter if provided
-        if ($request->has('category')) {
-            $query->where('category', $request->category);
+        if ($request->has('category') && !empty($request->category)) {
+            $query->where('category_id', $request->category);
         }
         
         // Apply sorting if provided
@@ -32,11 +32,8 @@ class FruitController extends Controller
         }
         
         $fruits = $query->paginate(12);
-        $categories = Fruit::select('category')
-                        ->distinct()
-                        ->whereNotNull('category')
-                        ->get()
-                        ->pluck('category');
+        // Fetch all active categories
+        $categories = \App\Models\Category::where('is_active', true)->get();
         
         return view('fruits.index', compact('fruits', 'categories'));
     }

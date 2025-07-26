@@ -45,18 +45,12 @@
                     <div class="mb-6">
                         <div class="flex justify-between items-center">
                             <h3 class="text-lg font-medium">Status</h3>
-                            <form action="{{ route('admin.quotes.update-status', ['quote' => $quoteRequest->id]) }}" method="POST" class="flex items-center space-x-2">
-                                @csrf
-                                @method('PUT')
-                                <select name="status" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-green-500 focus:ring focus:ring-green-500 focus:ring-opacity-50">
-                                    <option value="new" {{ $quoteRequest->status === 'new' ? 'selected' : '' }}>New</option>
-                                    <option value="responded" {{ $quoteRequest->status === 'responded' ? 'selected' : '' }}>Responded</option>
-                                    <option value="completed" {{ $quoteRequest->status === 'completed' ? 'selected' : '' }}>Completed</option>
-                                </select>
-                                <button type="submit" class="px-4 py-2 text-sm text-white bg-green-600 rounded-md hover:bg-green-700">
-                                    Update Status
-                                </button>
-                            </form>
+                            <span class="px-3 py-1 text-sm font-medium rounded-full {{ 
+                                $quoteRequest->status === 'new' ? 'bg-blue-100 text-blue-800' : 
+                                ($quoteRequest->status === 'responded' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800') 
+                            }}">
+                                {{ ucfirst($quoteRequest->status) }}
+                            </span>
                         </div>
                         <div class="mt-2">
                             @php
@@ -129,18 +123,10 @@
                         </div>
                     </div>
 
-                    <div class="flex justify-between">
+                    <div class="flex space-x-4">
                         <a href="{{ route('admin.quotes.index') }}" class="px-4 py-2 text-sm text-white bg-gray-800 rounded-md dark:bg-gray-200 dark:text-gray-800">
                             Back to List
                         </a>
-                        <form action="{{ route('admin.quotes.destroy', ['quote' => $quoteRequest->id]) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="px-4 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700"
-                                    onclick="return confirm('Are you sure you want to delete this quote request?')">
-                                Delete Quote Request
-                            </button>
-                        </form>
                     </div>
                 </div>
             </div>

@@ -26,12 +26,15 @@ class QuoteRequestController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(QuoteRequest $quoteRequest)
+    public function show(QuoteRequest $quote)
     {
         // The 'with' method eagerly loads the 'fruits' relationship
         // to prevent the N+1 query problem, making the application more efficient.
-        $quoteRequest->load('fruits');
+        $quote->load('fruits');
 
+        // Rename to quoteRequest for backward compatibility with the view
+        $quoteRequest = $quote;
+        
         return view('admin.quotes.show', compact('quoteRequest'));
     }
 
@@ -39,9 +42,9 @@ class QuoteRequestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(QuoteRequest $quoteRequest)
+    public function destroy(QuoteRequest $quote)
     {
-        $quoteRequest->delete();
+        $quote->delete();
 
         return redirect()->route('admin.quotes.index')->with('success', 'Quote request deleted successfully.');
     }

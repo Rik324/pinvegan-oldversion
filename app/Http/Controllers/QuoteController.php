@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Fruit;
 use App\Models\QuoteRequest;
+use App\Models\User;
+use App\Notifications\QuoteRequestConfirmation;
+use App\Notifications\QuoteRequestSubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class QuoteController extends Controller
 {
@@ -118,8 +122,8 @@ class QuoteController extends Controller
                 ->with('error', 'Your quote request is empty. Please add some fruits first.');
         }
         
-        // Create the quote request
-        $quoteRequest = QuoteRequest::create([
+        // Create the quote request and ensure it's saved to the database
+        $quoteRequest = new QuoteRequest([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
@@ -127,15 +131,59 @@ class QuoteController extends Controller
             'status' => 'new',
         ]);
         
+        // Save the quote request to get an ID
+        $quoteRequest->save();
+        
+        // Debug: Log the quote request ID and session items
+        Log::info('Quote Request created with ID: ' . $quoteRequest->id);
+        Log::info('Session items: ', $sessionItems);
+        
+        // Verify fruits exist before attaching
+        $existingFruitIds = Fruit::whereIn('id', array_keys($sessionItems))->pluck('id')->toArray();
+        Log::info('Existing fruit IDs: ', $existingFruitIds);
+        
         // Add the fruits to the quote request
         foreach ($sessionItems as $fruitId => $quantity) {
-            $quoteRequest->fruits()->attach($fruitId, ['quantity' => $quantity]);
+            // Convert to integer to ensure proper type comparison
+            $fruitId = (int)$fruitId;
+            
+            // Check if the fruit exists
+            if (in_array($fruitId, $existingFruitIds)) {
+                try {
+                    $quoteRequest->fruits()->attach($fruitId, ['quantity' => $quantity]);
+                    Log::info('Attached fruit ID ' . $fruitId . ' with quantity ' . $quantity);
+                } catch (\Exception $e) {
+                    Log::error('Error attaching fruit: ' . $e->getMessage());
+                }
+            } else {
+                Log::warning('Fruit ID ' . $fruitId . ' does not exist, skipping');
+            }
         }
         
         // Clear the quote items from the session
         Session::forget('quote_items');
         
-        // In a real application, you would send an email notification here
+        // Send notification to admin users
+        try {
+            $admin = User::where('email', 'admin@example.com')->first();
+            if ($admin) {
+                $admin->notify(new QuoteRequestSubmitted($quoteRequest));
+                Log::info('Quote request notification sent to admin');
+            } else {
+                Log::warning('Admin user not found for notification');
+            }
+            
+            // Send confirmation notification to the customer
+            // We're using the notifyNow method to send the notification immediately without queuing
+            // and using the route method to specify the email address directly
+            \Illuminate\Support\Facades\Notification::route('mail', [
+                $validated['email'] => $validated['name'],
+            ])->notifyNow(new QuoteRequestConfirmation($quoteRequest));
+            
+            Log::info('Quote request confirmation sent to customer: ' . $validated['email']);
+        } catch (\Exception $e) {
+            Log::error('Failed to send quote request notification: ' . $e->getMessage());
+        }
         
         return redirect()->route('home')
             ->with('success', 'Your quote request has been submitted successfully. We will contact you soon!');

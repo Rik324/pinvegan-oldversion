@@ -1,16 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-yellow-600 dark:text-gray-200">
             {{ __('Quote Requests') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     @if (session('success'))
-                        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+                        <div class="p-4 mb-4 text-green-700 bg-green-100 rounded border border-green-400">
                             {{ session('success') }}
                         </div>
                     @endif
@@ -20,34 +20,39 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400">View and manage customer quote requests.</p>
                     </div>
 
-                    <x-admin.table>
-                        <x-slot name="header">
-                            <tr>
-                                <th class="px-4 py-2">ID</th>
-                                <th class="px-4 py-2">Name</th>
-                                <th class="px-4 py-2">Email</th>
-                                <th class="px-4 py-2">Date</th>
-                                <th class="px-4 py-2">Status</th>
-                                <th class="px-4 py-2">Actions</th>
-                            </tr>
-                        </x-slot>
-                        <x-slot name="body">
-                            @forelse ($quoteRequests as $quoteRequest)
+                    <div class="overflow-x-auto bg-white rounded-lg shadow dark:bg-gray-800">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-gray-50 dark:bg-gray-700">
                                 <tr>
-                                    <td class="border px-4 py-2">{{ $quoteRequest->id }}</td>
-                                    <td class="border px-4 py-2">{{ $quoteRequest->name }}</td>
-                                    <td class="border px-4 py-2">{{ $quoteRequest->email }}</td>
-                                    <td class="border px-4 py-2">{{ $quoteRequest->created_at->format('M d, Y') }}</td>
-                                    <td class="border px-4 py-2">
-                                        <span class="px-2 py-1 rounded text-xs font-semibold
-                                            @if($quoteRequest->status == 'new') bg-blue-100 text-blue-800 @endif
-                                            @if($quoteRequest->status == 'responded') bg-yellow-100 text-yellow-800 @endif
-                                            @if($quoteRequest->status == 'completed') bg-green-100 text-green-800 @endif
-                                        ">
+                                    <th class="px-4 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">ID</th>
+                                    <th class="px-4 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">Name</th>
+                                    <th class="px-4 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">Email</th>
+                                    <th class="px-4 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">Date</th>
+                                    <th class="px-4 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">Status</th>
+                                    <th class="px-4 py-2 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                @forelse ($quoteRequests as $quoteRequest)
+                                <tr>
+                                    <td class="px-4 py-2 border">{{ $quoteRequest->id }}</td>
+                                    <td class="px-4 py-2 border">{{ $quoteRequest->name }}</td>
+                                    <td class="px-4 py-2 border">{{ $quoteRequest->email }}</td>
+                                    <td class="px-4 py-2 border">{{ $quoteRequest->created_at->format('M d, Y') }}</td>
+                                    <td class="px-4 py-2 border">
+                                        @php
+                                            $statusColors = [
+                                                'new' => 'bg-indigo-100 text-indigo-800',
+                                                'responded' => 'bg-amber-100 text-amber-800',
+                                                'completed' => 'bg-emerald-100 text-emerald-800'
+                                            ];
+                                            $statusClass = $statusColors[$quoteRequest->status] ?? 'bg-gray-100 text-gray-800';
+                                        @endphp
+                                        <span class="px-2 py-1 rounded text-xs font-semibold {{ $statusClass }}">
                                             {{ ucfirst($quoteRequest->status) }}
                                         </span>
                                     </td>
-                                    <td class="border px-4 py-2">
+                                    <td class="px-4 py-2 border">
                                         <div class="flex items-center space-x-2">
                                             <a href="{{ route('admin.quotes.show', $quoteRequest) }}" 
                                                class="text-blue-600 hover:text-blue-900">
@@ -72,11 +77,12 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="border px-4 py-2 text-center">No quote requests found.</td>
+                                    <td colspan="6" class="px-4 py-2 text-center border">No quote requests found.</td>
                                 </tr>
                             @endforelse
-                        </x-slot>
-                    </x-admin.table>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <div class="mt-4">
                         {{ $quoteRequests->links() }}

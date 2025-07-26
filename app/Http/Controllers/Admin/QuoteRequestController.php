@@ -17,6 +17,10 @@ class QuoteRequestController extends Controller
     {
         $quoteRequests = QuoteRequest::latest()->paginate(10);
         
+        // Debug: Log the quote requests being retrieved
+        \Illuminate\Support\Facades\Log::info('Quote Requests count: ' . $quoteRequests->count());
+        \Illuminate\Support\Facades\Log::info('Quote Requests total: ' . $quoteRequests->total());
+        
         return view('admin.quotes.index', compact('quoteRequests'));
     }
 

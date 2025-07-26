@@ -49,20 +49,18 @@ class QuoteRequestController extends Controller
     /**
      * Update the status of the specified quote request.
      */
-    public function updateStatus(Request $request, $quoteRequest)
+    public function updateStatus(Request $request, QuoteRequest $quote)
     {
-        // Find the quote request by ID
-        $quoteRequestModel = QuoteRequest::findOrFail($quoteRequest);
-        
         $request->validate([
             'status' => 'required|in:new,responded,completed',
         ]);
         
-        $quoteRequestModel->update([
+        $quote->update([
             'status' => $request->status,
         ]);
         
-        return redirect('/admin/quotes/' . $quoteRequest)
+        return redirect()
+            ->route('admin.quotes.show', ['quote' => $quote->id])
             ->with('success', 'Quote request status updated successfully.');
     }
 }

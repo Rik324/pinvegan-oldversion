@@ -45,7 +45,7 @@
                     <div class="mb-6">
                         <div class="flex justify-between items-center">
                             <h3 class="text-lg font-medium">Status</h3>
-                            <form action="/admin/quotes/{{ $quoteRequest->id }}/status" method="POST" class="flex items-center space-x-2">
+                            <form action="{{ route('admin.quotes.update-status', ['quote' => $quoteRequest->id]) }}" method="POST" class="flex items-center space-x-2">
                                 @csrf
                                 @method('PUT')
                                 <select name="status" class="rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-green-500 focus:ring focus:ring-green-500 focus:ring-opacity-50">
@@ -133,7 +133,7 @@
                         <a href="{{ route('admin.quotes.index') }}" class="px-4 py-2 text-sm text-white bg-gray-800 rounded-md dark:bg-gray-200 dark:text-gray-800">
                             Back to List
                         </a>
-                        <form action="{{ route('admin.quotes.destroy', $quoteRequest) }}" method="POST">
+                        <form action="{{ route('admin.quotes.destroy', ['quote' => $quoteRequest->id]) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="px-4 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700"

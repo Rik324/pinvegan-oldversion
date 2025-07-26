@@ -23,11 +23,12 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
-        
+
         // Run seeders in the correct order (categories first, then fruits)
         $this->call([
             CategorySeeder::class,
             FruitSeeder::class,
+            QuoteRequestSeeder::class, 
         ]);
     }
 }

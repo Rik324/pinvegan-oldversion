@@ -9,68 +9,60 @@ use Illuminate\Http\Request;
 class QuoteRequestController extends Controller
 {
     /**
-     * Display a listing of the quote requests.
-     *
-     * @return \Illuminate\View\View
+     * Display a listing of the resource.
      */
     public function index()
     {
-        $quoteRequests = QuoteRequest::latest()->paginate(10);
-        
-        // Debug: Log the quote requests being retrieved
-        \Illuminate\Support\Facades\Log::info('Quote Requests count: ' . $quoteRequests->count());
-        \Illuminate\Support\Facades\Log::info('Quote Requests total: ' . $quoteRequests->total());
-        
+        // Retrieve a paginated list of quote requests from the database,
+        // ordered by the most recent. The paginate() method returns a
+        // paginator instance, which allows the view to render pagination links.
+        $quoteRequests = QuoteRequest::latest()->paginate(10); // You can adjust the number of items per page.
+
+        // Pass the retrieved quote requests to the view.
+        // The compact() function creates an array containing variables and their values.
         return view('admin.quotes.index', compact('quoteRequests'));
     }
 
     /**
-     * Display the specified quote request.
-     *
-     * @param  \App\Models\QuoteRequest  $quoteRequest
-     * @return \Illuminate\View\View
+     * Display the specified resource.
      */
     public function show(QuoteRequest $quoteRequest)
     {
-        // Load the fruits relationship
+        // The 'with' method eagerly loads the 'fruits' relationship
+        // to prevent the N+1 query problem, making the application more efficient.
         $quoteRequest->load('fruits');
-        
+
         return view('admin.quotes.show', compact('quoteRequest'));
     }
 
-    /**
-     * Update the status of the specified quote request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\QuoteRequest  $quoteRequest
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function updateStatus(Request $request, QuoteRequest $quoteRequest)
-    {
-        $validated = $request->validate([
-            'status' => 'required|string|in:new,responded,completed',
-        ]);
-        
-        $quoteRequest->update([
-            'status' => $validated['status'],
-        ]);
-        
-        return redirect()->route('admin.quotes.show', $quoteRequest)
-            ->with('success', 'Quote request status updated successfully.');
-    }
 
     /**
-     * Remove the specified quote request from storage.
-     *
-     * @param  \App\Models\QuoteRequest  $quoteRequest
-     * @return \Illuminate\Http\RedirectResponse
+     * Remove the specified resource from storage.
      */
     public function destroy(QuoteRequest $quoteRequest)
     {
-        // Delete the quote request
         $quoteRequest->delete();
+
+        return redirect()->route('admin.quotes.index')->with('success', 'Quote request deleted successfully.');
+    }
+    
+    /**
+     * Update the status of the specified quote request.
+     */
+    public function updateStatus(Request $request, $quoteRequest)
+    {
+        // Find the quote request by ID
+        $quoteRequestModel = QuoteRequest::findOrFail($quoteRequest);
         
-        return redirect()->route('admin.quotes.index')
-            ->with('success', 'Quote request deleted successfully.');
+        $request->validate([
+            'status' => 'required|in:new,responded,completed',
+        ]);
+        
+        $quoteRequestModel->update([
+            'status' => $request->status,
+        ]);
+        
+        return redirect('/admin/quotes/' . $quoteRequest)
+            ->with('success', 'Quote request status updated successfully.');
     }
 }

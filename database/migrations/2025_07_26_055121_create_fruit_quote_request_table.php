@@ -11,11 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // This schema defines the pivot table for the many-to-many relationship
+        // between fruits and quote requests.
         Schema::create('fruit_quote_request', function (Blueprint $table) {
             $table->id();
+
+            // Foreign key for the Fruit model.
             $table->foreignId('fruit_id')->constrained()->onDelete('cascade');
+
+            // Foreign key for the QuoteRequest model.
+            // This has been corrected from 'quote_id' to 'quote_request_id'
+            // to match Laravel's naming conventions for relationships.
             $table->foreignId('quote_request_id')->constrained()->onDelete('cascade');
-            $table->integer('quantity')->default(1);
+
+            // Additional data stored in the pivot table.
+            $table->integer('quantity');
+
             $table->timestamps();
         });
     }

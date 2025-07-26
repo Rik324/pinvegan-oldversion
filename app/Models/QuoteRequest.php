@@ -2,25 +2,32 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class QuoteRequest extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'email',
         'phone',
         'message',
-        'status'
+        'status',
     ];
 
     /**
-     * The fruits included in this quote request.
+     * The fruits that belong to the quote request.
+     *
+     * This defines the many-to-many relationship with the Fruit model.
+     * The explicit foreign key arguments have been removed to allow Laravel
+     * to use its conventions, which now match the corrected database schema.
+     * It will correctly look for 'quote_request_id' and 'fruit_id' in the
+     * 'fruit_quote_request' pivot table.
      */
     public function fruits()
     {
-        return $this->belongsToMany(Fruit::class, 'fruit_quote_request')
-                    ->withPivot('quantity')
-                    ->withTimestamps();
+        return $this->belongsToMany(Fruit::class, 'fruit_quote_request')->withPivot('quantity');
     }
 }

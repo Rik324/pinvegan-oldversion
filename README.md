@@ -104,9 +104,8 @@ Fruit Shop is a professional web application designed for fruit vendors to showc
 
 *To add your own screenshot:*
 1. Take a screenshot of your homepage
-2. Create a 'screenshots' folder in the project root
-3. Save the screenshot as 'homepage.png' in the screenshots folder
-4. Replace the placeholder reference in this README
+2. Save it in the 'screenshots' folder (already created in the project root)
+3. Make sure it's named 'homepage.png' to match the reference above
 
 ## License
 

@@ -43,7 +43,13 @@
                     @endforeach
                 </div>
                 
-                <div class="mt-6 text-right">
+                <div class="mt-6 flex justify-between items-center">
+                    <a href="{{ route('fruits.index') }}" class="inline-flex items-center justify-center bg-green-800 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition duration-300 border-2 border-green-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Continue to Add Fruit
+                    </a>
                     <form action="{{ route('quote.clear') }}" method="POST" class="inline-block">
                         @csrf
                         <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition duration-300">

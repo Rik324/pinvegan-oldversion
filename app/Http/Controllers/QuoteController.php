@@ -72,7 +72,8 @@ class QuoteController extends Controller
         // Store updated quote items in session
         Session::put('quote_items', $quoteItems);
         
-        return redirect()->back()->with('success', 'Fruit added to your quote request.');
+        // Redirect directly to the quote request page
+        return redirect()->route('quote.index')->with('success', 'Fruit added to your quote request.');
     }
     
     /**

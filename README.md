@@ -100,12 +100,15 @@ Fruit Shop is a professional web application designed for fruit vendors to showc
 ## Screenshots
 
 ### Homepage
-![Fruit Shop Homepage](screenshots/homepage.png)
 
-*To add your own screenshot:*
+```
+[Add your homepage screenshot here]
+```
+
+*To add your screenshot:*
 1. Take a screenshot of your homepage
-2. Save it in the 'screenshots' folder (already created in the project root)
-3. Make sure it's named 'homepage.png' to match the reference above
+2. Add it to your GitHub repository's README using the GitHub interface
+3. Or replace the placeholder text above with a proper Markdown image link
 
 ## License
 

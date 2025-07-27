@@ -57,6 +57,7 @@ return [
     'required_field' => 'จำเป็นต้องกรอกช่องนี้',
     'invalid_image' => 'โปรดอัปโหลดรูปภาพที่ถูกต้อง',
     'image_too_large' => 'ขนาดรูปภาพไม่ควรเกิน 2MB',
+    'please_fix_errors' => 'โปรดแก้ไขข้อผิดพลาดต่อไปนี้:',
     
     // Status
     'available' => 'มีพร้อมจำหน่าย',

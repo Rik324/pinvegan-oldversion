@@ -57,6 +57,7 @@ return [
     'required_field' => '此字段为必填项',
     'invalid_image' => '请上传有效的图片',
     'image_too_large' => '图片大小不应超过2MB',
+    'please_fix_errors' => '请修复以下错误：',
     
     // Status
     'available' => '可用',

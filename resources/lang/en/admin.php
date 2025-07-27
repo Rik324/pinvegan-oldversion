@@ -71,6 +71,7 @@ return [
     'required_field' => 'This field is required',
     'invalid_image' => 'Please upload a valid image',
     'image_too_large' => 'Image size should not exceed 2MB',
+    'please_fix_errors' => 'Please fix the following errors:',
     
     // Status
     'available' => 'Available',

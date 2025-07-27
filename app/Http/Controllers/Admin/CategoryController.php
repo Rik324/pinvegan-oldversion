@@ -38,23 +38,30 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate non-translatable fields
-        $request->validate([
+        // Prepare validation rules
+        $rules = [
             'is_active' => 'boolean',
-        ]);
+        ];
 
-        // Validate translatable fields for each locale
+        // Add translatable field rules
         $locales = ['en', 'th', 'zh']; // Supported locales
         foreach ($locales as $locale) {
-            $request->validate([
-                "{$locale}.name" => 'required|string|max:255',
-                "{$locale}.description" => 'nullable|string',
-            ]);
+            $rules["{$locale}.name"] = 'required|string|max:255';
+            $rules["{$locale}.description"] = 'nullable|string';
+        }
+        
+        // Validate all fields at once
+        try {
+            $validated = $request->validate($rules);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
         }
 
         // Create category with non-translatable fields
         $category = new Category();
-        $category->is_active = $request->has('is_active');
+        $category->is_active = $request->has('is_active') ? true : false;
         
         // Generate slug from English name
         $category->slug = Str::slug($request->input('en.name'));
@@ -91,22 +98,29 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        // Validate non-translatable fields
-        $request->validate([
+        // Prepare validation rules
+        $rules = [
             'is_active' => 'boolean',
-        ]);
+        ];
 
-        // Validate translatable fields for each locale
+        // Add translatable field rules
         $locales = ['en', 'th', 'zh']; // Supported locales
         foreach ($locales as $locale) {
-            $request->validate([
-                "{$locale}.name" => 'required|string|max:255',
-                "{$locale}.description" => 'nullable|string',
-            ]);
+            $rules["{$locale}.name"] = 'required|string|max:255';
+            $rules["{$locale}.description"] = 'nullable|string';
+        }
+        
+        // Validate all fields at once
+        try {
+            $validated = $request->validate($rules);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
         }
 
         // Update non-translatable fields
-        $category->is_active = $request->has('is_active');
+        $category->is_active = $request->has('is_active') ? true : false;
         
         // Generate slug from English name
         $category->slug = Str::slug($request->input('en.name'));

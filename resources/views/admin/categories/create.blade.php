@@ -22,7 +22,25 @@
                 </a>
             </div>
 
-            <x-admin.form :action="route('admin.categories.store')" method="POST">
+            <!-- Error Messages -->            
+            @if (session('error'))
+                <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                    <p class="font-bold">{{ __('admin.please_fix_errors') }}</p>
+                    <ul class="list-disc pl-5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <x-admin.form :action="route('admin.categories.store')" method="POST" novalidate>
                 <!-- Language Tabs with Alpine.js -->
                 <div x-data="{ activeTab: localStorage.getItem('activeLanguageTab') || 'english' }" class="mb-6">
                     <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
@@ -60,7 +78,7 @@
                             <div class="grid grid-cols-1 gap-6">
                                 <div>
                                     <x-input-label for="en_name" :value="__('admin.name') . ' (' . __('admin.english') . ')'" />
-                                    <x-text-input id="en_name" name="en[name]" type="text" class="mt-1 block w-full" :value="old('en.name')" required />
+                                    <x-text-input id="en_name" name="en[name]" type="text" class="mt-1 block w-full" :value="old('en.name')" />
                                     <x-input-error :messages="$errors->get('en.name')" class="mt-2" />
                                 </div>
 
@@ -80,7 +98,7 @@
                             <div class="grid grid-cols-1 gap-6">
                                 <div>
                                     <x-input-label for="th_name" :value="__('admin.name') . ' (' . __('admin.thai') . ')'" />
-                                    <x-text-input id="th_name" name="th[name]" type="text" class="mt-1 block w-full" :value="old('th.name')" required />
+                                    <x-text-input id="th_name" name="th[name]" type="text" class="mt-1 block w-full" :value="old('th.name')" />
                                     <x-input-error :messages="$errors->get('th.name')" class="mt-2" />
                                 </div>
 
@@ -100,7 +118,7 @@
                             <div class="grid grid-cols-1 gap-6">
                                 <div>
                                     <x-input-label for="zh_name" :value="__('admin.name') . ' (' . __('admin.chinese') . ')'" />
-                                    <x-text-input id="zh_name" name="zh[name]" type="text" class="mt-1 block w-full" :value="old('zh.name')" required />
+                                    <x-text-input id="zh_name" name="zh[name]" type="text" class="mt-1 block w-full" :value="old('zh.name')" />
                                     <x-input-error :messages="$errors->get('zh.name')" class="mt-2" />
                                 </div>
 
@@ -117,10 +135,11 @@
                 <!-- Non-translatable fields -->
                 <div class="grid grid-cols-1 gap-6 mt-6">
                     <div class="flex items-center">
-                        <input id="is_active" name="is_active" type="checkbox" class="h-4 w-4 text-green-800 focus:ring-green-700 border-gray-300 rounded" {{ old('is_active', true) ? 'checked' : '' }}>
+                        <input id="is_active" name="is_active" type="checkbox" class="h-4 w-4 text-green-800 focus:ring-green-700 border-gray-300 rounded" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
                         <label for="is_active" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">
                             {{ __('admin.active') }}
                         </label>
+                        <x-input-error :messages="$errors->get('is_active')" class="mt-2 ml-2" />
                     </div>
                 </div>
 

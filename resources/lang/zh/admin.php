@@ -18,6 +18,13 @@ return [
     'fruit_updated' => '水果更新成功',
     'fruit_deleted' => '水果删除成功',
     
+    // Categories
+    'categories' => '类别',
+    'category' => '类别',
+    'create_category' => '创建新类别',
+    'edit_category' => '编辑类别',
+    'update_category' => '更新类别',
+    
     // Fruit attributes
     'name' => '名称',
     'description' => '描述',

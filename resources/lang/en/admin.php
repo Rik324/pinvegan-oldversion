@@ -29,6 +29,7 @@ return [
     'category_updated_successfully' => 'Category updated successfully',
     'category_deleted_successfully' => 'Category deleted successfully',
     'add_new_category' => 'Create New Category',
+    'update_category' => 'Update Category',
     'slug' => 'Slug',
     'slug_help' => 'Slug is automatically generated from the name',
     'active' => 'Active',

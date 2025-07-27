@@ -18,6 +18,13 @@ return [
     'fruit_updated' => 'อัปเดตผลไม้สำเร็จแล้ว',
     'fruit_deleted' => 'ลบผลไม้สำเร็จแล้ว',
     
+    // Categories
+    'categories' => 'หมวดหมู่',
+    'category' => 'หมวดหมู่',
+    'create_category' => 'สร้างหมวดหมู่ใหม่',
+    'edit_category' => 'แก้ไขหมวดหมู่',
+    'update_category' => 'อัปเดตหมวดหมู่',
+    
     // Fruit attributes
     'name' => 'ชื่อ',
     'description' => 'คำอธิบาย',

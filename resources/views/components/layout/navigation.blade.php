@@ -18,15 +18,7 @@
                     
                     <x-ui.nav-link :href="route('fruits.index') . '?locale=' . app()->getLocale()" :active="request()->routeIs('fruits.*')">
                         {{ __('Fruits') }}
-                    </x-ui.nav-link>
-                    
-                    <x-ui.nav-link :href="route('about') . '?locale=' . app()->getLocale()" :active="request()->routeIs('about')">
-                        {{ __('About Us') }}
-                    </x-ui.nav-link>
-                    
-                    <x-ui.nav-link :href="route('contact') . '?locale=' . app()->getLocale()" :active="request()->routeIs('contact')">
-                        {{ __('Contact') }}
-                    </x-ui.nav-link>
+                    </x-ui.nav-link>                    
                     
                     <x-ui.nav-link :href="route('quote.index') . '?locale=' . app()->getLocale()" :active="request()->routeIs('quote.*')">
                         {{ __('Request Quote') }}
@@ -34,18 +26,7 @@
                 </div>
             </div>
 
-          
-            
-            <!-- Language Switcher -->
-            <div class="hidden sm:flex sm:items-center sm:mr-4">
-                <div class="flex items-center space-x-2 text-white">
-                    <a href="{{ request()->fullUrlWithQuery(['locale' => 'en']) }}" class="hover:text-gray-200 {{ app()->getLocale() === 'en' ? 'font-bold underline' : '' }}">English</a>
-                    <span class="text-gray-300">|</span>
-                    <a href="{{ request()->fullUrlWithQuery(['locale' => 'th']) }}" class="hover:text-gray-200 {{ app()->getLocale() === 'th' ? 'font-bold underline' : '' }}">ไทย</a>
-                    <span class="text-gray-300">|</span>
-                    <a href="{{ request()->fullUrlWithQuery(['locale' => 'zh']) }}" class="hover:text-gray-200 {{ app()->getLocale() === 'zh' ? 'font-bold underline' : '' }}">中文</a>
-                </div>
-            </div>
+
             
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center">
@@ -132,23 +113,7 @@
             </x-ui.responsive-nav-link>
         </div>
 
-        <!-- Language Switcher -->        
-        <div class="pt-4 pb-1 border-t border-green-700 dark:border-green-800">
-            <div class="px-4">
-                <div class="text-base font-medium text-white">{{ __('Language') }}</div>
-            </div>
-            <div class="mt-3 space-y-1">
-                <a href="{{ request()->fullUrlWithQuery(['locale' => 'en']) }}" class="block px-4 py-2 text-sm leading-5 text-white hover:bg-green-700 focus:outline-none focus:bg-green-700 transition duration-150 ease-in-out {{ app()->getLocale() === 'en' ? 'bg-green-700' : '' }}">
-                    <span class="mr-2">🇬🇧</span> English
-                </a>
-                <a href="{{ request()->fullUrlWithQuery(['locale' => 'th']) }}" class="block px-4 py-2 text-sm leading-5 text-white hover:bg-green-700 focus:outline-none focus:bg-green-700 transition duration-150 ease-in-out {{ app()->getLocale() === 'th' ? 'bg-green-700' : '' }}">
-                    <span class="mr-2">🇹🇭</span> Thai
-                </a>
-                <a href="{{ request()->fullUrlWithQuery(['locale' => 'zh']) }}" class="block px-4 py-2 text-sm leading-5 text-white hover:bg-green-700 focus:outline-none focus:bg-green-700 transition duration-150 ease-in-out {{ app()->getLocale() === 'zh' ? 'bg-green-700' : '' }}">
-                    <span class="mr-2">🇨🇳</span> Chinese
-                </a>
-            </div>
-        </div>
+
 
         <!-- Responsive Settings Options -->
         @auth

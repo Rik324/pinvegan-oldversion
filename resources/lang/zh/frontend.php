@@ -1,6 +1,17 @@
 <?php
 
 return [
+    // Navigation
+    'home' => '首页',
+    'fruits' => '水果',
+    'request_quote_menu' => '请求报价',
+    'about_us' => '关于我们',
+    'contact_us_menu' => '联系我们',
+    'login' => '登录',
+    'register' => '注册',
+    'dashboard' => '控制面板',
+    'logout' => '退出登录',
+    'fruit_shop' => '水果商店',
     // Hero Section
     'hero_title' => '各种场合的新鲜水果',
     'hero_description' => '我们提供从本地和国际农场采购的高品质、新鲜水果。适合活动、餐厅和注重健康的个人。',
@@ -16,7 +27,7 @@ return [
     'no_image' => '无可用图片',
     
     // Categories Section
-    'browse_by_category' => '按类别浏览',
+    'category' => '按类别浏览',
     'no_categories' => '目前没有可用的类别。',
     
     // About Us Section

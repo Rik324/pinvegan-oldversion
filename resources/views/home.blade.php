@@ -85,7 +85,7 @@
     <!-- Categories Section -->
     <div class="bg-green-800 dark:bg-gray-800">
         <div class="px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <h2 class="mb-8 text-3xl font-bold text-center text-white dark:text-white">{{ __('frontend.browse_by_category') }}</h2>
+            <h2 class="mb-8 text-3xl font-bold text-center text-white dark:text-white">{{ __('frontend.category') }}</h2>
             
             @if($categories->count() > 0)
             <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">

@@ -1,6 +1,17 @@
 <?php
 
 return [
+    // Navigation
+    'home' => 'Home',
+    'fruits' => 'Fruits',
+    'request_quote_menu' => 'Request Quote',
+    'about_us' => 'About Us',
+    'contact_us_menu' => 'Contact',
+    'login' => 'Log in',
+    'register' => 'Register',
+    'dashboard' => 'Dashboard',
+    'logout' => 'Log Out',
+    'fruit_shop' => 'Fruit Shop',
     // Hero Section
     'hero_title' => 'Fresh Fruits for Every Occasion',
     'hero_description' => 'We provide high-quality, fresh fruits sourced from local and international farms. Perfect for events, restaurants, and health-conscious individuals.',
@@ -16,7 +27,7 @@ return [
     'no_image' => 'No image available',
     
     // Categories Section
-    'browse_by_category' => 'Browse by Category',
+    'category' => 'Category',
     'no_categories' => 'No categories available at the moment.',
     
     // About Us Section

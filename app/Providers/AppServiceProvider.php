@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,5 +30,10 @@ class AppServiceProvider extends ServiceProvider
                 App::setLocale($locale);
             }
         }
+        
+        // Share categories with all views
+        View::composer('*', function ($view) {
+            $view->with('navCategories', Category::where('is_active', true)->get());
+        });
     }
 }

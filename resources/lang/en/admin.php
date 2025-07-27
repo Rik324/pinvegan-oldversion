@@ -20,8 +20,8 @@ return [
     'fruit_deleted' => 'Fruit deleted successfully',
     
     // Categories
-    'categories' => 'Categories',
-    'category' => 'Category',
+    'categories' => 'categories',
+    'category' => 'category',
     'create_category' => 'Create New Category',
     'edit_category' => 'Edit Category',
     'all_categories' => 'All Categories',

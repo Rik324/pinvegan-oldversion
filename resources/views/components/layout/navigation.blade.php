@@ -6,22 +6,44 @@
                 <!-- Logo -->
                 <div class="flex items-center shrink-0">
                     <a href="{{ route('home') }}?locale={{ app()->getLocale() }}" class="text-xl font-bold text-white">
-                        Fruit Shop
+                        {{ __('frontend.fruit_shop') }}
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-ui.nav-link :href="route('home') . '?locale=' . app()->getLocale()" :active="request()->routeIs('home')">
-                        {{ __('Home') }}
+                        {{ __('frontend.home') }}
                     </x-ui.nav-link>
                     
-                    <x-ui.nav-link :href="route('fruits.index') . '?locale=' . app()->getLocale()" :active="request()->routeIs('fruits.*')">
-                        {{ __('Fruits') }}
-                    </x-ui.nav-link>                    
+                    <x-ui.nav-link :href="route('fruits.index') . '?locale=' . app()->getLocale()" :active="request()->routeIs('fruits.*') && !request()->has('category_id')">
+                        {{ __('frontend.fruits') }}
+                    </x-ui.nav-link>
+                    
+                    <x-ui.dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            <button class="inline-flex items-center h-16 px-3 py-18 text-sm font-medium text-white transition duration-150 ease-in-out border-transparent hover:text-yellow-400 focus:outline-none {{ request()->routeIs('fruits.*') && request()->has('category_id') ? 'text-yellow-400' : '' }}">
+                                <div>{{ __('frontend.category') }}</div>
+
+                                <div class="ms-1">
+                                    <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            @foreach($navCategories as $category)
+                                <x-ui.dropdown-link :href="route('fruits.index') . '?locale=' . app()->getLocale() . '&category_id=' . $category->id . '&sort=name&direction=asc'">
+                                    {{ $category->name }}
+                                </x-ui.dropdown-link>
+                            @endforeach
+                        </x-slot>
+                    </x-ui.dropdown>                    
                     
                     <x-ui.nav-link :href="route('quote.index') . '?locale=' . app()->getLocale()" :active="request()->routeIs('quote.*')">
-                        {{ __('Request Quote') }}
+                        {{ __('frontend.request_quote_menu') }}
                     </x-ui.nav-link>
                 </div>
             </div>
@@ -46,7 +68,7 @@
 
                         <x-slot name="content">
                             <x-ui.dropdown-link :href="route('dashboard') . '?locale=' . app()->getLocale()">
-                                {{ __('Dashboard') }}
+                                {{ __('frontend.dashboard') }}
                             </x-ui.dropdown-link>
                             
                             <x-ui.dropdown-link :href="route('profile.edit')">
@@ -61,7 +83,7 @@
                                 <x-ui.dropdown-link :href="route('logout') . '?locale=' . app()->getLocale()"
                                         onclick="event.preventDefault();
                                                     this.closest('form').submit();">
-                                    {{ __('Log Out') }}
+                                    {{ __('frontend.logout') }}
                                 </x-ui.dropdown-link>
                             </form>
                         </x-slot>
@@ -69,8 +91,8 @@
                     </x-ui.dropdown>
                 @else
                     <div class="space-x-4">
-                        <a href="{{ route('login') }}?locale={{ app()->getLocale() }}" class="text-white transition hover:text-yellow-400">{{ __('Log in') }}</a>
-                        <a href="{{ route('register') }}?locale={{ app()->getLocale() }}" class="text-white transition hover:text-yellow-400">{{ __('Register') }}</a>
+                        <a href="{{ route('login') }}?locale={{ app()->getLocale() }}" class="text-white transition hover:text-yellow-400">{{ __('frontend.login') }}</a>
+                        <a href="{{ route('register') }}?locale={{ app()->getLocale() }}" class="text-white transition hover:text-yellow-400">{{ __('frontend.register') }}</a>
                     </div>
                 @endauth
             </div>
@@ -93,12 +115,28 @@
         
         <div class="pt-2 pb-3 space-y-1">
             <x-ui.responsive-nav-link :href="route('home') . '?locale=' . app()->getLocale()" :active="request()->routeIs('home')">
-                {{ __('Home') }}
+                {{ __('frontend.home') }}
             </x-ui.responsive-nav-link>
             
-            <x-ui.responsive-nav-link :href="route('fruits.index') . '?locale=' . app()->getLocale()" :active="request()->routeIs('fruits.*')">
-                {{ __('Fruits') }}
+            <x-ui.responsive-nav-link :href="route('fruits.index') . '?locale=' . app()->getLocale()" :active="request()->routeIs('fruits.*') && !request()->has('category_id')">
+                {{ __('frontend.fruits') }}
             </x-ui.responsive-nav-link>
+            
+            <div x-data="{openCategories: false}" class="border-l-4 border-transparent">
+                <button @click="openCategories = !openCategories" class="flex items-center w-full px-4 py-2 text-base font-medium text-white transition duration-150 ease-in-out hover:bg-green-700 focus:outline-none focus:bg-green-700 {{ request()->routeIs('fruits.*') && request()->has('category_id') ? 'bg-green-700' : '' }}">
+                    <span>{{ __('frontend.category') }}</span>
+                    <svg :class="{'rotate-180': openCategories}" class="ml-auto w-4 h-4 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <div x-show="openCategories" x-transition class="pl-4">
+                    @foreach($navCategories as $category)
+                        <x-ui.responsive-nav-link :href="route('fruits.index') . '?locale=' . app()->getLocale() . '&category_id=' . $category->id . '&sort=name&direction=asc'">
+                            {{ $category->name }}
+                        </x-ui.responsive-nav-link>
+                    @endforeach
+                </div>
+            </div>
             
             <x-ui.responsive-nav-link :href="route('about') . '?locale=' . app()->getLocale()" :active="request()->routeIs('about')">
                 {{ __('About Us') }}
@@ -109,7 +147,7 @@
             </x-ui.responsive-nav-link>
             
             <x-ui.responsive-nav-link :href="route('quote.index') . '?locale=' . app()->getLocale()" :active="request()->routeIs('quote.*')">
-                {{ __('Request Quote') }}
+                {{ __('frontend.request_quote_menu') }}
             </x-ui.responsive-nav-link>
         </div>
 
@@ -125,7 +163,7 @@
 
                 <div class="mt-3 space-y-1">
                     <x-ui.responsive-nav-link :href="route('dashboard') . '?locale=' . app()->getLocale()">
-                        {{ __('Dashboard') }}
+                        {{ __('frontend.dashboard') }}
                     </x-ui.responsive-nav-link>
 
                     <!-- Authentication -->
@@ -136,7 +174,7 @@
                         <x-ui.responsive-nav-link :href="route('logout') . '?locale=' . app()->getLocale()"
                                 onclick="event.preventDefault();
                                             this.closest('form').submit();">
-                            {{ __('Log Out') }}
+                            {{ __('frontend.logout') }}
                         </x-ui.responsive-nav-link>
                     </form>
                 </div>
@@ -145,11 +183,11 @@
             <div class="pt-4 pb-1 border-t border-green-700 dark:border-green-800">
                 <div class="space-y-1">
                     <x-ui.responsive-nav-link :href="route('login') . '?locale=' . app()->getLocale()">
-                        {{ __('Log in') }}
+                        {{ __('frontend.login') }}
                     </x-ui.responsive-nav-link>
                     
                     <x-ui.responsive-nav-link :href="route('register') . '?locale=' . app()->getLocale()">
-                        {{ __('Register') }}
+                        {{ __('frontend.register') }}
                     </x-ui.responsive-nav-link>
                 </div>
             </div>

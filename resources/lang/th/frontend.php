@@ -1,6 +1,17 @@
 <?php
 
 return [
+    // Navigation
+    'home' => 'หน้าแรก',
+    'fruits' => 'ผลไม้',
+    'request_quote_menu' => 'ขอใบเสนอราคา',
+    'about_us' => 'เกี่ยวกับเรา',
+    'contact_us_menu' => 'ติดต่อเรา',
+    'login' => 'เข้าสู่ระบบ',
+    'register' => 'ลงทะเบียน',
+    'dashboard' => 'แดชบอร์ด',
+    'logout' => 'ออกจากระบบ',
+    'fruit_shop' => 'ร้านผลไม้',
     // Hero Section
     'hero_title' => 'ผลไม้สดสำหรับทุกโอกาส',
     'hero_description' => 'เรามีผลไม้คุณภาพสูง สดใหม่ จากฟาร์มท้องถิ่นและนานาชาติ เหมาะสำหรับงานอีเวนท์ ร้านอาหาร และผู้รักสุขภาพ',
@@ -16,7 +27,7 @@ return [
     'no_image' => 'ไม่มีรูปภาพ',
     
     // Categories Section
-    'browse_by_category' => 'ค้นหาตามหมวดหมู่',
+    'category' => 'ค้นหาตามหมวดหมู่',
     'no_categories' => 'ไม่มีหมวดหมู่ในขณะนี้',
     
     // About Us Section

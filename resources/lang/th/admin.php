@@ -6,6 +6,7 @@ return [
     'manage_fruits' => 'จัดการผลไม้',
     'manage_categories' => 'จัดการหมวดหมู่',
     'manage_quotes' => 'จัดการคำขอใบเสนอราคา',
+    'quotes' => 'คำขอใบเสนอราคา',
     
     // Fruits
     'fruits' => 'ผลไม้',

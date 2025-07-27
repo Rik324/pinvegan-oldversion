@@ -6,6 +6,7 @@ return [
     'manage_fruits' => 'Manage Fruits',
     'manage_categories' => 'Manage Categories',
     'manage_quotes' => 'Manage Quote Requests',
+    'quotes' => 'Quote Requests',
     
     // Fruits
     'fruits' => 'Fruits',

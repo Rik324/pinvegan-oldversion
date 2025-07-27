@@ -6,6 +6,7 @@ return [
     'manage_fruits' => '管理水果',
     'manage_categories' => '管理类别',
     'manage_quotes' => '管理报价请求',
+    'quotes' => '报价请求',
     
     // Fruits
     'fruits' => '水果',

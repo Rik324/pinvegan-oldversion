@@ -104,5 +104,8 @@ return [
     // Fruit Detail Page
     'need_custom_quote' => 'Need a Custom Quote?',
     'bulk_order_description' => 'Looking for bulk orders or specific varieties? Contact us for a personalized quote.',
-    'view_quote_request' => 'View Quote Request'
+    'view_quote_request' => 'View Quote Request',
+    
+    // Quote Request
+    'quote_request_success' => 'Your quote request has been submitted successfully. We will contact you soon!'
 ];

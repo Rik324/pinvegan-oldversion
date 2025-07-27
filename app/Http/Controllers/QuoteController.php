@@ -225,7 +225,7 @@ class QuoteController extends Controller
         }
         
         return redirect()->route('quote.index')
-            ->with('success', 'Your quote request has been submitted successfully. We will contact you soon!')
+            ->with('success', __('frontend.quote_request_success'))
             ->with('locale', app()->getLocale());
     }
     

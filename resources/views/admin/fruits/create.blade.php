@@ -22,32 +22,62 @@
                 </a>
             </div>
 
-            <x-admin.form :action="route('admin.fruits.store')" method="POST" enctype="multipart/form-data">
-                <!-- Language Tabs -->
-                <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
-                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="languageTabs" role="tablist">
-                        <li class="mr-2" role="presentation">
-                            <button class="inline-block p-4 border-b-2 rounded-t-lg border-green-600 text-green-600" id="english-tab" data-tabs-target="#english" type="button" role="tab" aria-controls="english" aria-selected="true">{{ __('admin.english') }}</button>
-                        </li>
-                        <li class="mr-2" role="presentation">
-                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="thai-tab" data-tabs-target="#thai" type="button" role="tab" aria-controls="thai" aria-selected="false">{{ __('admin.thai') }}</button>
-                        </li>
-                        <li class="mr-2" role="presentation">
-                            <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="chinese-tab" data-tabs-target="#chinese" type="button" role="tab" aria-controls="chinese" aria-selected="false">{{ __('admin.chinese') }}</button>
-                        </li>
+            @if(session('error'))
+                <div class="p-4 mb-6 text-red-700 bg-red-100 border-l-4 border-red-500" role="alert">
+                    <p>{{ session('error') }}</p>
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="p-4 mb-6 text-red-700 bg-red-100 border-l-4 border-red-500" role="alert">
+                    <p class="font-bold">{{ __('admin.validation_error') }}</p>
+                    <ul class="mt-2 list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
                     </ul>
                 </div>
+            @endif
+
+            <x-admin.form :action="route('admin.fruits.store')" method="POST" enctype="multipart/form-data" novalidate>
+                <!-- Language Tabs with Alpine.js -->
+                <div x-data="{ activeTab: localStorage.getItem('activeLanguageTab') || 'english' }" class="mb-6">
+                    <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
+                        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" role="tablist">
+                            <li class="mr-2" role="presentation">
+                                <button 
+                                    @click="activeTab = 'english'; localStorage.setItem('activeLanguageTab', 'english')" 
+                                    :class="{'border-green-600 text-green-600': activeTab === 'english', 'border-transparent': activeTab !== 'english'}"
+                                    class="inline-block p-4 rounded-t-lg border-b-2 hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" 
+                                    type="button">{{ __('admin.english') }}</button>
+                            </li>
+                            <li class="mr-2" role="presentation">
+                                <button 
+                                    @click="activeTab = 'thai'; localStorage.setItem('activeLanguageTab', 'thai')" 
+                                    :class="{'border-green-600 text-green-600': activeTab === 'thai', 'border-transparent': activeTab !== 'thai'}"
+                                    class="inline-block p-4 rounded-t-lg border-b-2 hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" 
+                                    type="button">{{ __('admin.thai') }}</button>
+                            </li>
+                            <li class="mr-2" role="presentation">
+                                <button 
+                                    @click="activeTab = 'chinese'; localStorage.setItem('activeLanguageTab', 'chinese')" 
+                                    :class="{'border-green-600 text-green-600': activeTab === 'chinese', 'border-transparent': activeTab !== 'chinese'}"
+                                    class="inline-block p-4 rounded-t-lg border-b-2 hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" 
+                                    type="button">{{ __('admin.chinese') }}</button>
+                            </li>
+                        </ul>
+                    </div>
 
                 <!-- Tab Content -->
-                <div id="languageTabContent">
+                <div>
                     <!-- English Content -->
-                    <div class="block" id="english" role="tabpanel" aria-labelledby="english-tab">
+                    <div x-show="activeTab === 'english'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
                         <div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 mb-6">
                             <h3 class="text-lg font-medium mb-4">{{ __('admin.english_content') }}</h3>
                             <div class="grid grid-cols-1 gap-6">
                                 <div>
                                     <x-input-label for="en_name" :value="__('admin.name') . ' (' . __('admin.english') . ')'" />
-                                    <x-text-input id="en_name" name="en[name]" type="text" class="mt-1 block w-full" :value="old('en.name')" required />
+                                    <x-text-input id="en_name" name="en[name]" type="text" class="mt-1 block w-full" :value="old('en.name')" />
                                     <x-input-error :messages="$errors->get('en.name')" class="mt-2" />
                                 </div>
 
@@ -58,16 +88,22 @@
                                 </div>
 
                                 <div>
-                                    <x-input-label for="en_taste_profile" :value="__('admin.taste_profile') . ' (' . __('admin.english') . ')'" />
-                                    <x-text-input id="en_taste_profile" name="en[taste_profile]" type="text" class="mt-1 block w-full" :value="old('en.taste_profile')" />
-                                    <x-input-error :messages="$errors->get('en.taste_profile')" class="mt-2" />
+                                    <x-input-label for="en_origin" :value="__('admin.origin') . ' (' . __('admin.english') . ')'" />
+                                    <x-text-input id="en_origin" name="en[origin]" type="text" class="mt-1 block w-full" :value="old('en.origin')" />
+                                    <x-input-error :messages="$errors->get('en.origin')" class="mt-2" />
+                                </div>
+
+                                <div>
+                                    <x-input-label for="en_seasonality" :value="__('admin.seasonality') . ' (' . __('admin.english') . ')'" />
+                                    <x-text-input id="en_seasonality" name="en[seasonality]" type="text" class="mt-1 block w-full" :value="old('en.seasonality')" />
+                                    <x-input-error :messages="$errors->get('en.seasonality')" class="mt-2" />
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Thai Content -->
-                    <div class="hidden" id="thai" role="tabpanel" aria-labelledby="thai-tab">
+                    <div x-show="activeTab === 'thai'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
                         <div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 mb-6">
                             <h3 class="text-lg font-medium mb-4">{{ __('admin.thai_content') }}</h3>
                             <div class="grid grid-cols-1 gap-6">
@@ -84,22 +120,28 @@
                                 </div>
 
                                 <div>
-                                    <x-input-label for="th_taste_profile" :value="__('admin.taste_profile') . ' (' . __('admin.thai') . ')'" />
-                                    <x-text-input id="th_taste_profile" name="th[taste_profile]" type="text" class="mt-1 block w-full" :value="old('th.taste_profile')" />
-                                    <x-input-error :messages="$errors->get('th.taste_profile')" class="mt-2" />
+                                    <x-input-label for="th_origin" :value="__('admin.origin') . ' (' . __('admin.thai') . ')'" />
+                                    <x-text-input id="th_origin" name="th[origin]" type="text" class="mt-1 block w-full" :value="old('th.origin')" />
+                                    <x-input-error :messages="$errors->get('th.origin')" class="mt-2" />
+                                </div>
+
+                                <div>
+                                    <x-input-label for="th_seasonality" :value="__('admin.seasonality') . ' (' . __('admin.thai') . ')'" />
+                                    <x-text-input id="th_seasonality" name="th[seasonality]" type="text" class="mt-1 block w-full" :value="old('th.seasonality')" />
+                                    <x-input-error :messages="$errors->get('th.seasonality')" class="mt-2" />
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Chinese Content -->
-                    <div class="hidden" id="chinese" role="tabpanel" aria-labelledby="chinese-tab">
+                    <div x-show="activeTab === 'chinese'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
                         <div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 mb-6">
                             <h3 class="text-lg font-medium mb-4">{{ __('admin.chinese_content') }}</h3>
                             <div class="grid grid-cols-1 gap-6">
                                 <div>
                                     <x-input-label for="zh_name" :value="__('admin.name') . ' (' . __('admin.chinese') . ')'" />
-                                    <x-text-input id="zh_name" name="zh[name]" type="text" class="mt-1 block w-full" :value="old('zh.name')" required />
+                                    <x-text-input id="zh_name" name="zh[name]" type="text" class="mt-1 block w-full" :value="old('zh.name')" />
                                     <x-input-error :messages="$errors->get('zh.name')" class="mt-2" />
                                 </div>
 
@@ -110,9 +152,15 @@
                                 </div>
 
                                 <div>
-                                    <x-input-label for="zh_taste_profile" :value="__('admin.taste_profile') . ' (' . __('admin.chinese') . ')'" />
-                                    <x-text-input id="zh_taste_profile" name="zh[taste_profile]" type="text" class="mt-1 block w-full" :value="old('zh.taste_profile')" />
-                                    <x-input-error :messages="$errors->get('zh.taste_profile')" class="mt-2" />
+                                    <x-input-label for="zh_origin" :value="__('admin.origin') . ' (' . __('admin.chinese') . ')'" />
+                                    <x-text-input id="zh_origin" name="zh[origin]" type="text" class="mt-1 block w-full" :value="old('zh.origin')" />
+                                    <x-input-error :messages="$errors->get('zh.origin')" class="mt-2" />
+                                </div>
+
+                                <div>
+                                    <x-input-label for="zh_seasonality" :value="__('admin.seasonality') . ' (' . __('admin.chinese') . ')'" />
+                                    <x-text-input id="zh_seasonality" name="zh[seasonality]" type="text" class="mt-1 block w-full" :value="old('zh.seasonality')" />
+                                    <x-input-error :messages="$errors->get('zh.seasonality')" class="mt-2" />
                                 </div>
                             </div>
                         </div>
@@ -134,17 +182,7 @@
                         <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                     </div>
 
-                    <div>
-                        <x-input-label for="origin" :value="__('admin.origin')" />
-                        <x-text-input id="origin" name="origin" type="text" class="mt-1 block w-full" :value="old('origin')" />
-                        <x-input-error :messages="$errors->get('origin')" class="mt-2" />
-                    </div>
 
-                    <div>
-                        <x-input-label for="seasonality" :value="__('admin.seasonality')" />
-                        <x-text-input id="seasonality" name="seasonality" type="text" class="mt-1 block w-full" :value="old('seasonality')" />
-                        <x-input-error :messages="$errors->get('seasonality')" class="mt-2" />
-                    </div>
 
                     <div>
                         <x-input-label for="price" :value="__('admin.price')" />
@@ -188,38 +226,5 @@
         </div>
     </div>
 
-    @push('scripts')
-    <script>
-        // Simple tab functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabs = document.querySelectorAll('[role="tab"]');
-            const tabContents = document.querySelectorAll('[role="tabpanel"]');
-            
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    // Deactivate all tabs
-                    tabs.forEach(t => {
-                        t.classList.remove('border-green-600', 'text-green-600');
-                        t.classList.add('border-transparent');
-                        t.setAttribute('aria-selected', 'false');
-                    });
-                    
-                    // Hide all tab contents
-                    tabContents.forEach(content => {
-                        content.classList.add('hidden');
-                    });
-                    
-                    // Activate clicked tab
-                    tab.classList.remove('border-transparent');
-                    tab.classList.add('border-green-600', 'text-green-600');
-                    tab.setAttribute('aria-selected', 'true');
-                    
-                    // Show corresponding content
-                    const targetId = tab.getAttribute('data-tabs-target').substring(1);
-                    document.getElementById(targetId).classList.remove('hidden');
-                });
-            });
-        });
-    </script>
-    @endpush
+    <!-- No custom JavaScript needed as we're using Alpine.js -->
 </x-layout.app>

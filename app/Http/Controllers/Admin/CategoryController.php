@@ -38,22 +38,37 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:categories',
-            'description' => 'nullable|string',
+        // Validate non-translatable fields
+        $request->validate([
             'is_active' => 'boolean',
         ]);
 
-        // Generate slug from name
-        $validated['slug'] = Str::slug($request->name);
-        
-        // Handle boolean checkbox
-        $validated['is_active'] = $request->has('is_active');
+        // Validate translatable fields for each locale
+        $locales = ['en', 'th', 'zh']; // Supported locales
+        foreach ($locales as $locale) {
+            $request->validate([
+                "{$locale}.name" => 'required|string|max:255',
+                "{$locale}.description" => 'nullable|string',
+            ]);
+        }
 
-        Category::create($validated);
+        // Create category with non-translatable fields
+        $category = new Category();
+        $category->is_active = $request->has('is_active');
+        
+        // Generate slug from English name
+        $category->slug = Str::slug($request->input('en.name'));
+        $category->save();
+
+        // Save translations for each locale
+        foreach ($locales as $locale) {
+            $category->translateOrNew($locale)->name = $request->input("{$locale}.name");
+            $category->translateOrNew($locale)->description = $request->input("{$locale}.description");
+        }
+        $category->save();
 
         return redirect()->route('admin.categories.index')
-                        ->with('success', 'Category created successfully.');
+                        ->with('success', __('admin.category_created_successfully'));
     }
 
     /**
@@ -76,22 +91,36 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
-            'description' => 'nullable|string',
+        // Validate non-translatable fields
+        $request->validate([
             'is_active' => 'boolean',
         ]);
 
-        // Generate slug from name
-        $validated['slug'] = Str::slug($request->name);
-        
-        // Handle boolean checkbox
-        $validated['is_active'] = $request->has('is_active');
+        // Validate translatable fields for each locale
+        $locales = ['en', 'th', 'zh']; // Supported locales
+        foreach ($locales as $locale) {
+            $request->validate([
+                "{$locale}.name" => 'required|string|max:255',
+                "{$locale}.description" => 'nullable|string',
+            ]);
+        }
 
-        $category->update($validated);
+        // Update non-translatable fields
+        $category->is_active = $request->has('is_active');
+        
+        // Generate slug from English name
+        $category->slug = Str::slug($request->input('en.name'));
+        $category->save();
+
+        // Update translations for each locale
+        foreach ($locales as $locale) {
+            $category->translateOrNew($locale)->name = $request->input("{$locale}.name");
+            $category->translateOrNew($locale)->description = $request->input("{$locale}.description");
+        }
+        $category->save();
 
         return redirect()->route('admin.categories.index')
-                        ->with('success', 'Category updated successfully.');
+                        ->with('success', __('admin.category_updated_successfully'));
     }
 
     /**

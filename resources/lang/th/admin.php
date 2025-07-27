@@ -61,6 +61,9 @@ return [
     // Status
     'available' => 'มีพร้อมจำหน่าย',
     'featured' => 'แนะนำ',
+    'yes' => 'ใช่',
+    'no' => 'ไม่',
+    'standard' => 'ทั่วไป',
     
     // Form helpers
     'select_category' => 'เลือกหมวดหมู่',

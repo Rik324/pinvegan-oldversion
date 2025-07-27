@@ -18,14 +18,28 @@ return [
     'fruit_updated' => 'Fruit updated successfully',
     'fruit_deleted' => 'Fruit deleted successfully',
     
-    // Fruit attributes
+    // Categories
+    'categories' => 'Categories',
+    'category' => 'Category',
+    'create_category' => 'Create New Category',
+    'edit_category' => 'Edit Category',
+    'all_categories' => 'All Categories',
+    'category_details' => 'Category Details',
+    'category_created_successfully' => 'Category created successfully',
+    'category_updated_successfully' => 'Category updated successfully',
+    'category_deleted_successfully' => 'Category deleted successfully',
+    'add_new_category' => 'Create New Category',
+    'slug' => 'Slug',
+    'slug_help' => 'Slug is automatically generated from the name',
+    'active' => 'Active',
+    
+    // Common attributes
     'name' => 'Name',
     'description' => 'Description',
     'origin' => 'Origin',
     'taste_profile' => 'Taste Profile',
     'seasonality' => 'Seasonality',
     'price' => 'Price',
-    'category' => 'Category',
     'image' => 'Image',
     'is_available' => 'Available',
     'is_featured' => 'Featured',
@@ -61,6 +75,9 @@ return [
     // Status
     'available' => 'Available',
     'featured' => 'Featured',
+    'yes' => 'Yes',
+    'no' => 'No',
+    'standard' => 'Standard',
     
     // Form helpers
     'select_category' => 'Select Category',

@@ -104,5 +104,8 @@ return [
     // Fruit Detail Page
     'need_custom_quote' => '需要定制报价吗？',
     'bulk_order_description' => '需要批量订购或特定品种？联系我们获取个性化报价。',
-    'view_quote_request' => '查看报价请求'
+    'view_quote_request' => '查看报价请求',
+    
+    // Quote Request
+    'quote_request_success' => '您的报价请求已成功提交。我们将尽快与您联系！'
 ];

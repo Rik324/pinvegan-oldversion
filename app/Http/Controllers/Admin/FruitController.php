@@ -56,54 +56,126 @@ class FruitController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate non-translatable fields
-        $validated = $request->validate([
-            'origin' => 'nullable|string|max:255',
-            'seasonality' => 'nullable|string|max:255',
-            'is_available' => 'boolean',
-            'is_featured' => 'boolean',
+        // Debug: Log the request method and data
+        Log::info('Store method called with method: ' . $request->method());
+        Log::info('Request data: ', $request->all());
+        
+        // Prepare validation rules
+        $rules = [
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|max:2048', // max 2MB
             'price' => 'nullable|numeric|min:0'
-        ]);
-
-        // Validate translatable fields for each locale
+        ];
+        
+        // Add translatable field rules
         $locales = ['en', 'th', 'zh']; // Supported locales
         foreach ($locales as $locale) {
-            $request->validate([
-                "{$locale}.name" => 'required|string|max:255',
-                "{$locale}.description" => 'required|string',
-                "{$locale}.taste_profile" => 'nullable|string|max:255',
-            ]);
+            $rules["{$locale}.name"] = 'required|string|max:255';
+            $rules["{$locale}.description"] = 'required|string';
+            $rules["{$locale}.origin"] = 'nullable|string|max:255';
+            $rules["{$locale}.seasonality"] = 'nullable|string|max:255';
         }
-
-        // Handle boolean checkboxes
-        $validated['is_available'] = $request->has('is_available');
-        $validated['is_featured'] = $request->has('is_featured');
-
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            // Use English name for the filename or a timestamp if not available
-            $nameForFile = $request->input('en.name', 'fruit_' . time());
-            $filename = 'fruit_' . Str::slug($nameForFile) . '_' . time() . '.' . $image->getClientOriginalExtension();
-            $path = $image->storeAs('public/fruits', $filename);
-            $validated['image'] = Storage::url($path);
+        
+        // Validate all fields at once
+        try {
+            $validated = $request->validate($rules);
+            Log::info('Validation passed successfully');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Validation failed: ' . json_encode($e->errors()));
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
         }
-
-        // Create the fruit with non-translatable fields
-        $fruit = Fruit::create($validated);
-
-        // Add translations for each locale
-        foreach ($locales as $locale) {
-            $fruit->translateOrNew($locale)->name = $request->input("{$locale}.name");
-            $fruit->translateOrNew($locale)->description = $request->input("{$locale}.description");
-            $fruit->translateOrNew($locale)->taste_profile = $request->input("{$locale}.taste_profile");
+        
+        try {
+            
+            // Prepare non-translatable data
+            $nonTranslatableData = [
+                'category_id' => $request->category_id,
+                'is_available' => $request->has('is_available'),
+                'is_featured' => $request->has('is_featured'),
+                'price' => $request->price
+            ];
+            
+            Log::info('Non-translatable data:', $nonTranslatableData);
+            
+            // Handle image upload
+            if ($request->hasFile('image')) {
+                Log::info('Processing image upload');
+                $image = $request->file('image');
+                
+                // Log image details for debugging
+                Log::info('Image details:', [
+                    'original_name' => $image->getClientOriginalName(),
+                    'mime_type' => $image->getMimeType(),
+                    'size' => $image->getSize(),
+                    'extension' => $image->getClientOriginalExtension()
+                ]);
+                
+                // Use English name for the filename or a timestamp if not available
+                $nameForFile = $request->input('en.name', 'fruit_' . time());
+                
+                // Ensure the directory exists
+                $directory = public_path('storage/fruits');
+                if (!file_exists($directory)) {
+                    mkdir($directory, 0755, true);
+                    Log::info('Created directory: ' . $directory);
+                }
+                
+                // Generate unique filename
+                $filename = 'fruit_' . Str::slug($nameForFile) . '_' . time() . '.' . $image->getClientOriginalExtension();
+                $fullPath = $directory . '/' . $filename;
+                
+                // Move the uploaded file directly to the public directory
+                if ($image->move($directory, $filename)) {
+                    Log::info('Image successfully moved to: ' . $fullPath);
+                    
+                    // Set the URL for database - use relative path for consistency
+                    $nonTranslatableData['image'] = '/storage/fruits/' . $filename;
+                    Log::info('Image URL for database: ' . $nonTranslatableData['image']);
+                } else {
+                    Log::error('Failed to move uploaded file to destination');
+                    throw new \Exception('Failed to move uploaded file');
+                }
+            }
+            
+            // Create the fruit with non-translatable fields
+            Log::info('Creating fruit with data:', $nonTranslatableData);
+            $fruit = Fruit::create($nonTranslatableData);
+            Log::info('Fruit created with ID: ' . $fruit->id);
+            
+            // Add translations for each locale
+            Log::info('Adding translations for fruit');
+            foreach ($locales as $locale) {
+                Log::info("Processing translations for locale: {$locale}");
+                $fruit->translateOrNew($locale)->name = $request->input("{$locale}.name");
+                $fruit->translateOrNew($locale)->description = $request->input("{$locale}.description");
+                $fruit->translateOrNew($locale)->origin = $request->input("{$locale}.origin");
+                $fruit->translateOrNew($locale)->seasonality = $request->input("{$locale}.seasonality");
+                
+                Log::info("Set {$locale} translation fields: ", [
+                    'name' => $request->input("{$locale}.name"),
+                    'description' => $request->input("{$locale}.description"),
+                    'origin' => $request->input("{$locale}.origin"),
+                    'seasonality' => $request->input("{$locale}.seasonality")
+                ]);
+            }
+            
+            // Save the translations
+            $fruit->save();
+            Log::info('Fruit translations saved successfully');
+            
+            return redirect()->route('admin.fruits.index')
+                            ->with('success', 'Fruit created successfully.');
+                            
+        } catch (\Exception $e) {
+            Log::error('Exception during fruit creation: ' . $e->getMessage());
+            Log::error($e->getTraceAsString());
+            
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to create fruit: ' . $e->getMessage());
         }
-        $fruit->save();
-
-        return redirect()->route('admin.fruits.index')
-                        ->with('success', 'Fruit created successfully.');
     }
 
     /**
@@ -134,8 +206,6 @@ class FruitController extends Controller
         
         // Validate non-translatable fields
         $request->validate([
-            'origin' => 'nullable|string|max:255',
-            'seasonality' => 'nullable|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|max:2048',
             'price' => 'nullable|numeric|min:0'
@@ -147,14 +217,13 @@ class FruitController extends Controller
             $request->validate([
                 "{$locale}.name" => 'required|string|max:255',
                 "{$locale}.description" => 'required|string',
-                "{$locale}.taste_profile" => 'nullable|string|max:255',
+                "{$locale}.origin" => 'nullable|string|max:255',
+                "{$locale}.seasonality" => 'nullable|string|max:255',
             ]);
         }
 
         // Prepare update data for non-translatable fields
         $updateData = [
-            'origin' => $request->origin,
-            'seasonality' => $request->seasonality,
             'category_id' => $request->category_id,
             'is_available' => $request->has('is_available'),
             'is_featured' => $request->has('is_featured'),
@@ -244,7 +313,8 @@ class FruitController extends Controller
             foreach ($locales as $locale) {
                 $fruit->translateOrNew($locale)->name = $request->input("{$locale}.name");
                 $fruit->translateOrNew($locale)->description = $request->input("{$locale}.description");
-                $fruit->translateOrNew($locale)->taste_profile = $request->input("{$locale}.taste_profile");
+                $fruit->translateOrNew($locale)->origin = $request->input("{$locale}.origin");
+                $fruit->translateOrNew($locale)->seasonality = $request->input("{$locale}.seasonality");
             }
             $fruit->save();
             

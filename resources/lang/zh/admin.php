@@ -61,6 +61,9 @@ return [
     // Status
     'available' => '可用',
     'featured' => '推荐',
+    'yes' => '是',
+    'no' => '否',
+    'standard' => '标准',
     
     // Form helpers
     'select_category' => '选择类别',

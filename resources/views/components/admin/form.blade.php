@@ -2,7 +2,7 @@
 
 <form action="{{ $action }}" method="{{ strtolower($method) === 'get' ? 'get' : 'post' }}" 
     @if($enctype) enctype="{{ $enctype }}" @endif
-    class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+    class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6" novalidate>
     @csrf
     
     @if(strtolower($method) !== 'get' && strtolower($method) !== 'post')

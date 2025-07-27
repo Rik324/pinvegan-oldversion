@@ -1,36 +1,36 @@
 <x-layout.app>
     <x-slot:header>
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
             {{ __('admin.manage_fruits') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="mb-4">
-                <a href="{{ route('admin.dashboard') }}" class="text-green-800 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center text-green-800 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-1 w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
                     </svg>
                     {{ __('admin.back') }} {{ __('admin.dashboard') }}
                 </a>
             </div>
             
-            <div class="mb-6 flex justify-between items-center">
+            <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('admin.all_fruits') }}</h1>
-                <a href="{{ route('admin.fruits.create') }}" class="bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ route('admin.fruits.create') }}" class="px-4 py-2 font-bold text-white bg-green-800 rounded hover:bg-green-700">
                     {{ __('admin.create_fruit') }}
                 </a>
             </div>
 
             @if(session('success'))
-                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
+                <div class="p-4 mb-6 text-green-700 bg-green-100 border-l-4 border-green-500" role="alert">
                     <p>{{ session('success') }}</p>
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
+                <div class="p-4 mb-6 text-red-700 bg-red-100 border-l-4 border-red-500" role="alert">
                     <p>{{ session('error') }}</p>
                 </div>
             @endif
@@ -38,54 +38,54 @@
             <x-admin.table :headers="['ID', __('admin.image'), __('admin.name'), __('admin.category'), __('admin.is_available'), __('admin.is_featured')]" :actions="true">
                 @forelse($fruits as $fruit)
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
                             {{ $fruit->id }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if($fruit->image)
-                                <img src="{{ $fruit->image }}" alt="{{ $fruit->name }}" class="h-10 w-10 rounded-full object-cover">
+                                <img src="{{ asset($fruit->image) }}" alt="{{ $fruit->name }}" class="object-cover w-10 h-10 rounded-full">
                             @else
-                                <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                                    <span class="text-gray-500 text-xs">No img</span>
+                                <div class="flex justify-center items-center w-10 h-10 bg-gray-200 rounded-full">
+                                    <span class="text-xs text-gray-500">No img</span>
                                 </div>
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap dark:text-gray-100">
                             {{ $fruit->translate(app()->getLocale())->name }}
                             @if(app()->getLocale() !== 'en')
-                                <span class="text-xs text-gray-500 block">({{ $fruit->translate('en')->name }})</span>
+                                <span class="block text-xs text-gray-500">({{ $fruit->translate('en')->name }})</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
                             @if(is_object($fruit->category))
                                 {{ $fruit->category->translate()->name }}
                             @else
                                 {{ 'Uncategorized' }}
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
                             @if($fruit->is_available)
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
                                     {{ __('Yes') }}
                                 </span>
                             @else
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                    {{ __('No') }}
+                                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full">
+                                    {{ __('admin.no') }}
                                 </span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
                             @if($fruit->is_featured)
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-yellow-800 bg-yellow-100 rounded-full">
                                     {{ __('admin.is_featured') }}
                                 </span>
                             @else
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                    {{ __('Standard') }}
+                                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-gray-800 bg-gray-100 rounded-full">
+                                    {{ __('admin.no') }}
                                 </span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                             <div class="flex justify-end space-x-2">
                                 <a href="{{ route('admin.fruits.edit', $fruit) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
                                     {{ __('admin.edit') }}
@@ -102,7 +102,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-center">
+                        <td colspan="7" class="px-6 py-4 text-sm text-center text-gray-500 whitespace-nowrap dark:text-gray-400">
                             {{ __('No fruits found') }}. <a href="{{ route('admin.fruits.create') }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">{{ __('admin.create_fruit') }}</a>.
                         </td>
                     </tr>

@@ -14,7 +14,9 @@
     </div>
     
     <div class="p-4">
-        <h3 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">{{ $fruit->name }}</h3>
+        <h3 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">{{ $fruit->translate()->name }}</h3>
+        
+        <p class="mb-3 text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{{ $fruit->translate()->description }}</p>
         
         @if($fruit->origin)
             <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
@@ -35,11 +37,11 @@
         @endif
         
         <div class="flex justify-between items-center mt-4">
-            <a href="{{ route('fruits.show', $fruit) }}" class="font-medium text-green-800 dark:text-yellow-400 hover:underline">
+            <a href="{{ route('fruits.show', $fruit) }}?locale={{ app()->getLocale() }}" class="font-medium text-green-800 dark:text-yellow-400 hover:underline">
                 View Details
             </a>
             
-            <form action="{{ route('quote.add') }}" method="POST">
+            <form action="{{ route('quote.add') }}?locale={{ app()->getLocale() }}" method="POST">
                 @csrf
                 <input type="hidden" name="fruit_id" value="{{ $fruit->id }}">
                 <input type="hidden" name="quantity" value="1">

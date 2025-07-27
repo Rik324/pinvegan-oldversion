@@ -9,17 +9,17 @@
             <div class="flex flex-col items-center md:flex-row">
                 <div class="mb-8 md:w-1/2 md:mb-0 md:pr-8">
                     <h1 class="mb-4 text-4xl font-bold text-gray-900 md:text-5xl dark:text-white">
-                        Fresh Fruits for Every Occasion
+                        {{ __('frontend.hero_title') }}
                     </h1>
                     <p class="mb-6 text-xl text-gray-800 dark:text-gray-200">
-                        We provide high-quality, fresh fruits sourced from local and international farms. Perfect for events, restaurants, and health-conscious individuals.
+                        {{ __('frontend.hero_description') }}
                     </p>
                     <div class="flex flex-wrap gap-4">
                         <a href="{{ route('fruits.index') }}" class="px-6 py-3 font-bold text-white bg-green-800 rounded-lg transition duration-300 hover:bg-green-700">
-                            Browse Fruits
+                            {{ __('frontend.browse_fruits') }}
                         </a>
                         <a href="{{ route('quote.index') }}" class="px-6 py-3 font-bold text-green-800 bg-white rounded-lg border-2 border-green-800 transition duration-300 hover:bg-gray-100">
-                            Request a Quote
+                            {{ __('frontend.request_quote') }}
                         </a>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
 
     <!-- Featured Fruits Section -->
     <div class="px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <h2 class="mb-8 text-3xl font-bold text-center text-gray-900 dark:text-white">Featured Fruits</h2>
+        <h2 class="mb-8 text-3xl font-bold text-center text-gray-900 dark:text-white">{{ __('frontend.featured_fruits') }}</h2>
         
         @if($featuredFruits->count() > 0)
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -45,7 +45,7 @@
                     <img src="{{ $fruit->image }}" alt="{{ $fruit->name }}" class="object-cover w-full h-full">
                     @else
                     <div class="flex justify-center items-center w-full h-full bg-gray-200 dark:bg-gray-700">
-                        <span class="text-gray-500 dark:text-gray-400">No image available</span>
+                        <span class="text-gray-500 dark:text-gray-400">{{ __('frontend.no_image') }}</span>
                     </div>
                     @endif
                 </div>
@@ -54,14 +54,14 @@
                     <p class="mb-4 text-gray-600 dark:text-gray-300 line-clamp-2">{{ $fruit->description }}</p>
                     <div class="flex justify-between items-center">
                         <a href="{{ route('fruits.show', $fruit) }}" class="font-medium text-green-800 dark:text-yellow-400 hover:underline">
-                            View Details
+                            {{ __('frontend.view_details') }}
                         </a>
                         <form action="{{ route('quote.add') }}" method="POST">
                             @csrf
                             <input type="hidden" name="fruit_id" value="{{ $fruit->id }}">
                             <input type="hidden" name="quantity" value="1">
                             <button type="submit" class="px-3 py-1 text-sm text-white bg-green-800 rounded hover:bg-green-700">
-                                Add to Quote
+                                {{ __('frontend.add_to_quote') }}
                             </button>
                         </form>
                     </div>
@@ -71,13 +71,13 @@
         </div>
         @else
         <div class="py-8 text-center">
-            <p class="text-gray-600 dark:text-gray-400">No featured fruits available at the moment.</p>
+            <p class="text-gray-600 dark:text-gray-400">{{ __('frontend.no_featured_fruits') }}</p>
         </div>
         @endif
         
         <div class="mt-10 text-center">
             <a href="{{ route('fruits.index') }}" class="inline-block px-6 py-3 font-bold text-white bg-green-800 rounded-lg transition duration-300 hover:bg-green-700">
-                View All Fruits
+                {{ __('frontend.view_all_fruits') }}
             </a>
         </div>
     </div>
@@ -85,7 +85,7 @@
     <!-- Categories Section -->
     <div class="bg-green-800 dark:bg-gray-800">
         <div class="px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <h2 class="mb-8 text-3xl font-bold text-center text-white dark:text-white">Browse by Category</h2>
+            <h2 class="mb-8 text-3xl font-bold text-center text-white dark:text-white">{{ __('frontend.browse_by_category') }}</h2>
             
             @if($categories->count() > 0)
             <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
@@ -100,7 +100,7 @@
             </div>
             @else
             <div class="py-8 text-center">
-                <p class="text-gray-600 dark:text-gray-400">No categories available at the moment.</p>
+                <p class="text-gray-600 dark:text-gray-400">{{ __('frontend.no_categories') }}</p>
             </div>
             @endif
         </div>
@@ -110,15 +110,15 @@
     <div class="px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="flex flex-col items-center md:flex-row">
             <div class="mb-8 md:w-1/2 md:mb-0 md:pr-8">
-                <h2 class="mb-4 text-3xl font-bold text-gray-900 dark:text-white">About Fahad Mart</h2>
+                <h2 class="mb-4 text-3xl font-bold text-gray-900 dark:text-white">{{ __('frontend.about_fahad_mart') }}</h2>
                 <p class="mb-6 text-gray-600 dark:text-gray-300">
-                    Founded in 2010, Fahad Mart has grown from a small local fruit stand to a trusted supplier for events, restaurants, and health-conscious individuals across the region.
+                    {{ __('frontend.about_description_1') }}
                 </p>
                 <p class="mb-6 text-gray-600 dark:text-gray-300">
-                    Our mission is to provide the freshest, highest quality fruits while supporting sustainable farming practices and building lasting relationships with our customers and suppliers.
+                    {{ __('frontend.about_description_2') }}
                 </p>
                 <a href="{{ route('about') }}" class="inline-block px-4 py-2 font-bold text-white bg-green-800 rounded transition duration-300 hover:bg-green-700">
-                    Learn More About Us
+                    {{ __('frontend.learn_more') }}
                 </a>
             </div>
             <div class="md:w-1/2">
@@ -132,16 +132,16 @@
     <!-- Call to Action Section -->
     <div class="bg-yellow-400 dark:bg-yellow-600">
         <div class="px-4 py-12 mx-auto max-w-7xl text-center sm:px-6 lg:px-8">
-            <h2 class="mb-4 text-3xl font-bold text-gray-900 dark:text-white">Ready to Place an Order?</h2>
+            <h2 class="mb-4 text-3xl font-bold text-gray-900 dark:text-white">{{ __('frontend.ready_to_order') }}</h2>
             <p class="mx-auto mb-8 max-w-3xl text-xl text-gray-800 dark:text-gray-200">
-                Contact us today to request a quote for your event, restaurant, or personal needs.
+                {{ __('frontend.cta_description') }}
             </p>
             <div class="flex flex-wrap gap-4 justify-center">
                 <a href="{{ route('quote.index') }}" class="px-6 py-3 font-bold text-white bg-green-800 rounded-lg transition duration-300 hover:bg-green-700">
-                    Request a Quote
+                    {{ __('frontend.request_quote') }}
                 </a>
                 <a href="{{ route('contact') }}" class="px-6 py-3 font-bold text-green-800 bg-white rounded-lg border-2 border-green-800 transition duration-300 hover:bg-gray-100">
-                    Contact Us
+                    {{ __('frontend.contact_us') }}
                 </a>
             </div>
         </div>

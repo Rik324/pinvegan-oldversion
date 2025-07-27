@@ -1,7 +1,7 @@
 <x-layout.app>
     <x-slot:header>
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Manage Fruits
+            {{ __('admin.manage_fruits') }}
         </h2>
     </x-slot>
 
@@ -12,14 +12,14 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
                     </svg>
-                    Back to Dashboard
+                    {{ __('admin.back') }} {{ __('admin.dashboard') }}
                 </a>
             </div>
             
             <div class="mb-6 flex justify-between items-center">
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">All Fruits</h1>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('admin.all_fruits') }}</h1>
                 <a href="{{ route('admin.fruits.create') }}" class="bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                    Add New Fruit
+                    {{ __('admin.create_fruit') }}
                 </a>
             </div>
 
@@ -35,7 +35,7 @@
                 </div>
             @endif
 
-            <x-admin.table :headers="['ID', 'Image', 'Name', 'Category', 'Available', 'Featured']" :actions="true">
+            <x-admin.table :headers="['ID', __('admin.image'), __('admin.name'), __('admin.category'), __('admin.is_available'), __('admin.is_featured')]" :actions="true">
                 @forelse($fruits as $fruit)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
@@ -50,44 +50,51 @@
                                 </div>
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                            {{ $fruit->name }}
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+                            {{ $fruit->translate(app()->getLocale())->name }}
+                            @if(app()->getLocale() !== 'en')
+                                <span class="text-xs text-gray-500 block">({{ $fruit->translate('en')->name }})</span>
+                            @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                            {{ $fruit->category ? $fruit->category->name : 'Uncategorized' }}
+                            @if(is_object($fruit->category))
+                                {{ $fruit->category->translate()->name }}
+                            @else
+                                {{ 'Uncategorized' }}
+                            @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                             @if($fruit->is_available)
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Yes
+                                    {{ __('Yes') }}
                                 </span>
                             @else
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                    No
+                                    {{ __('No') }}
                                 </span>
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                             @if($fruit->is_featured)
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                    Featured
+                                    {{ __('admin.is_featured') }}
                                 </span>
                             @else
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                    Standard
+                                    {{ __('Standard') }}
                                 </span>
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div class="flex justify-end space-x-2">
                                 <a href="{{ route('admin.fruits.edit', $fruit) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
-                                    Edit
+                                    {{ __('admin.edit') }}
                                 </a>
-                                <form action="{{ route('admin.fruits.destroy', $fruit) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this fruit?');">
+                                <form action="{{ route('admin.fruits.destroy', $fruit) }}" method="POST" class="inline" onsubmit="return confirmDelete(event);">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                        Delete
+                                        {{ __('admin.delete') }}
                                     </button>
                                 </form>
                             </div>
@@ -96,7 +103,7 @@
                 @empty
                     <tr>
                         <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-center">
-                            No fruits found. <a href="{{ route('admin.fruits.create') }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">Add one now</a>.
+                            {{ __('No fruits found') }}. <a href="{{ route('admin.fruits.create') }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">{{ __('admin.create_fruit') }}</a>.
                         </td>
                     </tr>
                 @endforelse
@@ -107,4 +114,10 @@
             </div>
         </div>
     </div>
+    <script>
+        function confirmDelete(event) {
+            const message = "{{ __('admin.confirm_delete') }}";
+            return confirm(message);
+        }
+    </script>
 </x-layout.app>

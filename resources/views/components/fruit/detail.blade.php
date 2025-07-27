@@ -4,7 +4,7 @@
     <div class="md:flex">
         <div class="md:w-1/2">
             @if($fruit->image)
-                <img src="{{ $fruit->image }}" alt="{{ $fruit->name }}" class="w-full h-80 object-cover">
+                <img src="{{ $fruit->image }}" alt="{{ $fruit->translate()->name }}" class="w-full h-80 object-cover">
             @else
                 <div class="w-full h-80 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                     <svg class="w-20 h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -15,13 +15,13 @@
         </div>
         
         <div class="md:w-1/2 p-6">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">{{ $fruit->name }}</h1>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">{{ $fruit->translate()->name }}</h1>
             
             <div class="space-y-4">
-                @if($fruit->description)
+                @if($fruit->translate()->description)
                     <div>
-                        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">Description</h2>
-                        <p class="text-gray-600 dark:text-gray-400">{{ $fruit->description }}</p>
+                        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">{{ __('Description') }}</h2>
+                        <p class="text-gray-600 dark:text-gray-400">{{ $fruit->translate()->description }}</p>
                     </div>
                 @endif
                 
@@ -40,10 +40,10 @@
                         </div>
                     @endif
                     
-                    @if($fruit->taste_profile)
+                    @if($fruit->translate()->taste_profile)
                         <div>
-                            <h2 class="text-sm font-semibold text-gray-800 dark:text-gray-200">Taste Profile</h2>
-                            <p class="text-gray-600 dark:text-gray-400">{{ $fruit->taste_profile }}</p>
+                            <h2 class="text-sm font-semibold text-gray-800 dark:text-gray-200">{{ __('Taste Profile') }}</h2>
+                            <p class="text-gray-600 dark:text-gray-400">{{ $fruit->translate()->taste_profile }}</p>
                         </div>
                     @endif
                     
@@ -56,7 +56,7 @@
                 </div>
                 
                 <div class="pt-4">
-                    <form action="{{ route('quote.add') }}" method="POST" class="flex flex-col sm:flex-row items-center gap-4">
+                    <form action="{{ route('quote.add') }}?locale={{ app()->getLocale() }}" method="POST" class="flex flex-col sm:flex-row items-center gap-4">
                         @csrf
                         <input type="hidden" name="fruit_id" value="{{ $fruit->id }}">
                         

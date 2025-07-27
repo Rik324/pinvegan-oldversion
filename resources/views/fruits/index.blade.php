@@ -6,11 +6,20 @@
     </x-slot>
 <div class="bg-white dark:bg-gray-900">
     <div class="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <h1 class="mb-8 text-3xl font-bold text-gray-900 dark:text-white">Our Fruits</h1>
+        <!-- Language Switcher -->
+        <div class="flex items-center justify-end mb-4 space-x-4">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Language') }}:</span>
+            <a href="{{ request()->fullUrlWithQuery(['locale' => 'en']) }}" class="px-3 py-1 text-sm {{ app()->getLocale() === 'en' ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }} rounded-md transition">English</a>
+            <a href="{{ request()->fullUrlWithQuery(['locale' => 'th']) }}" class="px-3 py-1 text-sm {{ app()->getLocale() === 'th' ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }} rounded-md transition">ไทย</a>
+            <a href="{{ request()->fullUrlWithQuery(['locale' => 'zh']) }}" class="px-3 py-1 text-sm {{ app()->getLocale() === 'zh' ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }} rounded-md transition">中文</a>
+        </div>
+        
+        <h1 class="mb-8 text-3xl font-bold text-gray-900 dark:text-white">{{ __('Our Fruits') }}</h1>
         
         <!-- Filters and Sorting -->
         <div class="p-4 mb-8 bg-gray-100 rounded-lg dark:bg-gray-800">
             <form action="{{ route('fruits.index') }}" method="GET" class="flex flex-col gap-4 md:flex-row">
+                <input type="hidden" name="locale" value="{{ app()->getLocale() }}">
                 <div class="md:w-1/3">
                     <label for="category_id" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Filter by Category</label>
                     <select name="category_id" id="category_id" class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50">
@@ -61,7 +70,7 @@
         @else
             <div class="py-12 text-center bg-gray-100 rounded-lg dark:bg-gray-800">
                 <p class="text-xl text-gray-600 dark:text-gray-400">No fruits found matching your criteria.</p>
-                <a href="{{ route('fruits.index') }}" class="inline-block mt-4 text-green-800 dark:text-yellow-400 hover:underline">Clear filters</a>
+                <a href="{{ route('fruits.index') }}?locale={{ app()->getLocale() }}" class="inline-block mt-4 text-green-800 dark:text-yellow-400 hover:underline">Clear filters</a>
             </div>
         @endif
     </div>

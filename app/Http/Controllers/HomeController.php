@@ -11,10 +11,20 @@ class HomeController extends Controller
     /**
      * Display the home page with featured fruits.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
+        // Get the locale from the query parameter or use the default
+        $locale = $request->query('locale', app()->getLocale());
+        
+        if ($locale && in_array($locale, ['en', 'th', 'zh'], true)) {
+            app()->setLocale($locale);
+            session()->put('locale', $locale);
+            session()->save();
+        }
+        
         // Get featured fruits for the homepage
         $featuredFruits = Fruit::where('is_featured', true)
                             ->take(4)
@@ -25,6 +35,6 @@ class HomeController extends Controller
                         ->take(6)
                         ->get();
         
-        return view('home', compact('featuredFruits', 'categories'));
+        return view('home', compact('featuredFruits', 'categories', 'locale'));
     }
 }

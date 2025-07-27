@@ -18,8 +18,13 @@ class QuoteController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request, $locale = null)
     {
+        if ($locale && in_array($locale, ['en', 'th', 'zh'], true)) {
+            app()->setLocale($locale);
+            session()->put('locale', $locale);
+            session()->save();
+        }
         // Get the quote items from the session
         $sessionItems = Session::get('quote_items', []);
         
@@ -49,8 +54,16 @@ class QuoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function addToQuote(Request $request)
+    public function addToQuote(Request $request, $locale = null)
     {
+        // Get locale from route parameter, form input, query parameter, or session
+        $locale = $locale ?: $request->input('locale', $request->query('locale', session('locale', app()->getLocale())));
+        
+        if ($locale && in_array($locale, ['en', 'th', 'zh'], true)) {
+            app()->setLocale($locale);
+            session()->put('locale', $locale);
+            session()->save();
+        }
         $validated = $request->validate([
             'fruit_id' => 'required|exists:fruits,id',
             'quantity' => 'required|integer|min:1',
@@ -72,8 +85,11 @@ class QuoteController extends Controller
         // Store updated quote items in session
         Session::put('quote_items', $quoteItems);
         
-        // Redirect directly to the quote request page
-        return redirect()->route('quote.index')->with('success', 'Fruit added to your quote request.');
+        // Redirect directly to the quote request page with locale
+        $successMessage = __('frontend.quote_item_added', ['default' => 'Fruit added to your quote request.']);
+        return redirect()->route('quote.index')
+                ->with('success', $successMessage)
+                ->with('locale', app()->getLocale());
     }
     
     /**
@@ -82,8 +98,19 @@ class QuoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function removeFromQuote($id)
+    public function removeFromQuote($id, $locale = null)
     {
+        // Get request object
+        $request = request();
+        
+        // Get locale from route parameter, form input, query parameter, or session
+        $locale = $locale ?: $request->input('locale', $request->query('locale', session('locale', app()->getLocale())));
+        
+        if ($locale && in_array($locale, ['en', 'th', 'zh'], true)) {
+            app()->setLocale($locale);
+            session()->put('locale', $locale);
+            session()->save();
+        }
         // Get existing quote items from session
         $sessionItems = Session::get('quote_items', []);
         
@@ -95,7 +122,9 @@ class QuoteController extends Controller
         // Store updated quote items in session
         Session::put('quote_items', $sessionItems);
         
-        return redirect()->route('quote.index')->with('success', 'Fruit removed from your quote request.');
+        return redirect()->route('quote.index')
+            ->with('success', 'Fruit removed from your quote request.')
+            ->with('locale', app()->getLocale());
     }
     
     /**
@@ -106,6 +135,14 @@ class QuoteController extends Controller
      */
     public function store(Request $request)
     {
+        // Get the locale from the query parameter, form input, or use the default
+        $locale = $request->input('locale', $request->query('locale', session('locale', app()->getLocale())));
+        
+        if ($locale && in_array($locale, ['en', 'th', 'zh'], true)) {
+            app()->setLocale($locale);
+            session()->put('locale', $locale);
+            session()->save();
+        }
         // Validate the form data
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -120,7 +157,8 @@ class QuoteController extends Controller
         // Check if there are any items in the quote
         if (empty($sessionItems)) {
             return redirect()->route('quote.index')
-                ->with('error', 'Your quote request is empty. Please add some fruits first.');
+                ->with('error', 'Your quote request is empty. Please add some fruits first.')
+                ->with('locale', app()->getLocale());
         }
         
         // Create the quote request and ensure it's saved to the database
@@ -187,7 +225,8 @@ class QuoteController extends Controller
         }
         
         return redirect()->route('quote.index')
-            ->with('success', 'Your quote request has been submitted successfully. We will contact you soon!');
+            ->with('success', 'Your quote request has been submitted successfully. We will contact you soon!')
+            ->with('locale', app()->getLocale());
     }
     
     /**
@@ -195,13 +234,23 @@ class QuoteController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function clearQuote()
+    public function clearQuote(Request $request)
     {
+        // Get locale from form input, query parameter, or session
+        $locale = $request->input('locale', $request->query('locale', session('locale', app()->getLocale())));
+        
+        if ($locale && in_array($locale, ['en', 'th', 'zh'], true)) {
+            app()->setLocale($locale);
+            session()->put('locale', $locale);
+            session()->save();
+        }
+        
         // Clear all quote items from the session
         Session::forget('quote_items');
         
         return redirect()->route('quote.index')
-            ->with('success', 'All items have been removed from your quote request.');
+            ->with('success', 'All items have been removed from your quote request.')
+            ->with('locale', app()->getLocale());
     }
     
     /**
@@ -213,6 +262,15 @@ class QuoteController extends Controller
      */
     public function updateQuoteItem(Request $request, $id)
     {
+        // Get locale from form input, query parameter, or session
+        $locale = $request->input('locale', $request->query('locale', session('locale', app()->getLocale())));
+        
+        if ($locale && in_array($locale, ['en', 'th', 'zh'], true)) {
+            app()->setLocale($locale);
+            session()->put('locale', $locale);
+            session()->save();
+        }
+        
         $validated = $request->validate([
             'quantity' => 'required|integer|min:1',
         ]);
@@ -228,10 +286,12 @@ class QuoteController extends Controller
             Session::put('quote_items', $sessionItems);
             
             return redirect()->route('quote.index')
-                ->with('success', 'Item quantity updated successfully.');
+                ->with('success', 'Item quantity updated successfully.')
+                ->with('locale', app()->getLocale());
         }
         
         return redirect()->route('quote.index')
-            ->with('error', 'Item not found in your quote request.');
+            ->with('error', 'Item not found in your quote request.')
+            ->with('locale', app()->getLocale());
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\App;
 
 class FruitController extends Controller
 {
@@ -20,7 +21,18 @@ class FruitController extends Controller
      */
     public function index()
     {
-        $fruits = Fruit::orderBy('name')->paginate(10);
+        // Get current locale for sorting
+        $locale = App::getLocale();
+        
+        // Join with translations table to sort by translated name
+        $fruits = Fruit::join('fruit_translations as ft', function($join) use ($locale) {
+                $join->on('fruits.id', '=', 'ft.fruit_id')
+                     ->where('ft.locale', '=', $locale);
+            })
+            ->select('fruits.*')
+            ->orderBy('ft.name')
+            ->paginate(10);
+            
         return view('admin.fruits.index', compact('fruits'));
     }
 
@@ -44,11 +56,9 @@ class FruitController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate non-translatable fields
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
             'origin' => 'nullable|string|max:255',
-            'taste_profile' => 'nullable|string|max:255',
             'seasonality' => 'nullable|string|max:255',
             'is_available' => 'boolean',
             'is_featured' => 'boolean',
@@ -57,6 +67,16 @@ class FruitController extends Controller
             'price' => 'nullable|numeric|min:0'
         ]);
 
+        // Validate translatable fields for each locale
+        $locales = ['en', 'th', 'zh']; // Supported locales
+        foreach ($locales as $locale) {
+            $request->validate([
+                "{$locale}.name" => 'required|string|max:255',
+                "{$locale}.description" => 'required|string',
+                "{$locale}.taste_profile" => 'nullable|string|max:255',
+            ]);
+        }
+
         // Handle boolean checkboxes
         $validated['is_available'] = $request->has('is_available');
         $validated['is_featured'] = $request->has('is_featured');
@@ -64,12 +84,23 @@ class FruitController extends Controller
         // Handle image upload
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $filename = 'fruit_' . Str::slug($request->name) . '_' . time() . '.' . $image->getClientOriginalExtension();
+            // Use English name for the filename or a timestamp if not available
+            $nameForFile = $request->input('en.name', 'fruit_' . time());
+            $filename = 'fruit_' . Str::slug($nameForFile) . '_' . time() . '.' . $image->getClientOriginalExtension();
             $path = $image->storeAs('public/fruits', $filename);
             $validated['image'] = Storage::url($path);
         }
 
-        Fruit::create($validated);
+        // Create the fruit with non-translatable fields
+        $fruit = Fruit::create($validated);
+
+        // Add translations for each locale
+        foreach ($locales as $locale) {
+            $fruit->translateOrNew($locale)->name = $request->input("{$locale}.name");
+            $fruit->translateOrNew($locale)->description = $request->input("{$locale}.description");
+            $fruit->translateOrNew($locale)->taste_profile = $request->input("{$locale}.taste_profile");
+        }
+        $fruit->save();
 
         return redirect()->route('admin.fruits.index')
                         ->with('success', 'Fruit created successfully.');
@@ -101,35 +132,37 @@ class FruitController extends Controller
         Log::info('Update method called with method: ' . $request->method());
         Log::info('Request data: ', $request->all());
         
-        // Validate the request data
+        // Validate non-translatable fields
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
             'origin' => 'nullable|string|max:255',
-            'taste_profile' => 'nullable|string|max:255',
             'seasonality' => 'nullable|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|max:2048', // max 2MB
+            'image' => 'nullable|image|max:2048',
             'price' => 'nullable|numeric|min:0'
         ]);
-        
-        // Prepare data for update
+
+        // Validate translatable fields for each locale
+        $locales = ['en', 'th', 'zh']; // Supported locales
+        foreach ($locales as $locale) {
+            $request->validate([
+                "{$locale}.name" => 'required|string|max:255',
+                "{$locale}.description" => 'required|string',
+                "{$locale}.taste_profile" => 'nullable|string|max:255',
+            ]);
+        }
+
+        // Prepare update data for non-translatable fields
         $updateData = [
-            'name' => $request->name,
-            'description' => $request->description,
             'origin' => $request->origin,
-            'taste_profile' => $request->taste_profile,
             'seasonality' => $request->seasonality,
             'category_id' => $request->category_id,
-            'price' => $request->price,
             'is_available' => $request->has('is_available'),
-            'is_featured' => $request->has('is_featured')
+            'is_featured' => $request->has('is_featured'),
+            'price' => $request->price
         ];
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            Log::info('Image file detected in request');
-            
             try {
                 // Delete old image if exists and not from unsplash
                 if ($fruit->image && !Str::contains($fruit->image, 'unsplash.com')) {
@@ -155,7 +188,10 @@ class FruitController extends Controller
                     'extension' => $image->getClientOriginalExtension()
                 ]);
                 
-                // Create fruits directory in public/storage if it doesn't exist
+                // Use English name for the filename or existing name
+                $nameForFile = $request->input('en.name', $fruit->translate('en')->name ?? 'fruit_' . time());
+                
+                // Ensure the directory exists
                 $directory = public_path('storage/fruits');
                 if (!file_exists($directory)) {
                     mkdir($directory, 0755, true);
@@ -163,7 +199,7 @@ class FruitController extends Controller
                 }
                 
                 // Generate unique filename
-                $filename = 'fruit_' . Str::slug($request->name) . '_' . time() . '.' . $image->getClientOriginalExtension();
+                $filename = 'fruit_' . Str::slug($nameForFile) . '_' . time() . '.' . $image->getClientOriginalExtension();
                 $fullPath = $directory . '/' . $filename;
                 
                 // Move the uploaded file directly to the public directory
@@ -188,9 +224,12 @@ class FruitController extends Controller
             } catch (\Exception $e) {
                 Log::error('Error processing image upload: ' . $e->getMessage());
                 Log::error($e->getTraceAsString());
+                
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Failed to update fruit. Image upload error: ' . $e->getMessage())
+                    ->with('image_error', 'Image upload failed: ' . $e->getMessage());
             }
-        } else {
-            Log::info('No image file in request');
         }
 
         try {
@@ -198,16 +237,18 @@ class FruitController extends Controller
             Log::info('About to update fruit with ID: ' . $fruit->id);
             Log::info('Update data: ', $updateData);
             
-            // Perform the update using DB query builder to bypass any model issues
-            $result = DB::table('fruits')
-                ->where('id', $fruit->id)
-                ->update($updateData);
+            // Update non-translatable fields
+            $fruit->update($updateData);
+            
+            // Update translations for each locale
+            foreach ($locales as $locale) {
+                $fruit->translateOrNew($locale)->name = $request->input("{$locale}.name");
+                $fruit->translateOrNew($locale)->description = $request->input("{$locale}.description");
+                $fruit->translateOrNew($locale)->taste_profile = $request->input("{$locale}.taste_profile");
+            }
+            $fruit->save();
             
             // Log result
-            Log::info('Update result: ' . ($result ? 'success' : 'failure'));
-            
-            // Refresh the model to get updated data
-            $fruit->refresh();
             Log::info('Fruit after update: ', $fruit->toArray());
             
             return redirect()->route('admin.fruits.index')
@@ -217,13 +258,6 @@ class FruitController extends Controller
             Log::error($e->getTraceAsString());
             
             $errorMessage = 'Failed to update fruit';
-            if (strpos($e->getMessage(), 'image') !== false) {
-                $errorMessage .= '. There was a problem with the image upload';
-                return redirect()->back()
-                    ->withInput()
-                    ->with('error', $errorMessage)
-                    ->with('image_error', 'Image upload failed: ' . $e->getMessage());
-            }
             
             return redirect()->back()
                 ->withInput()

@@ -11,8 +11,16 @@ class ContactController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
+        // Get the locale from the query parameter or use the default
+        $locale = $request->query('locale', app()->getLocale());
+        
+        if ($locale && in_array($locale, ['en', 'th', 'zh'], true)) {
+            app()->setLocale($locale);
+            session()->put('locale', $locale);
+            session()->save();
+        }
         // Contact information for the business
         $contactInfo = [
             'address' => '123 Fruit Street, Orchard District, City, Country',
@@ -33,6 +41,14 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
+        // Get the locale from the query parameter or use the default
+        $locale = $request->query('locale', app()->getLocale());
+        
+        if ($locale && in_array($locale, ['en', 'th', 'zh'], true)) {
+            app()->setLocale($locale);
+            session()->put('locale', $locale);
+            session()->save();
+        }
         // Validate the form data
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -44,6 +60,7 @@ class ContactController extends Controller
         // In a real application, you would send an email here
         // For now, we'll just redirect with a success message
         
-        return redirect()->route('contact')->with('success', 'Thank you for your message! We will get back to you soon.');
+        $successMessage = __('frontend.contact_success_message', ['default' => 'Thank you for your message! We will get back to you soon.']);
+        return redirect()->route('contact')->with('success', $successMessage)->with('locale', app()->getLocale());
     }
 }

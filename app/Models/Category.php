@@ -4,12 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
-class Category extends Model
+class Category extends Model implements TranslatableContract
 {
-    protected $fillable = [
+    use Translatable;
+    
+    public $translatedAttributes = [
         'name',
-        'description',
+        'description'
+    ];
+    
+    protected $fillable = [
         'slug',
         'is_active'
     ];
@@ -22,14 +29,18 @@ class Category extends Model
         parent::boot();
         
         static::creating(function ($category) {
-            $category->slug = $category->slug ?? Str::slug($category->name);
-        });
-        
-        static::updating(function ($category) {
-            if ($category->isDirty('name') && !$category->isDirty('slug')) {
-                $category->slug = Str::slug($category->name);
+            // Use the translated name from the current locale for the slug
+            if (!$category->slug && isset($category->translations[app()->getLocale()])) {
+                $category->slug = Str::slug($category->translations[app()->getLocale()]->name);
+            } elseif (!$category->slug && !empty($category->getTranslations('name'))) {
+                // If current locale translation is not available, use the first available translation
+                $name = array_values($category->getTranslations('name'))[0];
+                $category->slug = Str::slug($name);
             }
         });
+        
+        // Slug is no longer automatically updated when name changes, as name is now translatable
+        // If you want to update slug, it should be done explicitly
     }
 
     /**

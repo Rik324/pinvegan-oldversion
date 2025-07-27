@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -11,10 +9,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('fruits', function (Blueprint $table) {
-            // Add category_id column with foreign key constraint
-            $table->foreignId('category_id')->nullable()->constrained()->onDelete('set null');
-        });
+        // No-op: category_id is already added in the main fruits table migration
+        // This migration is kept for historical reasons but doesn't do anything now
     }
 
     /**
@@ -22,10 +18,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('fruits', function (Blueprint $table) {
-            // Drop the foreign key constraint and column
-            $table->dropForeign(['category_id']);
-            $table->dropColumn('category_id');
-        });
+        // No-op: category_id is handled in the main fruits table migration
+        // This migration is kept for historical reasons but doesn't do anything now
     }
 };

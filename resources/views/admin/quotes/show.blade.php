@@ -105,7 +105,7 @@
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm text-gray-500 dark:text-gray-400">{{ $fruit->category->name ?? 'Uncategorized' }}</div>
+                                                <div class="text-sm text-gray-500 dark:text-gray-400">{{ $fruit->category ? $fruit->category->translate()->name : 'Uncategorized' }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="text-sm text-gray-900 dark:text-gray-100">{{ $fruit->pivot->quantity }}</div>

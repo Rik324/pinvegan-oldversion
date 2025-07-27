@@ -13,14 +13,10 @@ return new class extends Migration
     {
         Schema::create('fruits', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->string('origin')->nullable();
-            $table->text('taste_profile')->nullable();
-            $table->string('seasonality')->nullable();
+            // Non-translatable fields
             $table->boolean('is_available')->default(true);
             $table->boolean('is_featured')->default(false);
-            $table->string('category')->nullable();
+            $table->foreignId('category_id')->nullable()->constrained()->onDelete('set null');
             $table->string('image')->nullable();
             $table->decimal('price', 8, 2)->nullable(); // Optional price if we want to show it
             $table->timestamps();

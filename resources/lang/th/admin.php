@@ -1,0 +1,68 @@
+<?php
+
+return [
+    // General
+    'dashboard' => 'แดชบอร์ด',
+    'manage_fruits' => 'จัดการผลไม้',
+    'manage_categories' => 'จัดการหมวดหมู่',
+    'manage_quotes' => 'จัดการคำขอใบเสนอราคา',
+    
+    // Fruits
+    'fruits' => 'ผลไม้',
+    'fruit' => 'ผลไม้',
+    'create_fruit' => 'สร้างผลไม้ใหม่',
+    'edit_fruit' => 'แก้ไขผลไม้',
+    'all_fruits' => 'ผลไม้ทั้งหมด',
+    'fruit_details' => 'รายละเอียดผลไม้',
+    'fruit_created' => 'สร้างผลไม้สำเร็จแล้ว',
+    'fruit_updated' => 'อัปเดตผลไม้สำเร็จแล้ว',
+    'fruit_deleted' => 'ลบผลไม้สำเร็จแล้ว',
+    
+    // Fruit attributes
+    'name' => 'ชื่อ',
+    'description' => 'คำอธิบาย',
+    'origin' => 'แหล่งกำเนิด',
+    'taste_profile' => 'โปรไฟล์รสชาติ',
+    'seasonality' => 'ฤดูกาล',
+    'price' => 'ราคา',
+    'category' => 'หมวดหมู่',
+    'image' => 'รูปภาพ',
+    'is_available' => 'มีพร้อมจำหน่าย',
+    'is_featured' => 'แนะนำ',
+    'actions' => 'การดำเนินการ',
+    'current_image' => 'รูปภาพปัจจุบัน',
+    'new_image' => 'รูปภาพใหม่',
+    
+    // Languages
+    'language' => 'ภาษา',
+    'english' => 'อังกฤษ',
+    'thai' => 'ไทย',
+    'chinese' => 'จีน',
+    'language_tabs' => 'แท็บภาษา',
+    'english_content' => 'เนื้อหาภาษาอังกฤษ',
+    'thai_content' => 'เนื้อหาภาษาไทย',
+    'chinese_content' => 'เนื้อหาภาษาจีน',
+    
+    // Actions
+    'create' => 'สร้าง',
+    'edit' => 'แก้ไข',
+    'update' => 'อัปเดต',
+    'delete' => 'ลบ',
+    'save' => 'บันทึก',
+    'cancel' => 'ยกเลิก',
+    'back' => 'กลับ',
+    'confirm_delete' => 'คุณแน่ใจหรือไม่ว่าต้องการลบรายการนี้?',
+    
+    // Validation
+    'required_field' => 'จำเป็นต้องกรอกช่องนี้',
+    'invalid_image' => 'โปรดอัปโหลดรูปภาพที่ถูกต้อง',
+    'image_too_large' => 'ขนาดรูปภาพไม่ควรเกิน 2MB',
+    
+    // Status
+    'available' => 'มีพร้อมจำหน่าย',
+    'featured' => 'แนะนำ',
+    
+    // Form helpers
+    'select_category' => 'เลือกหมวดหมู่',
+    'image_help' => 'ขนาดไฟล์สูงสุด: 2MB ขนาดที่แนะนำ: 800x600px',
+];

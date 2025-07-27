@@ -4,15 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
-class Fruit extends Model
+class Fruit extends Model implements TranslatableContract
 {
-    protected $fillable = [
+    use Translatable;
+    
+    public $translatedAttributes = [
         'name',
         'description',
         'origin',
-        'taste_profile',
-        'seasonality',
+        'seasonality'
+    ];
+    
+    protected $fillable = [
         'is_available',
         'is_featured',
         'category_id',

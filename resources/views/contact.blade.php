@@ -9,9 +9,9 @@
     <div class="bg-yellow-400 dark:bg-yellow-600">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div class="text-center">
-                <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Contact Us</h1>
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">{{ __('frontend.contact_us') }}</h1>
                 <p class="text-xl text-gray-800 dark:text-gray-200 max-w-3xl mx-auto">
-                    Have questions or need more information? We're here to help! Get in touch with our team.
+                    {{ __('frontend.contact_description') }}
                 </p>
             </div>
         </div>
@@ -21,7 +21,7 @@
         <div class="flex flex-col lg:flex-row gap-12">
             <!-- Contact Form -->
             <div class="lg:w-2/3">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send Us a Message</h2>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">{{ __('frontend.send_us_message') }}</h2>
                 
                 @if(session('success'))
                     <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
@@ -29,10 +29,10 @@
                     </div>
                 @endif
                 
-                <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
+                <form action="{{ route('contact.store') }}?locale={{ app()->getLocale() }}" method="POST" class="space-y-6">
                     @csrf
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Name</label>
+                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('frontend.your_name') }}</label>
                         <input type="text" name="name" id="name" required 
                             class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 @error('name') border-red-500 @enderror"
                             value="{{ old('name') }}">
@@ -42,7 +42,7 @@
                     </div>
                     
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address</label>
+                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('frontend.email_address') }}</label>
                         <input type="email" name="email" id="email" required 
                             class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 @error('email') border-red-500 @enderror"
                             value="{{ old('email') }}">
@@ -52,7 +52,7 @@
                     </div>
                     
                     <div>
-                        <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject</label>
+                        <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('frontend.subject') }}</label>
                         <input type="text" name="subject" id="subject" required 
                             class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 @error('subject') border-red-500 @enderror"
                             value="{{ old('subject') }}">
@@ -62,7 +62,7 @@
                     </div>
                     
                     <div>
-                        <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
+                        <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('frontend.message') }}</label>
                         <textarea name="message" id="message" rows="5" required 
                             class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 @error('message') border-red-500 @enderror">{{ old('message') }}</textarea>
                         @error('message')
@@ -71,8 +71,8 @@
                     </div>
                     
                     <div>
-                        <button type="submit" class="bg-green-800 hover:bg-green-700 text-white font-medium py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition duration-300">
-                            Send Message
+                        <button type="submit" class="w-full bg-green-800 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                            {{ __('frontend.send_message') }}
                         </button>
                     </div>
                 </form>
@@ -80,7 +80,7 @@
             
             <!-- Contact Information -->
             <div class="lg:w-1/3 bg-gray-100 dark:bg-gray-800 rounded-lg p-6">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Contact Information</h2>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">{{ __('frontend.contact_information') }}</h2>
                 
                 <div class="space-y-6">
                     <div class="flex items-start">
@@ -135,10 +135,10 @@
                 
                 <!-- Social Media Links -->
                 <div class="mt-8">
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Follow Us</h3>
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ __('frontend.follow_us') }}</h3>
                     <div class="flex space-x-4">
                         <a href="#" class="text-gray-600 hover:text-green-800 dark:text-gray-400 dark:hover:text-yellow-400">
-                            <span class="sr-only">Facebook</span>
+                            <span class="sr-only">{{ __('frontend.facebook') }}</span>
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
                             </svg>
@@ -150,7 +150,7 @@
                             </svg>
                         </a>
                         <a href="#" class="text-gray-600 hover:text-green-800 dark:text-gray-400 dark:hover:text-yellow-400">
-                            <span class="sr-only">Twitter</span>
+                            <span class="sr-only">{{ __('frontend.twitter') }}</span>
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
                             </svg>

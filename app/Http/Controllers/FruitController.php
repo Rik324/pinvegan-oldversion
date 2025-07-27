@@ -14,6 +14,15 @@ class FruitController extends Controller
      */
     public function index(Request $request)
     {
+        // Get the locale from the query parameter or use the default
+        $locale = $request->query('locale', app()->getLocale());
+        
+        if ($locale && in_array($locale, ['en', 'th', 'zh'], true)) {
+            app()->setLocale($locale);
+            session()->put('locale', $locale);
+            session()->save();
+        }
+        
         $query = Fruit::query();
         
         // Apply category filter if provided
@@ -29,16 +38,17 @@ class FruitController extends Controller
             $sortField = $request->sort;
             $sortDirection = $request->has('direction') ? $request->direction : 'asc';
             $query->orderBy($sortField, $sortDirection);
-        } else {
-            // Default sorting by name
-            $query->orderBy('name', 'asc');
         }
         
         $fruits = $query->paginate(12);
-        // Fetch all active categories
-        $categories = \App\Models\Category::where('is_active', true)->get();
         
-        return view('fruits.index', compact('fruits', 'categories'));
+        // Fetch all active categories if the Category model exists
+        $categories = [];
+        if (class_exists('\App\Models\Category')) {
+            $categories = \App\Models\Category::where('is_active', true)->get();
+        }
+        
+        return view('fruits.index', compact('fruits', 'categories', 'locale'));
     }
     
     /**
@@ -47,8 +57,17 @@ class FruitController extends Controller
      * @param  \App\Models\Fruit  $fruit
      * @return \Illuminate\View\View
      */
-    public function show(Fruit $fruit)
+    public function show(Fruit $fruit, Request $request)
     {
-        return view('fruits.show', compact('fruit'));
+        // Get the locale from the query parameter or use the default
+        $locale = $request->query('locale', app()->getLocale());
+        
+        if ($locale && in_array($locale, ['en', 'th', 'zh'], true)) {
+            app()->setLocale($locale);
+            session()->put('locale', $locale);
+            session()->save();
+        }
+        
+        return view('fruits.show', compact('fruit', 'locale'));
     }
 }

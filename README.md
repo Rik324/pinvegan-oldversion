@@ -31,7 +31,10 @@ Fruit Shop is a professional web application designed for fruit vendors to showc
 ## Technology Stack
 
 - **Framework**: Laravel 12
-- **Frontend**: Blade templates with Tailwind CSS
+- **Frontend**: 
+  - Blade templates
+  - Tailwind CSS for styling
+  - Alpine.js for interactive UI components
 - **Authentication**: Laravel Breeze
 - **Database**: SQLite
 - **Translations**: Astrotomic/laravel-translatable package for model translations and Laravel's built-in localization for UI strings

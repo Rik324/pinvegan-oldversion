@@ -18,6 +18,7 @@ Fruit Shop is a professional web application designed for fruit vendors to showc
 - **Detailed Product Information**: View fruit details including origin, seasonality, and descriptions
 - **Quote Request System**: Add fruits to a quote request and specify quantities
 - **Contact Form**: Easily get in touch with the business
+- **Multilingual Support**: Full translation support in English, Thai, and Chinese
 
 ### Admin Features
 
@@ -33,6 +34,7 @@ Fruit Shop is a professional web application designed for fruit vendors to showc
 - **Frontend**: Blade templates with Tailwind CSS
 - **Authentication**: Laravel Breeze
 - **Database**: SQLite
+- **Translations**: Astrotomic/laravel-translatable package for model translations and Laravel's built-in localization for UI strings
 
 ## Installation
 
@@ -67,14 +69,23 @@ Fruit Shop is a professional web application designed for fruit vendors to showc
    php artisan migrate --seed
    ```
 
-7. Compile assets
+7. Run migrations and seed the database with sample fruits
    ```bash
-   npm run dev
+   php artisan migrate:fresh --seed
    ```
 
-8. Start the development server
+8. Start the development server with all services (recommended)
    ```bash
+   composer run dev
+   ```
+
+   Or start individual services:
+   ```bash
+   # Start only the web server
    php artisan serve
+   
+   # Compile assets with Vite
+   npm run dev
    ```
 
 ## Usage
@@ -87,6 +98,7 @@ Fruit Shop is a professional web application designed for fruit vendors to showc
 - Add fruits to your quote request
 - Fill out the quote request form with your contact information
 - Submit your request and receive a confirmation
+- Switch between English, Thai, and Chinese languages using the language selector
 
 ### Admin Interface
 
@@ -96,6 +108,31 @@ Fruit Shop is a professional web application designed for fruit vendors to showc
   - Password: password
 - Manage fruits, categories, and quote requests
 - Update site content and settings
+
+## Translation System
+
+The application uses a comprehensive translation system with two main components:
+
+### 1. Model Translations (Astrotomic/laravel-translatable)
+
+The application uses the [Astrotomic/laravel-translatable](https://github.com/Astrotomic/laravel-translatable) package for model translations. This enables content to be stored in multiple languages.
+
+**Translatable Models:**
+- **Fruits**: name, description, origin, seasonality
+- **Categories**: name, description
+
+**Translation Tables:**
+- `fruit_translations`: Contains translatable fields for fruits
+- `category_translations`: Contains translatable fields for categories
+
+### 2. UI String Translations
+
+UI elements are translated using Laravel's built-in localization system with language files:
+- `resources/lang/en/frontend.php`
+- `resources/lang/th/frontend.php`
+- `resources/lang/zh/frontend.php`
+
+These files contain translations for navigation, buttons, labels, and other UI elements.
 
 ## Screenshots
 

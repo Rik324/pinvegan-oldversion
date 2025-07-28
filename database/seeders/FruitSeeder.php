@@ -96,7 +96,7 @@ class FruitSeeder extends Seeder
         // 4. Orange
         $fruit = Fruit::create([
             'is_available' => true,
-            'is_featured' => false,
+            'is_featured' => true,
             'category_id' => 2, // Citrus Fruits category (assuming category_id 2 is for Citrus)
             'image' => 'images/fruits/orange.png',
             'price' => 1.49

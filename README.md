@@ -134,6 +134,60 @@ UI elements are translated using Laravel's built-in localization system with lan
 
 These files contain translations for navigation, buttons, labels, and other UI elements.
 
+## Contributing
+
+We welcome contributions to the Fruit Shop project! Here's how you can contribute:
+
+### Proposing New Features
+
+1. **Fork the repository**
+   - Visit the GitHub repository page
+   - Click on the 'Fork' button in the top-right corner
+   - This creates a copy of the repository in your GitHub account
+
+2. **Clone your fork**
+   ```bash
+   git clone https://github.com/your-username/fruit-shop.git
+   cd fruit-shop
+   ```
+
+3. **Create a new branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+4. **Make your changes**
+   - Implement your feature or fix
+   - Add appropriate tests if applicable
+   - Update documentation as needed
+
+5. **Commit your changes**
+   ```bash
+   git add .
+   git commit -m "Add feature: your feature description"
+   ```
+
+6. **Push to your fork**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+7. **Open a Pull Request**
+   - Go to the original repository on GitHub
+   - Click on 'Pull Requests' and then 'New Pull Request'
+   - Select 'compare across forks'
+   - Select your fork and branch as the source
+   - Write a clear description of your changes
+   - Submit the pull request
+
+### Pull Request Guidelines
+
+- Ensure your code follows the project's coding standards
+- Include tests for new features
+- Update documentation as necessary
+- Keep pull requests focused on a single feature or fix
+- Reference any related issues in your pull request description
+
 ## Screenshots
 
 ### Homepage

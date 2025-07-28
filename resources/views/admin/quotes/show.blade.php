@@ -94,7 +94,7 @@
                                                 <div class="flex items-center">
                                                     @if($fruit->image)
                                                         <div class="flex-shrink-0 w-10 h-10">
-                                                            <img class="object-cover w-10 h-10 rounded-full" src="{{ $fruit->image }}" alt="{{ $fruit->name }}">
+                                                            <img class="object-cover w-10 h-10 rounded-full" src="{{ asset($fruit->image) }}" alt="{{ $fruit->name }}">
                                                         </div>
                                                     @endif
                                                     <div class="ml-4">

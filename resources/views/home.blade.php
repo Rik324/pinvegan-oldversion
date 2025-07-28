@@ -42,7 +42,7 @@
             <div class="overflow-hidden bg-white rounded-lg shadow-md transition-transform duration-300 dark:bg-gray-800 hover:shadow-lg hover:-translate-y-1">
                 <div class="overflow-hidden aspect-square">
                     @if($fruit->image)
-                    <img src="{{ $fruit->image }}" alt="{{ $fruit->name }}" class="w-full h-full object-contain">
+                    <img src="{{ asset($fruit->image) }}" alt="{{ $fruit->name }}" class="w-full h-full object-contain">
                     @else
                     <div class="flex justify-center items-center w-full h-full bg-gray-200 dark:bg-gray-700">
                         <span class="text-gray-500 dark:text-gray-400">{{ __('frontend.no_image') }}</span>

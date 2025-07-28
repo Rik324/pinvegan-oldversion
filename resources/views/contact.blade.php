@@ -174,7 +174,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize the map
-            var map = L.map('map').setView([{{ $contactInfo['map_location'][0] }}, {{ $contactInfo['map_location'][1] }}], 15);
+            var map = L.map('map').setView([{{ $contactInfo['map_location'][0] }}, {{ $contactInfo['map_location'][1] }}], {{ $contactInfo['map_zoom'] ?? 15 }});
             
             // Add the tile layer (OpenStreetMap)
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

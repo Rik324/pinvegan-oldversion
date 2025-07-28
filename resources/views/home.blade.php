@@ -15,10 +15,10 @@
                         {{ __('frontend.hero_description') }}
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        <a href="{{ route('fruits.index') }}" class="px-6 py-3 font-bold text-white bg-green-800 rounded-lg transition duration-300 hover:bg-green-700">
+                        <a href="{{ route('fruits.index') }}?locale={{ app()->getLocale() }}" class="px-6 py-3 font-bold text-white bg-green-800 rounded-lg transition duration-300 hover:bg-green-700">
                             {{ __('frontend.browse_fruits') }}
                         </a>
-                        <a href="{{ route('quote.index') }}" class="px-6 py-3 font-bold text-green-800 bg-white rounded-lg border-2 border-green-800 transition duration-300 hover:bg-gray-100">
+                        <a href="{{ route('quote.index') }}?locale={{ app()->getLocale() }}" class="px-6 py-3 font-bold text-green-800 bg-white rounded-lg border-2 border-green-800 transition duration-300 hover:bg-gray-100">
                             {{ __('frontend.request_quote') }}
                         </a>
                     </div>

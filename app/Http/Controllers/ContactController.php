@@ -27,7 +27,8 @@ class ContactController extends Controller
             'phone' => '+1 (555) 123-4567',
             'email' => 'info@fahadmart.com',
             'hours' => 'Monday - Friday: 8:00 AM - 6:00 PM<br>Saturday: 9:00 AM - 5:00 PM<br>Sunday: Closed',
-            'map_location' => [40.7128, -74.0060], // Example coordinates (New York City)
+            'map_location' => [13.7563, 100.5018], // Bangkok, Thailand coordinates
+            'map_zoom' => 11, // Zoom level (1-20, where 1 is world view and 20 is max zoom)
         ];
         
         return view('contact', compact('contactInfo'));

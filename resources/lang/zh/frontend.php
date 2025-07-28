@@ -119,6 +119,7 @@ return [
     
     // Quote Request
     'quote_request_success' => '您的报价请求已成功提交。我们将尽快与您联系！',
+    'quote_item_added' => '水果已添加到您的报价请求中。',
     
     // Footer
     'quick_links' => '快速链接',

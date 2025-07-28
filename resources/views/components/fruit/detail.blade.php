@@ -4,7 +4,7 @@
     <div class="md:flex">
         <div class="md:w-1/2">
             @if($fruit->image)
-                <img src="{{ $fruit->image }}" alt="{{ $fruit->translate()->name }}" class="w-full h-80 object-cover">
+                <img src="{{ $fruit->image }}" alt="{{ $fruit->translate()->name }}" class="w-full h-80 object-contain">
             @else
                 <div class="w-full h-80 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                     <svg class="w-20 h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

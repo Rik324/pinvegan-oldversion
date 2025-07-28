@@ -119,6 +119,7 @@ return [
     
     // Quote Request
     'quote_request_success' => 'Your quote request has been submitted successfully. We will contact you soon!',
+    'quote_item_added' => 'Fruit added to your quote request.',
     
     // Footer
     'quick_links' => 'Quick Links',

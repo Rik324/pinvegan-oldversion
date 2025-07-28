@@ -40,9 +40,9 @@
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             @foreach($featuredFruits as $fruit)
             <div class="overflow-hidden bg-white rounded-lg shadow-md transition-transform duration-300 dark:bg-gray-800 hover:shadow-lg hover:-translate-y-1">
-                <div class="overflow-hidden h-48">
+                <div class="overflow-hidden aspect-square">
                     @if($fruit->image)
-                    <img src="{{ $fruit->image }}" alt="{{ $fruit->name }}" class="object-cover w-full h-full">
+                    <img src="{{ $fruit->image }}" alt="{{ $fruit->name }}" class="w-full h-full object-contain">
                     @else
                     <div class="flex justify-center items-center w-full h-full bg-gray-200 dark:bg-gray-700">
                         <span class="text-gray-500 dark:text-gray-400">{{ __('frontend.no_image') }}</span>
@@ -122,7 +122,7 @@
                 </a>
             </div>
             <div class="md:w-1/2">
-                <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
+                <img src="{{ asset('images/fruits/about.jpg') }}" 
                      alt="Our Farm" 
                      class="w-full h-auto rounded-lg shadow-xl">
             </div>

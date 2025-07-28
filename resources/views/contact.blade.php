@@ -1,30 +1,30 @@
 <x-layout.app>
     <x-slot:header>
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Contact Us') }}
+        <h2 class="text-xl font-semibold leading-tight text-yellow-300 dark:text-gray-200">
+            {{ __('frontend.contact_us_title') }}
         </h2>
     </x-slot>
 <div class="bg-white dark:bg-gray-900">
     <!-- Hero Section -->
     <div class="bg-yellow-400 dark:bg-yellow-600">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="text-center">
-                <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">{{ __('frontend.contact_us') }}</h1>
-                <p class="text-xl text-gray-800 dark:text-gray-200 max-w-3xl mx-auto">
+                <h1 class="mb-4 text-4xl font-bold text-gray-900 dark:text-white">{{ __('frontend.contact_us') }}</h1>
+                <p class="mx-auto max-w-3xl text-xl text-gray-800 dark:text-gray-200">
                     {{ __('frontend.contact_description') }}
                 </p>
             </div>
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="flex flex-col lg:flex-row gap-12">
+    <div class="px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="flex flex-col gap-12 lg:flex-row">
             <!-- Contact Form -->
             <div class="lg:w-2/3">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">{{ __('frontend.send_us_message') }}</h2>
+                <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{{ __('frontend.send_us_message') }}</h2>
                 
                 @if(session('success'))
-                    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
+                    <div class="p-4 mb-6 text-green-700 bg-green-100 border-l-4 border-green-500" role="alert">
                         <p>{{ session('success') }}</p>
                     </div>
                 @endif
@@ -32,46 +32,46 @@
                 <form action="{{ route('contact.store') }}?locale={{ app()->getLocale() }}" method="POST" class="space-y-6">
                     @csrf
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('frontend.your_name') }}</label>
+                        <label for="name" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('frontend.your_name') }}</label>
                         <input type="text" name="name" id="name" required 
                             class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 @error('name') border-red-500 @enderror"
                             value="{{ old('name') }}">
                         @error('name')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
                     
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('frontend.email_address') }}</label>
+                        <label for="email" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('frontend.email_address') }}</label>
                         <input type="email" name="email" id="email" required 
                             class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 @error('email') border-red-500 @enderror"
                             value="{{ old('email') }}">
                         @error('email')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
                     
                     <div>
-                        <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('frontend.subject') }}</label>
+                        <label for="subject" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('frontend.subject') }}</label>
                         <input type="text" name="subject" id="subject" required 
                             class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 @error('subject') border-red-500 @enderror"
                             value="{{ old('subject') }}">
                         @error('subject')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
                     
                     <div>
-                        <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('frontend.message') }}</label>
+                        <label for="message" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('frontend.message') }}</label>
                         <textarea name="message" id="message" rows="5" required 
                             class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 @error('message') border-red-500 @enderror">{{ old('message') }}</textarea>
                         @error('message')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
                     
                     <div>
-                        <button type="submit" class="w-full bg-green-800 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                        <button type="submit" class="px-4 py-3 w-full font-bold text-white bg-green-800 rounded-lg transition duration-300 hover:bg-green-700">
                             {{ __('frontend.send_message') }}
                         </button>
                     </div>
@@ -79,8 +79,8 @@
             </div>
             
             <!-- Contact Information -->
-            <div class="lg:w-1/3 bg-gray-100 dark:bg-gray-800 rounded-lg p-6">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">{{ __('frontend.contact_information') }}</h2>
+            <div class="p-6 bg-gray-100 rounded-lg lg:w-1/3 dark:bg-gray-800">
+                <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{{ __('frontend.contact_information') }}</h2>
                 
                 <div class="space-y-6">
                     <div class="flex items-start">
@@ -92,7 +92,7 @@
                         </div>
                         <div class="ml-3">
                             <h3 class="text-lg font-medium text-gray-900 dark:text-white">Address</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mt-1">{{ $contactInfo['address'] }}</p>
+                            <p class="mt-1 text-gray-600 dark:text-gray-300">{{ $contactInfo['address'] }}</p>
                         </div>
                     </div>
                     
@@ -104,7 +104,7 @@
                         </div>
                         <div class="ml-3">
                             <h3 class="text-lg font-medium text-gray-900 dark:text-white">Phone</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mt-1">{{ $contactInfo['phone'] }}</p>
+                            <p class="mt-1 text-gray-600 dark:text-gray-300">{{ $contactInfo['phone'] }}</p>
                         </div>
                     </div>
                     
@@ -116,7 +116,7 @@
                         </div>
                         <div class="ml-3">
                             <h3 class="text-lg font-medium text-gray-900 dark:text-white">Email</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mt-1">{{ $contactInfo['email'] }}</p>
+                            <p class="mt-1 text-gray-600 dark:text-gray-300">{{ $contactInfo['email'] }}</p>
                         </div>
                     </div>
                     
@@ -128,14 +128,14 @@
                         </div>
                         <div class="ml-3">
                             <h3 class="text-lg font-medium text-gray-900 dark:text-white">Business Hours</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mt-1">{!! $contactInfo['hours'] !!}</p>
+                            <p class="mt-1 text-gray-600 dark:text-gray-300">{!! $contactInfo['hours'] !!}</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Social Media Links -->
                 <div class="mt-8">
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ __('frontend.follow_us') }}</h3>
+                    <h3 class="mb-4 text-lg font-medium text-gray-900 dark:text-white">{{ __('frontend.follow_us') }}</h3>
                     <div class="flex space-x-4">
                         <a href="#" class="text-gray-600 hover:text-green-800 dark:text-gray-400 dark:hover:text-yellow-400">
                             <span class="sr-only">{{ __('frontend.facebook') }}</span>

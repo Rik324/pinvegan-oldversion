@@ -30,6 +30,7 @@ class FruitController extends Controller
                      ->where('ft.locale', '=', $locale);
             })
             ->select('fruits.*')
+            ->orderBy('fruits.created_at', 'desc')
             ->orderBy('ft.name')
             ->paginate(10);
             

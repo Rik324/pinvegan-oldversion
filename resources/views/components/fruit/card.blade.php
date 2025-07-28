@@ -20,25 +20,25 @@
         
         @if($fruit->origin)
             <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
-                <span class="font-medium">Origin:</span> {{ $fruit->origin }}
+                <span class="font-medium">{{ __('frontend.origin') }}:</span> {{ $fruit->origin }}
             </p>
         @endif
         
         @if($fruit->seasonality)
             <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-                <span class="font-medium">Season:</span> {{ $fruit->seasonality }}
+                <span class="font-medium">{{ __('frontend.seasonality') }}:</span> {{ $fruit->seasonality }}
             </p>
         @endif
 
         @if($fruit->price)
             <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-                <span class="font-medium">Price:</span> {{ $fruit->price }}
+                <span class="font-medium">{{ __('frontend.price') }}:</span> {{ $fruit->price }}
             </p>
         @endif
         
         <div class="flex justify-between items-center mt-4">
             <a href="{{ route('fruits.show', $fruit) }}?locale={{ app()->getLocale() }}" class="font-medium text-green-800 dark:text-yellow-400 hover:underline">
-                View Details
+                {{ __('frontend.view_details') }}
             </a>
             
             <form action="{{ route('quote.add') }}?locale={{ app()->getLocale() }}" method="POST">
@@ -46,7 +46,7 @@
                 <input type="hidden" name="fruit_id" value="{{ $fruit->id }}">
                 <input type="hidden" name="quantity" value="1">
                 <button type="submit" class="px-3 py-1 text-sm text-white bg-green-800 rounded-md transition duration-300 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
-                    Add to Quote
+                    {{ __('frontend.add_to_quote') }}
                 </button>
             </form>
         </div>

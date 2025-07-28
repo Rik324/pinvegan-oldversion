@@ -20,6 +20,7 @@ return [
     
     // Featured Fruits Section
     'featured_fruits' => 'Featured Fruits',
+    'our_fruits' => 'Our Fruits',
     'no_featured_fruits' => 'No featured fruits available at the moment.',
     'view_details' => 'View Details',
     'add_to_quote' => 'Add to Quote',
@@ -106,6 +107,7 @@ return [
     'remove' => 'Remove',
     'origin' => 'Origin',
     'seasonality' => 'Seasonality',
+    'price' => 'Price',
     'view_fruit_details' => 'View fruit details',
     'additional_requirements' => 'Additional Requirements',
     'phone_number' => 'Phone Number',
@@ -116,6 +118,8 @@ return [
     'need_custom_quote' => 'Need a Custom Quote?',
     'bulk_order_description' => 'Looking for bulk orders or specific varieties? Contact us for a personalized quote.',
     'view_quote_request' => 'View Quote Request',
+    'description' => 'Description',
+    'nutritional_benefits' => 'Nutritional Benefits',
     
     // Quote Request
     'quote_request_success' => 'Your quote request has been submitted successfully. We will contact you soon!',
@@ -128,5 +132,17 @@ return [
     'footer_phone' => '(555) 123-4567',
     'footer_email' => 'info@fruitshop.com',
     'instagram' => 'Instagram',
-    'all_rights_reserved' => 'All Rights Reserved'
+    'all_rights_reserved' => 'All Rights Reserved',
+    
+    // Filters and Sorting
+    'filter_by_category' => 'Filter by Category',
+    'all_categories' => 'All Categories',
+    'sort_by' => 'Sort By',
+    'sort_name' => 'Name',
+    'sort_origin' => 'Origin',
+    'sort_seasonality' => 'Seasonality',
+    'sort_direction' => 'Sort Direction',
+    'ascending' => 'Ascending',
+    'descending' => 'Descending',
+    'apply_filters' => 'Apply Filters'
 ];

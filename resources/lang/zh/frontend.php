@@ -20,6 +20,7 @@ return [
     
     // Featured Fruits Section
     'featured_fruits' => '精选水果',
+    'our_fruits' => '我们的水果',
     'no_featured_fruits' => '目前没有精选水果。',
     'view_details' => '查看详情',
     'add_to_quote' => '添加到报价',
@@ -106,6 +107,7 @@ return [
     'remove' => '移除',
     'origin' => '产地',
     'seasonality' => '季节性',
+    'price' => '价格',
     'view_fruit_details' => '查看水果详情',
     'additional_requirements' => '其他要求',
     'phone_number' => '电话号码',
@@ -113,9 +115,11 @@ return [
     'submit_quote_request' => '提交报价请求',
     
     // Fruit Detail Page
-    'need_custom_quote' => '需要定制报价吗？',
-    'bulk_order_description' => '需要批量订购或特定品种？联系我们获取个性化报价。',
+    'need_custom_quote' => '需要定制报价？',
+    'bulk_order_description' => '寻找批量订单或特定品种？联系我们获取个性化报价。',
     'view_quote_request' => '查看报价请求',
+    'description' => '描述',
+    'nutritional_benefits' => '营养价值',
     
     // Quote Request
     'quote_request_success' => '您的报价请求已成功提交。我们将尽快与您联系！',
@@ -128,5 +132,17 @@ return [
     'footer_phone' => '(555) 123-4567',
     'footer_email' => 'info@fruitshop.com',
     'instagram' => 'Instagram',
-    'all_rights_reserved' => '版权所有'
+    'all_rights_reserved' => '版权所有',
+    
+    // Filters and Sorting
+    'filter_by_category' => '按类别筛选',
+    'all_categories' => '所有类别',
+    'sort_by' => '排序方式',
+    'sort_name' => '名称',
+    'sort_origin' => '产地',
+    'sort_seasonality' => '季节性',
+    'sort_direction' => '排序方向',
+    'ascending' => '升序',
+    'descending' => '降序',
+    'apply_filters' => '应用筛选'
 ];

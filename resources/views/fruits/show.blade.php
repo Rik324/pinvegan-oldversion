@@ -6,17 +6,11 @@
     </x-slot>
 <div class="bg-white dark:bg-gray-900">
     <div class="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <!-- Language Switcher -->
-        <div class="flex justify-end items-center mb-4 space-x-4">
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('Language') }}:</span>
-            <a href="{{ request()->fullUrlWithQuery(['locale' => 'en']) }}" class="px-3 py-1 text-sm {{ app()->getLocale() === 'en' ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }} rounded-md transition">English</a>
-            <a href="{{ request()->fullUrlWithQuery(['locale' => 'th']) }}" class="px-3 py-1 text-sm {{ app()->getLocale() === 'th' ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }} rounded-md transition">ไทย</a>
-            <a href="{{ request()->fullUrlWithQuery(['locale' => 'zh']) }}" class="px-3 py-1 text-sm {{ app()->getLocale() === 'zh' ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }} rounded-md transition">中文</a>
-        </div>
+    
         
         <!-- Breadcrumbs -->
         <x-ui.breadcrumb :items="[
-            ['label' => 'Fruits', 'url' => route('fruits.index') . '?locale=' . app()->getLocale()],
+            ['label' => __('frontend.fruits'), 'url' => route('fruits.index') . '?locale=' . app()->getLocale()],
             ['label' => $fruit->translate()->name]
         ]" />
 

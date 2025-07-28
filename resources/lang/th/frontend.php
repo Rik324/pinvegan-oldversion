@@ -20,6 +20,7 @@ return [
     
     // Featured Fruits Section
     'featured_fruits' => 'ผลไม้แนะนำ',
+    'our_fruits' => 'ผลไม้ของเรา',
     'no_featured_fruits' => 'ไม่มีผลไม้แนะนำในขณะนี้',
     'view_details' => 'ดูรายละเอียด',
     'add_to_quote' => 'เพิ่มในใบเสนอราคา',
@@ -27,7 +28,7 @@ return [
     'no_image' => 'ไม่มีรูปภาพ',
     
     // Categories Section
-    'category' => 'ค้นหาตามหมวดหมู่',
+    'category' => 'หมวดหมู่',
     'no_categories' => 'ไม่มีหมวดหมู่ในขณะนี้',
     
     // About Us Section
@@ -106,6 +107,7 @@ return [
     'remove' => 'ลบ',
     'origin' => 'แหล่งที่มา',
     'seasonality' => 'ฤดูกาล',
+    'price' => 'ราคา',
     'view_fruit_details' => 'ดูรายละเอียดผลไม้',
     'additional_requirements' => 'ความต้องการเพิ่มเติม',
     'phone_number' => 'เบอร์โทรศัพท์',
@@ -113,9 +115,11 @@ return [
     'submit_quote_request' => 'ส่งคำขอใบเสนอราคา',
     
     // Fruit Detail Page
-    'need_custom_quote' => 'ต้องการใบเสนอราคาที่กำหนดเอง?',
-    'bulk_order_description' => 'ต้องการสั่งซื้อจำนวนมากหรือสายพันธุ์เฉพาะ? ติดต่อเราเพื่อรับใบเสนอราคาที่ปรับแต่งเฉพาะสำหรับคุณ',
+    'need_custom_quote' => 'ต้องการใบเสนอราคาแบบพิเศษ?',
+    'bulk_order_description' => 'กำลังมองหาการสั่งซื้อจำนวนมากหรือผลไม้เฉพาะพันธุ์? ติดต่อเราเพื่อรับใบเสนอราคาที่ปรับแต่งตามความต้องการของคุณ',
     'view_quote_request' => 'ดูคำขอใบเสนอราคา',
+    'description' => 'รายละเอียด',
+    'nutritional_benefits' => 'ประโยชน์ทางโภชนาการ',
     
     // Quote Request
     'quote_request_success' => 'คำขอใบเสนอราคาของคุณถูกส่งเรียบร้อยแล้ว เราจะติดต่อกลับไปหาคุณในเร็วๆ นี้!',
@@ -128,5 +132,17 @@ return [
     'footer_phone' => '(555) 123-4567',
     'footer_email' => 'info@fruitshop.com',
     'instagram' => 'Instagram',
-    'all_rights_reserved' => 'สงวนลิขสิทธิ์ทั้งหมด'
+    'all_rights_reserved' => 'สงวนลิขสิทธิ์ทั้งหมด',
+    
+    // Filters and Sorting
+    'filter_by_category' => 'กรองตามหมวดหมู่',
+    'all_categories' => 'ทุกหมวดหมู่',
+    'sort_by' => 'เรียงตาม',
+    'sort_name' => 'ชื่อ',
+    'sort_origin' => 'แหล่งกำเนิด',
+    'sort_seasonality' => 'ฤดูกาล',
+    'sort_direction' => 'ทิศทางการเรียง',
+    'ascending' => 'จากน้อยไปมาก',
+    'descending' => 'จากมากไปน้อย',
+    'apply_filters' => 'ใช้ตัวกรอง'
 ];

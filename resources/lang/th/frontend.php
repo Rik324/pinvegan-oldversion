@@ -118,5 +118,14 @@ return [
     'view_quote_request' => 'ดูคำขอใบเสนอราคา',
     
     // Quote Request
-    'quote_request_success' => 'คำขอใบเสนอราคาของคุณถูกส่งเรียบร้อยแล้ว เราจะติดต่อกลับไปหาคุณในเร็วๆ นี้!'
+    'quote_request_success' => 'คำขอใบเสนอราคาของคุณถูกส่งเรียบร้อยแล้ว เราจะติดต่อกลับไปหาคุณในเร็วๆ นี้!',
+    
+    // Footer
+    'quick_links' => 'ลิงก์ด่วน',
+    'footer_about_description' => 'เราจัดหาผลไม้ที่สดและมีคุณภาพสูงที่สุด จากเกษตรกรท้องถิ่นและนานาชาติโดยตรง',
+    'footer_address' => '123 ถนนผลไม้, เมืองสวนผลไม้, FC 12345',
+    'footer_phone' => '(555) 123-4567',
+    'footer_email' => 'info@fruitshop.com',
+    'instagram' => 'Instagram',
+    'all_rights_reserved' => 'สงวนลิขสิทธิ์ทั้งหมด'
 ];

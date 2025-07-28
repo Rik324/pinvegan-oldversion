@@ -1,7 +1,7 @@
 <x-layout.app>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+            <h2 class="text-xl font-semibold leading-tight text-yellow-300 dark:text-gray-200">
                 {{ __('Quote Request Details') }}
             </h2>
             <a href="{{ route('admin.quotes.index') }}" class="px-4 py-2 text-sm text-white bg-gray-800 rounded-md dark:bg-gray-200 dark:text-gray-800">

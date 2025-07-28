@@ -118,5 +118,14 @@ return [
     'view_quote_request' => 'View Quote Request',
     
     // Quote Request
-    'quote_request_success' => 'Your quote request has been submitted successfully. We will contact you soon!'
+    'quote_request_success' => 'Your quote request has been submitted successfully. We will contact you soon!',
+    
+    // Footer
+    'quick_links' => 'Quick Links',
+    'footer_about_description' => 'We provide the freshest, highest quality fruits sourced directly from local and international farmers.',
+    'footer_address' => '123 Fruit Street, Fruitville, FC 12345',
+    'footer_phone' => '(555) 123-4567',
+    'footer_email' => 'info@fruitshop.com',
+    'instagram' => 'Instagram',
+    'all_rights_reserved' => 'All Rights Reserved'
 ];

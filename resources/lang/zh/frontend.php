@@ -118,5 +118,14 @@ return [
     'view_quote_request' => '查看报价请求',
     
     // Quote Request
-    'quote_request_success' => '您的报价请求已成功提交。我们将尽快与您联系！'
+    'quote_request_success' => '您的报价请求已成功提交。我们将尽快与您联系！',
+    
+    // Footer
+    'quick_links' => '快速链接',
+    'footer_about_description' => '我们提供从本地和国际农场直接采购的最新鲜、最高品质的水果。',
+    'footer_address' => '123 水果街, 果园城, FC 12345',
+    'footer_phone' => '(555) 123-4567',
+    'footer_email' => 'info@fruitshop.com',
+    'instagram' => 'Instagram',
+    'all_rights_reserved' => '版权所有'
 ];

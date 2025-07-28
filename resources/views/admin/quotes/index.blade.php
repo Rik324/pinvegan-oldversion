@@ -1,7 +1,7 @@
 <x-layout.app>
     {{-- This slot defines the content for the header section of the layout --}}
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+        <h2 class="text-xl font-semibold leading-tight text-yellow-300 dark:text-gray-200">
             {{ __('Quote Requests') }}
         </h2>
     </x-slot>

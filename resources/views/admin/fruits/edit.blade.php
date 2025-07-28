@@ -1,6 +1,6 @@
 <x-layout.app>
     <x-slot:header>
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+        <h2 class="text-xl font-semibold leading-tight text-yellow-300 dark:text-gray-200">
             {{ __('admin.edit_fruit') }}: {{ $fruit->translate('en')->name }}
         </h2>
     </x-slot>

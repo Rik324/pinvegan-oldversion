@@ -28,7 +28,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             FruitSeeder::class,
-            QuoteRequestSeeder::class, 
+            QuoteRequestSeeder::class,
+            CategoryFruitSeeder::class, // Thai Products hierarchy with Thai Fruits
+            ChineseCategorySeeder::class, // Chinese Products hierarchy
+            ThaiSilkSeeder::class, // Thai Silk and Esan Silk categories
         ]);
     }
 }

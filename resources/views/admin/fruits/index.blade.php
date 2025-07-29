@@ -56,9 +56,35 @@
                                 <span class="block text-xs text-gray-500">({{ $fruit->translate('en')->name }})</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
+                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                             @if(is_object($fruit->category))
-                                {{ $fruit->category->translate()->name }}
+                                @php
+                                    $category = $fruit->category;
+                                    
+                                    // Get full category hierarchy path
+                                    $categoryPath = '';
+                                    $ancestors = collect([]);
+                                    
+                                    // Build ancestors collection
+                                    $currentCategory = $category;
+                                    while ($currentCategory) {
+                                        $ancestors->prepend($currentCategory);
+                                        $currentCategory = $currentCategory->parent;
+                                    }
+                                    
+                                    // Build path string
+                                    $categoryPath = $ancestors->map(function($cat) {
+                                        $locale = app()->getLocale();
+                                        return $cat->translate($locale)->name ?? $cat->translate('en')->name ?? 'Unnamed Category';
+                                    })->implode(' > ');
+                                @endphp
+                                <span class="whitespace-normal">
+                                    @if($category->parent_id)
+                                        <span class="text-gray-500">{{ $categoryPath }}</span>
+                                    @else
+                                        <span class="font-medium">{{ $category->translate(app()->getLocale())->name ?? $category->translate('en')->name ?? 'Unnamed Category' }}</span>
+                                    @endif
+                                </span>
                             @else
                                 {{ 'Uncategorized' }}
                             @endif

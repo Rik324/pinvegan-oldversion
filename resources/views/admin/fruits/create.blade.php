@@ -171,18 +171,22 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                     <div>
                         <x-input-label for="category_id" :value="__('admin.category')" />
-                        <select id="category_id" name="category_id" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                        <select id="category_id" name="category_id" class="block mt-1 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm">
                             <option value="">-- {{ __('admin.select_category') }} --</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
+                            @foreach($parentCategories as $parentCategory)
+                                <option value="{{ $parentCategory->id }}" {{ old('category_id') == $parentCategory->id ? 'selected' : '' }}>
+                                    {{ $parentCategory->translate(app()->getLocale())->name ?? $parentCategory->translate('en')->name ?? 'Unnamed Category' }}
                                 </option>
+                                @foreach($parentCategory->children as $childCategory)
+                                    <option value="{{ $childCategory->id }}" {{ old('category_id') == $childCategory->id ? 'selected' : '' }}>
+                                        &nbsp;&nbsp;└─ {{ $childCategory->translate(app()->getLocale())->name ?? $childCategory->translate('en')->name ?? 'Unnamed Category' }}
+                                    </option>
+                                @endforeach
                             @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('admin.select_category_help') }}</p>
                     </div>
-
-
 
                     <div>
                         <x-input-label for="price" :value="__('admin.price')" />

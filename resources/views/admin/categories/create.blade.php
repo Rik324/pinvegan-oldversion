@@ -134,6 +134,22 @@
 
                 <!-- Non-translatable fields -->
                 <div class="grid grid-cols-1 gap-6 mt-6">
+                    <!-- Parent Category Selection -->
+                    <div>
+                        <x-input-label for="parent_id" :value="__('admin.parent_category')" />
+                        <select id="parent_id" name="parent_id" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                            <option value="">{{ __('admin.no_parent') }}</option>
+                            @foreach($parentCategories as $parentCategory)
+                                <option value="{{ $parentCategory->id }}" {{ old('parent_id') == $parentCategory->id ? 'selected' : '' }}>
+                                    {{ $parentCategory->translate()->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <x-input-error :messages="$errors->get('parent_id')" class="mt-2" />
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('admin.select_parent_category_help') }}</p>
+                    </div>
+                    
+                    <!-- Is Active Checkbox -->
                     <div class="flex items-center">
                         <input id="is_active" name="is_active" type="checkbox" class="h-4 w-4 text-green-800 focus:ring-green-700 border-gray-300 rounded" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
                         <label for="is_active" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">

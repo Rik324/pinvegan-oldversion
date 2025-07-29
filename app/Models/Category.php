@@ -18,7 +18,8 @@ class Category extends Model implements TranslatableContract
     
     protected $fillable = [
         'slug',
-        'is_active'
+        'is_active',
+        'parent_id'
     ];
     
     /**
@@ -59,5 +60,37 @@ class Category extends Model implements TranslatableContract
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    /**
+     * Get the parent category.
+     */
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    /**
+     * Get the child categories.
+     */
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
+        /**
+     * Get all descendants of the category.
+     */
+    public function descendants()
+    {
+        return $this->children()->with('descendants');
+    }
+
+    /**
+     * Get all ancestors of the category.
+     */
+    public function ancestors()
+    {
+        return $this->parent()->with('ancestors');
     }
 }

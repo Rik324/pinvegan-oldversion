@@ -3,7 +3,7 @@
 <div class="overflow-hidden bg-white rounded-lg shadow-md transition-transform duration-300 dark:bg-gray-800 hover:shadow-lg hover:-translate-y-1">
     <div class="overflow-hidden aspect-square">
         @if($fruit->image)
-            <img src="{{ asset($fruit->image) }}" alt="{{ $fruit->name }}" class="object-contain w-full h-full">
+            <img src="{{ asset($fruit->image) }}" alt="{{ $fruit->translate(app()->getLocale())->name ?? $fruit->translate('en')->name ?? 'Fruit Image' }}" class="object-contain w-full h-full">
         @else
             <div class="flex justify-center items-center w-full h-full bg-gray-200 dark:bg-gray-700">
                 <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -14,19 +14,19 @@
     </div>
     
     <div class="p-4">
-        <h3 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">{{ $fruit->translate()->name }}</h3>
+        <h3 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">{{ $fruit->translate(app()->getLocale())->name ?? $fruit->translate('en')->name ?? 'Unnamed Fruit' }}</h3>
         
-        <p class="mb-3 text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{{ $fruit->translate()->description }}</p>
+        <p class="mb-3 text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{{ $fruit->translate(app()->getLocale())->description ?? $fruit->translate('en')->description ?? '' }}</p>
         
-        @if($fruit->origin)
+        @if($fruit->translate(app()->getLocale())->origin ?? $fruit->translate('en')->origin ?? false)
             <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
-                <span class="font-medium">{{ __('frontend.origin') }}:</span> {{ $fruit->origin }}
+                <span class="font-medium">{{ __('frontend.origin') }}:</span> {{ $fruit->translate(app()->getLocale())->origin ?? $fruit->translate('en')->origin ?? '' }}
             </p>
         @endif
         
-        @if($fruit->seasonality)
+        @if($fruit->translate(app()->getLocale())->seasonality ?? $fruit->translate('en')->seasonality ?? false)
             <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-                <span class="font-medium">{{ __('frontend.seasonality') }}:</span> {{ $fruit->seasonality }}
+                <span class="font-medium">{{ __('frontend.seasonality') }}:</span> {{ $fruit->translate(app()->getLocale())->seasonality ?? $fruit->translate('en')->seasonality ?? '' }}
             </p>
         @endif
 

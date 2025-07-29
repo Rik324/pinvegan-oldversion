@@ -35,17 +35,27 @@
                 </div>
             @endif
 
-            <x-admin.table :headers="['ID', 'Name', 'Slug', 'Status', 'Fruits Count']" :actions="true">
+            <x-admin.table :headers="['ID', 'Name', 'Parent Category', 'Status', 'Fruits Count']" :actions="true">
                 @forelse($categories as $category)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                             {{ $category->id }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                            {{ $category->name }}
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
+                            @if($category->parent)
+                                <span class="ml-2">└─ </span>
+                            @endif
+                            {{ $category->translate()->name }}
+                            @if($category->children->count() > 0)
+                                <span class="text-xs text-gray-500 ml-1">({{ $category->children->count() }} subcategories)</span>
+                            @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                            {{ $category->slug }}
+                            @if($category->parent)
+                                {{ $category->parent->translate()->name }}
+                            @else
+                                <span class="text-gray-400">-</span>
+                            @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                             @if($category->is_active)

@@ -15,8 +15,14 @@
                     <label for="category_id" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('frontend.filter_by_category') }}</label>
                     <select name="category_id" id="category_id" class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50">
                         <option value="">{{ __('frontend.all_categories') }}</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                        @foreach($topLevelCategories as $topCategory)
+                            <!-- Parent category -->
+                            <option value="{{ $topCategory->id }}" {{ request('category_id') == $topCategory->id ? 'selected' : '' }}>{{ $topCategory->name }}</option>
+                            
+                            <!-- Child categories with indentation -->
+                            @foreach($topCategory->children as $childCategory)
+                                <option value="{{ $childCategory->id }}" {{ request('category_id') == $childCategory->id ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;{{ $childCategory->name }}</option>
+                            @endforeach
                         @endforeach
                     </select>
                 </div>

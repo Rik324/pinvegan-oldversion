@@ -144,5 +144,6 @@ return [
     'sort_direction' => 'ทิศทางการเรียง',
     'ascending' => 'จากน้อยไปมาก',
     'descending' => 'จากมากไปน้อย',
-    'apply_filters' => 'ใช้ตัวกรอง'
+    'apply_filters' => 'ใช้ตัวกรอง',
+    'all' => 'ทั้งหมด'
 ];

@@ -1,7 +1,7 @@
 @props(['action', 'method' => 'POST', 'enctype' => false])
 
 <form action="{{ $action }}" method="{{ strtolower($method) === 'get' ? 'get' : 'post' }}" 
-    @if($enctype) enctype="{{ $enctype }}" @endif
+    enctype="{{ $enctype ? $enctype : 'application/x-www-form-urlencoded' }}"
     class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6" novalidate>
     @csrf
     

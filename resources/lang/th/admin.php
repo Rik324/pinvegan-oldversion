@@ -25,6 +25,14 @@ return [
     'create_category' => 'สร้างหมวดหมู่ใหม่',
     'edit_category' => 'แก้ไขหมวดหมู่',
     'update_category' => 'อัปเดตหมวดหมู่',
+    'parent_category' => 'หมวดหมู่หลัก',
+    'no_parent' => 'ไม่มีหมวดหมู่หลัก (ระดับบนสุด)',
+    'select_parent_category_help' => 'เลือกหมวดหมู่หลักหรือปล่อยว่างไว้สำหรับหมวดหมู่ระดับบนสุด',
+    'category_cannot_be_own_parent' => 'หมวดหมู่ไม่สามารถเป็นหมวดหมู่หลักของตัวเองได้',
+    'category_cannot_select_child_as_parent' => 'ไม่สามารถเลือกหมวดหมู่ย่อยเป็นหมวดหมู่หลักได้',
+    'slug' => 'สลัก',
+    'slug_help' => 'สลักจะถูกสร้างโดยอัตโนมัติจากชื่อ',
+    'active' => 'เปิดใช้งาน',
     
     // Fruit attributes
     'name' => 'ชื่อ',
@@ -76,5 +84,9 @@ return [
     
     // Form helpers
     'select_category' => 'เลือกหมวดหมู่',
+    'select_category_help' => 'เลือกหมวดหมู่สำหรับผลไม้นี้ หมวดหมู่หลักแสดงปกติ หมวดหมู่ย่อยจะถูกเยื้อง',
     'image_help' => 'ขนาดไฟล์สูงสุด: 2MB ขนาดที่แนะนำ: 800x600px',
+    'cannot_delete_category_with_fruits' => 'ไม่สามารถลบหมวดหมู่ที่มีผลไม้ได้ โปรดลบผลไม้ก่อนหรือย้ายไปยังหมวดหมู่อื่น',
+    'cannot_delete_category_with_children' => 'ไม่สามารถลบหมวดหมู่ที่มีหมวดหมู่ย่อยได้ โปรดลบหรือย้ายหมวดหมู่ย่อยก่อน',
+    'category_deleted_successfully' => 'ลบหมวดหมู่สำเร็จแล้ว',
 ];

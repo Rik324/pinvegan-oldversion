@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Fruit;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class FruitSeeder extends Seeder
@@ -12,11 +13,20 @@ class FruitSeeder extends Seeder
      */
     public function run(): void
     {
+        // Get category IDs by slug
+        $tropicalCategory = Category::where('slug', 'tropical-fruits')->first();
+        $citrusCategory = Category::where('slug', 'citrus')->first();
+        
+        if (!$tropicalCategory || !$citrusCategory) {
+            $this->command->error('Required categories not found. Please run CategorySeeder first.');
+            return;
+        }
+        
         // 1. Mango
         $fruit = Fruit::create([
             'is_available' => true,
             'is_featured' => true,
-            'category_id' => 1, // Tropical Fruits category
+            'category_id' => $tropicalCategory->id,
             'image' => 'images/fruits/mango.png',
             'price' => 2.99
         ]);
@@ -43,7 +53,7 @@ class FruitSeeder extends Seeder
         $fruit = Fruit::create([
             'is_available' => true,
             'is_featured' => true,
-            'category_id' => 1, // Tropical Fruits category
+            'category_id' => $tropicalCategory->id,
             'image' => 'images/fruits/banana.png',
             'price' => 1.99
         ]);
@@ -70,7 +80,7 @@ class FruitSeeder extends Seeder
         $fruit = Fruit::create([
             'is_available' => true,
             'is_featured' => true,
-            'category_id' => 1, // Tropical Fruits category
+            'category_id' => $tropicalCategory->id,
             'image' => 'images/fruits/durian.png',
             'price' => 15.99
         ]);
@@ -97,7 +107,7 @@ class FruitSeeder extends Seeder
         $fruit = Fruit::create([
             'is_available' => true,
             'is_featured' => true,
-            'category_id' => 2, // Citrus Fruits category (assuming category_id 2 is for Citrus)
+            'category_id' => $citrusCategory->id,
             'image' => 'images/fruits/orange.png',
             'price' => 1.49
         ]);
@@ -119,5 +129,7 @@ class FruitSeeder extends Seeder
         $fruit->translateOrNew('zh')->seasonality = '冬季至春季';
 
         $fruit->save();
+        
+        $this->command->info('Fruits seeded successfully!');
     }
 }

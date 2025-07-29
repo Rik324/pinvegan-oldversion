@@ -12,6 +12,28 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
+        // First, create the main Fruits category
+        $fruitsCategory = Category::firstOrCreate(
+            ['slug' => 'fruits'],
+            [
+                'is_active' => true,
+                'parent_id' => null, // Top level category
+            ]
+        );
+        
+        // Add translations for the main Fruits category
+        $fruitsCategory->translateOrNew('en')->name = 'Fruits';
+        $fruitsCategory->translateOrNew('en')->description = 'All types of fruits from around the world';
+        
+        $fruitsCategory->translateOrNew('th')->name = 'ผลไม้';
+        $fruitsCategory->translateOrNew('th')->description = 'ผลไม้ทุกชนิดจากทั่วโลก';
+        
+        $fruitsCategory->translateOrNew('zh')->name = '水果';
+        $fruitsCategory->translateOrNew('zh')->description = '来自世界各地的各种水果';
+        
+        $fruitsCategory->save();
+        
+        // Define subcategories
         $categories = [
             [
                 'translations' => [
@@ -30,6 +52,7 @@ class CategorySeeder extends Seeder
                 ],
                 'slug' => 'tropical-fruits',
                 'is_active' => true,
+                'parent_id' => $fruitsCategory->id, // Child of main Fruits category
             ],
             [
                 'translations' => [
@@ -48,6 +71,7 @@ class CategorySeeder extends Seeder
                 ],
                 'slug' => 'berries',
                 'is_active' => true,
+                'parent_id' => $fruitsCategory->id, // Child of main Fruits category
             ],
             [
                 'translations' => [
@@ -66,6 +90,7 @@ class CategorySeeder extends Seeder
                 ],
                 'slug' => 'citrus',
                 'is_active' => true,
+                'parent_id' => $fruitsCategory->id, // Child of main Fruits category
             ],
             [
                 'translations' => [
@@ -84,6 +109,7 @@ class CategorySeeder extends Seeder
                 ],
                 'slug' => 'stone-fruits',
                 'is_active' => true,
+                'parent_id' => $fruitsCategory->id, // Child of main Fruits category
             ],
         ];
 
@@ -91,6 +117,7 @@ class CategorySeeder extends Seeder
             // Find existing category by slug or create a new one
             $category = Category::firstOrNew(['slug' => $categoryData['slug']]);
             $category->is_active = $categoryData['is_active'];
+            $category->parent_id = $categoryData['parent_id']; // Set the parent_id
             $category->save();
             
             // Add translations
@@ -101,5 +128,7 @@ class CategorySeeder extends Seeder
             
             $category->save();
         }
+        
+        $this->command->info('Basic fruit categories created successfully!');
     }
 }

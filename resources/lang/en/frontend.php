@@ -144,5 +144,6 @@ return [
     'sort_direction' => 'Sort Direction',
     'ascending' => 'Ascending',
     'descending' => 'Descending',
-    'apply_filters' => 'Apply Filters'
+    'apply_filters' => 'Apply Filters',
+    'all' => 'All'
 ];

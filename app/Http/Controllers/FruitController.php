@@ -27,7 +27,21 @@ class FruitController extends Controller
         
         // Apply category filter if provided
         if ($request->has('category_id') && !empty($request->category_id)) {
-            $query->where('category_id', $request->category_id);
+            // Get the category and its children
+            $categoryId = $request->category_id;
+            $category = \App\Models\Category::find($categoryId);
+            
+            if ($category) {
+                // Get all child category IDs
+                $childCategoryIds = $category->children()->where('is_active', true)->pluck('id')->toArray();
+                
+                // Include the parent category ID and all child category IDs in the filter
+                $categoryIds = array_merge([$categoryId], $childCategoryIds);
+                $query->whereIn('category_id', $categoryIds);
+            } else {
+                // If category not found, just use the requested ID
+                $query->where('category_id', $categoryId);
+            }
         } elseif ($request->has('category') && !empty($request->category)) {
             // For backward compatibility
             $query->where('category', $request->category);
@@ -37,18 +51,45 @@ class FruitController extends Controller
         if ($request->has('sort')) {
             $sortField = $request->sort;
             $sortDirection = $request->has('direction') ? $request->direction : 'asc';
-            $query->orderBy($sortField, $sortDirection);
+            
+            // Check if the sort field is a translatable attribute
+            $translatableAttributes = ['name', 'description', 'origin', 'seasonality'];
+            
+            if (in_array($sortField, $translatableAttributes)) {
+                // For translatable fields, we need to join with the translations table
+                $locale = app()->getLocale();
+                
+                $query->join('fruit_translations', function($join) use ($locale) {
+                    $join->on('fruits.id', '=', 'fruit_translations.fruit_id')
+                         ->where('fruit_translations.locale', '=', $locale);
+                })
+                ->orderBy('fruit_translations.' . $sortField, $sortDirection)
+                ->select('fruits.*'); // Make sure we only select from the fruits table to avoid duplicates
+            } else {
+                // For non-translatable fields, we can sort directly
+                $query->orderBy($sortField, $sortDirection);
+            }
         }
         
         $fruits = $query->paginate(12);
         
-        // Fetch all active categories if the Category model exists
+        // Fetch hierarchical categories structure
         $categories = [];
+        $topLevelCategories = [];
         if (class_exists('\App\Models\Category')) {
+            // Keep $categories for backward compatibility
             $categories = \App\Models\Category::where('is_active', true)->get();
+            
+            // Get top-level categories with their children for hierarchical display
+            $topLevelCategories = \App\Models\Category::where('is_active', true)
+                ->whereNull('parent_id')
+                ->with(['children' => function($query) {
+                    $query->where('is_active', true);
+                }])
+                ->get();
         }
         
-        return view('fruits.index', compact('fruits', 'categories', 'locale'));
+        return view('fruits.index', compact('fruits', 'categories', 'topLevelCategories', 'locale'));
     }
     
     /**

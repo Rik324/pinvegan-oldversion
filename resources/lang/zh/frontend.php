@@ -144,5 +144,6 @@ return [
     'sort_direction' => '排序方向',
     'ascending' => '升序',
     'descending' => '降序',
-    'apply_filters' => '应用筛选'
+    'apply_filters' => '应用筛选',
+    'all' => '全部'
 ];

@@ -25,6 +25,14 @@ return [
     'create_category' => '创建新类别',
     'edit_category' => '编辑类别',
     'update_category' => '更新类别',
+    'parent_category' => '父类别',
+    'no_parent' => '无父类别（顶级）',
+    'select_parent_category_help' => '选择父类别或留空作为顶级类别',
+    'category_cannot_be_own_parent' => '类别不能作为自己的父类别',
+    'category_cannot_select_child_as_parent' => '不能选择子类别作为父类别',
+    'slug' => '别名',
+    'slug_help' => '别名将从名称自动生成',
+    'active' => '活跃',
     
     // Fruit attributes
     'name' => '名称',
@@ -76,5 +84,9 @@ return [
     
     // Form helpers
     'select_category' => '选择类别',
+    'select_category_help' => '为此水果选择类别。父类别正常显示，子类别缩进显示',
     'image_help' => '最大文件大小：2MB。建议尺寸：800x600px',
+    'cannot_delete_category_with_fruits' => '无法删除有关联水果的类别。请先删除水果或将其重新分配到其他类别',
+    'cannot_delete_category_with_children' => '无法删除有子类别的类别。请先删除或重新分配子类别',
+    'category_deleted_successfully' => '类别删除成功',
 ];

@@ -30,6 +30,10 @@ class FruitController extends Controller
                      ->where('ft.locale', '=', $locale);
             })
             ->select('fruits.*')
+            ->with(['category' => function($query) {
+                // Load the category with its parent relationship
+                $query->with('parent');
+            }])
             ->orderBy('fruits.created_at', 'desc')
             ->orderBy('ft.name')
             ->paginate(10);
@@ -44,9 +48,18 @@ class FruitController extends Controller
      */
     public function create()
     {
-        $categories = Category::where('is_active', true)->orderBy('name')->get();
+        // Get parent categories and their children
+        $parentCategories = Category::where('is_active', true)
+            ->whereNull('parent_id')
+            ->with(['children' => function($query) {
+                $query->where('is_active', true);
+            }])
+            ->get();
+            
+        // Also get categories without parent-child relationship for backwards compatibility
+        $categories = Category::where('is_active', true)->get();
         
-        return view('admin.fruits.create', compact('categories'));
+        return view('admin.fruits.create', compact('parentCategories', 'categories'));
     }
 
     /**
@@ -63,7 +76,7 @@ class FruitController extends Controller
         
         // Prepare validation rules
         $rules = [
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'required|exists:categories,id,is_active,1', // Ensure category is active
             'image' => 'nullable|image|max:2048', // max 2MB
             'price' => 'nullable|numeric|min:0'
         ];
@@ -116,27 +129,40 @@ class FruitController extends Controller
                 // Use English name for the filename or a timestamp if not available
                 $nameForFile = $request->input('en.name', 'fruit_' . time());
                 
-                // Ensure the directory exists
-                $directory = public_path('storage/fruits');
-                if (!file_exists($directory)) {
-                    mkdir($directory, 0755, true);
-                    Log::info('Created directory: ' . $directory);
-                }
-                
                 // Generate unique filename
                 $filename = 'fruit_' . Str::slug($nameForFile) . '_' . time() . '.' . $image->getClientOriginalExtension();
-                $fullPath = $directory . '/' . $filename;
                 
-                // Move the uploaded file directly to the public directory
-                if ($image->move($directory, $filename)) {
-                    Log::info('Image successfully moved to: ' . $fullPath);
+                // Store the file using a more direct approach for Windows compatibility
+                try {
+                    // Ensure the directory exists
+                    $storageDir = storage_path('app/public/fruits');
+                    if (!file_exists($storageDir)) {
+                        mkdir($storageDir, 0755, true);
+                        Log::info('Created directory: ' . $storageDir);
+                    }
                     
-                    // Set the URL for database - use relative path for consistency
-                    $nonTranslatableData['image'] = '/storage/fruits/' . $filename;
-                    Log::info('Image URL for database: ' . $nonTranslatableData['image']);
-                } else {
-                    Log::error('Failed to move uploaded file to destination');
-                    throw new \Exception('Failed to move uploaded file');
+                    // Move the uploaded file directly to the storage location
+                    $fullPath = $storageDir . '/' . $filename;
+                    if ($image->move($storageDir, $filename)) {
+                        Log::info('Image successfully moved to: ' . $fullPath);
+                        
+                        // Verify the file exists
+                        if (file_exists($fullPath)) {
+                            Log::info('Verified file exists at: ' . $fullPath);
+                            
+                            // Set the proper URL for database
+                            $nonTranslatableData['image'] = 'storage/fruits/' . $filename;
+                            Log::info('Image URL for database: ' . $nonTranslatableData['image']);
+                        } else {
+                            throw new \Exception('File was not saved to disk: ' . $fullPath);
+                        }
+                    } else {
+                        throw new \Exception('Failed to move uploaded file to storage location');
+                    }
+                } catch (\Exception $e) {
+                    Log::error('Failed to store uploaded file: ' . $e->getMessage());
+                    Log::error($e->getTraceAsString());
+                    throw new \Exception('Failed to store uploaded file: ' . $e->getMessage());
                 }
             }
             
@@ -187,9 +213,18 @@ class FruitController extends Controller
      */
     public function edit(Fruit $fruit)
     {
-        $categories = Category::orderBy('name')->get();
+        // Get parent categories and their children
+        $parentCategories = Category::where('is_active', true)
+            ->whereNull('parent_id')
+            ->with(['children' => function($query) {
+                $query->where('is_active', true);
+            }])
+            ->get();
+            
+        // Also get categories without parent-child relationship for backwards compatibility
+        $categories = Category::where('is_active', true)->get();
         
-        return view('admin.fruits.edit', compact('fruit', 'categories'));
+        return view('admin.fruits.edit', compact('fruit', 'parentCategories', 'categories'));
     }
 
     /**
@@ -207,7 +242,7 @@ class FruitController extends Controller
         
         // Validate non-translatable fields
         $request->validate([
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'required|exists:categories,id,is_active,1', // Ensure category is active
             'image' => 'nullable|image|max:2048',
             'price' => 'nullable|numeric|min:0'
         ]);
@@ -237,16 +272,20 @@ class FruitController extends Controller
                 // Delete old image if exists and not from unsplash
                 if ($fruit->image && !Str::contains($fruit->image, 'unsplash.com')) {
                     // Handle both storage and direct public paths
-                    if (Str::startsWith($fruit->image, '/storage/')) {
-                        $oldPath = public_path(substr($fruit->image, 1)); // Remove leading slash
-                        if (file_exists($oldPath)) {
-                            unlink($oldPath);
-                            Log::info('Deleted old image: ' . $oldPath);
-                        }
-                    } else {
-                        $oldPath = str_replace('/storage/', 'public/', $fruit->image);
+                    if (Str::startsWith($fruit->image, 'storage/')) {
+                        // Convert to storage path format
+                        $oldPath = 'public/' . substr($fruit->image, 8); // Remove 'storage/' prefix
                         Storage::delete($oldPath);
                         Log::info('Deleted old image from storage: ' . $oldPath);
+                    } else if (Str::startsWith($fruit->image, '/storage/')) {
+                        // Handle legacy format with leading slash
+                        $oldPath = 'public/' . substr($fruit->image, 9); // Remove '/storage/' prefix
+                        Storage::delete($oldPath);
+                        Log::info('Deleted old image from storage: ' . $oldPath);
+                    } else {
+                        // For any other format, try direct deletion
+                        Storage::delete('public/fruits/' . basename($fruit->image));
+                        Log::info('Attempted to delete old image: ' . $fruit->image);
                     }
                 }
                 
@@ -261,38 +300,36 @@ class FruitController extends Controller
                 // Use English name for the filename or existing name
                 $nameForFile = $request->input('en.name', $fruit->translate('en')->name ?? 'fruit_' . time());
                 
-                // Ensure the directory exists
-                $directory = public_path('storage/fruits');
-                if (!file_exists($directory)) {
-                    mkdir($directory, 0755, true);
-                    Log::info('Created directory: ' . $directory);
-                }
-                
                 // Generate unique filename
                 $filename = 'fruit_' . Str::slug($nameForFile) . '_' . time() . '.' . $image->getClientOriginalExtension();
-                $fullPath = $directory . '/' . $filename;
                 
-                // Move the uploaded file directly to the public directory
-                if ($image->move($directory, $filename)) {
+                // Ensure the directory exists
+                $storageDir = storage_path('app/public/fruits');
+                if (!file_exists($storageDir)) {
+                    mkdir($storageDir, 0755, true);
+                    Log::info('Created directory: ' . $storageDir);
+                }
+                
+                // Move the uploaded file directly to the storage location
+                $fullPath = $storageDir . '/' . $filename;
+                if ($image->move($storageDir, $filename)) {
                     Log::info('Image successfully moved to: ' . $fullPath);
                     
-                    // Verify file exists after move
+                    // Verify the file exists
                     if (file_exists($fullPath)) {
-                        Log::info('File exists check passed');
+                        Log::info('Verified file exists at: ' . $fullPath);
                         
-                        // Set the URL for database - use relative path for consistency
-                        $updateData['image'] = '/storage/fruits/' . $filename;
+                        // Set the proper URL for database
+                        $updateData['image'] = 'storage/fruits/' . $filename;
                         Log::info('Image URL for database: ' . $updateData['image']);
                     } else {
-                        Log::error('File does not exist after move: ' . $fullPath);
-                        throw new \Exception('Failed to save image: file not found after move');
+                        throw new \Exception('File was not saved to disk: ' . $fullPath);
                     }
                 } else {
-                    Log::error('Failed to move uploaded file to destination');
-                    throw new \Exception('Failed to move uploaded file');
+                    throw new \Exception('Failed to move uploaded file to storage location');
                 }
             } catch (\Exception $e) {
-                Log::error('Error processing image upload: ' . $e->getMessage());
+                Log::error('Failed to store uploaded file: ' . $e->getMessage());
                 Log::error($e->getTraceAsString());
                 
                 return redirect()->back()
@@ -346,8 +383,26 @@ class FruitController extends Controller
     {
         // Delete image if exists and not an external URL
         if ($fruit->image && !Str::contains($fruit->image, 'unsplash.com')) {
-            $path = str_replace('/storage/', 'public/', $fruit->image);
-            Storage::delete($path);
+            // Get the filename from the image path
+            $filename = basename($fruit->image);
+            
+            // Build the full path to the file
+            $fullPath = storage_path('app/public/fruits/' . $filename);
+            
+            // Check if file exists and delete it
+            if (file_exists($fullPath)) {
+                unlink($fullPath);
+                Log::info('Deleted image file: ' . $fullPath);
+            } else {
+                // Try alternative path format
+                $altPath = public_path('storage/fruits/' . $filename);
+                if (file_exists($altPath)) {
+                    unlink($altPath);
+                    Log::info('Deleted image file from alternate path: ' . $altPath);
+                } else {
+                    Log::warning('Could not find image file to delete: ' . $fruit->image);
+                }
+            }
         }
 
         $fruit->delete();

@@ -34,6 +34,11 @@ return [
     'slug' => 'Slug',
     'slug_help' => 'Slug is automatically generated from the name',
     'active' => 'Active',
+    'parent_category' => 'Parent Category',
+    'no_parent' => 'No Parent (Top Level)',
+    'select_parent_category_help' => 'Select a parent category or leave empty for top-level category',
+    'category_cannot_be_own_parent' => 'A category cannot be its own parent',
+    'category_cannot_select_child_as_parent' => 'Cannot select a child category as parent',
     
     // Common attributes
     'name' => 'Name',
@@ -84,5 +89,9 @@ return [
     
     // Form helpers
     'select_category' => 'Select Category',
+    'select_category_help' => 'Select a category for this fruit. Parent categories are shown normally, child categories are indented.',
     'image_help' => 'Max file size: 2MB. Recommended dimensions: 800x600px',
+    'cannot_delete_category_with_fruits' => 'Cannot delete category with associated fruits. Remove the fruits first or reassign them to another category.',
+    'cannot_delete_category_with_children' => 'Cannot delete category with child categories. Remove or reassign the child categories first.',
+    'category_deleted_successfully' => 'Category deleted successfully.',
 ];

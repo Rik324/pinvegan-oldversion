@@ -3,7 +3,7 @@
 return [
     // Navigation
     'home' => 'หน้าแรก',
-    'fruits' => 'ผลไม้',
+    'products' => 'สินค้าทั้งหมด',
     'request_quote_menu' => 'ขอใบเสนอราคา',
     'about_us' => 'เกี่ยวกับเรา',
     'contact_us_menu' => 'ติดต่อเรา',

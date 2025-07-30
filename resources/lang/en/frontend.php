@@ -3,7 +3,7 @@
 return [
     // Navigation
     'home' => 'Home',
-    'fruits' => 'Fruits',
+    'products' => 'Products',
     'request_quote_menu' => 'Request Quote',
     'about_us' => 'About Us',
     'contact_us_menu' => 'Contact',

@@ -17,7 +17,7 @@
                     </x-ui.nav-link>
                     
                     <x-ui.nav-link :href="route('fruits.index') . '?locale=' . app()->getLocale()" :active="request()->routeIs('fruits.*') && !request()->has('category_id')">
-                        {{ __('frontend.fruits') }}
+                        {{ __('frontend.products') }}
                     </x-ui.nav-link>
                     
                     <!-- Hierarchical Categories Menu -->

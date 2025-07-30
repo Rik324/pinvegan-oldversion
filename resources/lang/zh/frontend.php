@@ -3,7 +3,7 @@
 return [
     // Navigation
     'home' => '首页',
-    'fruits' => '水果',
+    'products' => '商品',
     'request_quote_menu' => '请求报价',
     'about_us' => '关于我们',
     'contact_us_menu' => '联系我们',

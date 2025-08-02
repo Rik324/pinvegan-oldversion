@@ -27,6 +27,7 @@ class HomeController extends Controller
         
         // Get featured fruits for the homepage
         $featuredFruits = Fruit::where('is_featured', true)
+                            ->where('is_available', true)
                             ->take(4)
                             ->get();
         

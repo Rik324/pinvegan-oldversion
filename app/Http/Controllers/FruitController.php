@@ -25,6 +25,9 @@ class FruitController extends Controller
         
         $query = Fruit::query();
         
+        // Only show available products
+        $query->where('is_available', true);
+        
         // Apply search filter if provided
         if ($request->has('search') && !empty($request->search)) {
             $searchTerm = $request->search;

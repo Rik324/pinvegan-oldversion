@@ -3,30 +3,28 @@
         
     </x-slot>
 <div class="bg-white dark:bg-gray-900">
-    <!-- Hero Section -->
-    <div class="bg-yellow-400 dark:bg-yellow-600">
-        <div class="px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8 md:py-24">
-            <div class="flex flex-col items-center md:flex-row">
-                <div class="mb-8 md:w-1/2 md:mb-0 md:pr-8">
-                    <h1 class="mb-4 text-4xl font-bold text-gray-900 md:text-5xl dark:text-white">
-                        {{ __('frontend.hero_title') }}
-                    </h1>
-                    <p class="mb-6 text-xl text-gray-800 dark:text-gray-200">
-                        {{ __('frontend.hero_description') }}
-                    </p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="{{ route('fruits.index') }}?locale={{ app()->getLocale() }}" class="px-6 py-3 font-bold text-white bg-green-800 rounded-lg transition duration-300 hover:bg-green-700">
-                            {{ __('frontend.browse_fruits') }}
-                        </a>
-                        <a href="{{ route('quote.index') }}?locale={{ app()->getLocale() }}" class="px-6 py-3 font-bold text-green-800 bg-white rounded-lg border-2 border-green-800 transition duration-300 hover:bg-gray-100">
-                            {{ __('frontend.request_quote') }}
-                        </a>
-                    </div>
-                </div>
-                <div class="md:w-1/2">
-                    <img src="{{ asset('images/fruits/hero-fruits.jpg') }}" 
-                         alt="Fresh Fruits" 
-                         class="w-full h-auto rounded-lg shadow-xl">
+    <!-- Hero Section with Background Image -->
+    <div class="relative bg-cover bg-center min-h-[500px]" 
+         @php $bgImage = asset('images/fruits/hero-fruits.jpg'); @endphp
+         style="background-image: url('{{ $bgImage }}')">
+        <!-- Yellow vibrant overlay -->
+        <div class="absolute inset-0 bg-yellow-400 bg-opacity-70"></div>
+        
+        <div class="relative px-4 py-24 mx-auto max-w-7xl sm:px-6 lg:px-8 md:py-32">
+            <div class="max-w-lg mx-auto text-center md:text-left md:max-w-2xl">
+                <h1 class="mb-4 text-4xl font-bold text-green-900 md:text-5xl">
+                    {{ __('frontend.hero_title') }}
+                </h1>
+                <p class="mb-8 text-xl text-green-800">
+                    {{ __('frontend.hero_description') }}
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 md:justify-start">
+                    <a href="{{ route('fruits.index') }}?locale={{ app()->getLocale() }}" class="px-6 py-3 font-bold text-white bg-green-800 rounded-lg transition duration-300 hover:bg-green-700">
+                        {{ __('frontend.browse_fruits') }}
+                    </a>
+                    <a href="{{ route('quote.index') }}?locale={{ app()->getLocale() }}" class="px-6 py-3 font-bold text-green-800 bg-white rounded-lg border-2 border-green-800 transition duration-300 hover:bg-gray-100">
+                        {{ __('frontend.request_quote') }}
+                    </a>
                 </div>
             </div>
         </div>

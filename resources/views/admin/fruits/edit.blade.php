@@ -1,6 +1,6 @@
 <x-layout.app>
     <x-slot:header>
-        <h2 class="text-xl font-semibold leading-tight text-yellow-300 dark:text-gray-200">
+        <h2 class="mt-4 text-xl font-semibold leading-tight text-yellow-300 dark:text-gray-200">
             {{ __('admin.edit_fruit') }}: {{ $fruit->translate('en')->name }}
         </h2>
     </x-slot>
@@ -163,7 +163,7 @@
                 <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2">
                     <div>
                         <x-input-label for="category_id" :value="__('admin.category')" />
-                        <select id="category_id" name="category_id" class="block mt-1 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm">
+                        <select id="category_id" name="category_id" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
                             <option value="">-- {{ __('admin.select_category') }} --</option>
                             @foreach($parentCategories as $parentCategory)
                                 <option value="{{ $parentCategory->id }}" {{ old('category_id', $fruit->category_id) == $parentCategory->id ? 'selected' : '' }}>

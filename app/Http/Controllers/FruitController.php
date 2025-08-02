@@ -25,6 +25,18 @@ class FruitController extends Controller
         
         $query = Fruit::query();
         
+        // Apply search filter if provided
+        if ($request->has('search') && !empty($request->search)) {
+            $searchTerm = $request->search;
+            $locale = app()->getLocale();
+            
+            // Search in translated name field
+            $query->whereHas('translations', function($query) use ($searchTerm, $locale) {
+                $query->where('locale', $locale)
+                      ->where('name', 'LIKE', "%{$searchTerm}%");
+            });
+        }
+        
         // Apply category filter if provided
         if ($request->has('category_id') && !empty($request->category_id)) {
             // Get the category and its children

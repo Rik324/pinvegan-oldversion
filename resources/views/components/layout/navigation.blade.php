@@ -8,9 +8,21 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="flex items-center shrink-0">
-                    <a href="{{ route('home') }}?locale={{ app()->getLocale() }}" class="text-xl font-bold text-white">
-                        {{ __('frontend.fruit_shop') }}
+                <div class="flex relative items-center shrink-0">
+                    <a href="{{ route('home') }}?locale={{ app()->getLocale() }}" class="flex items-center">
+                        <!-- Desktop Logo (hidden on small screens) -->
+                        <div class="hidden absolute p-1 bg-white border border-green-700 shadow-md sm:block" style="bottom: -25px; left: 0;">
+                            <img src="{{ asset('images/branding/logo2.jpg') }}" alt="{{ __('frontend.fruit_shop') }}" class="w-20 h-20">
+                        </div>
+                        <div class="hidden mr-4 w-16 sm:block"></div> <!-- Desktop Spacer -->
+                        
+                        <!-- Mobile Logo and Brand Text (shown only on small screens) -->
+                        <div class="flex items-center sm:hidden">
+                            <div class="p-1 bg-white border border-green-700 shadow-sm">
+                                <img src="{{ asset('images/branding/logo2.jpg') }}" alt="{{ __('frontend.fruit_shop') }}" class="w-10 h-10">
+                            </div>
+                            <span class="ml-2 text-lg font-bold text-white">Pinvegan</span>
+                        </div>
                     </a>
                 </div>
 
@@ -69,10 +81,56 @@
                 </div>
             </div>
 
-
+            <!-- Empty space where search used to be -->
+            <div class="hidden flex-1 px-4 md:flex md:justify-center items-center">
+            </div>
             
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center">
+                <!-- Search Icon (Right Side) -->
+                <div class="mr-4" x-data="{ searchOpen: false }">
+                    <button @click="searchOpen = true" class="p-2 text-white hover:text-yellow-400 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
+                    
+                    <!-- Search Dialog -->
+                    <div x-show="searchOpen" 
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-100"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95"
+                         @click.away="searchOpen = false"
+                         @keydown.escape.window="searchOpen = false"
+                         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
+                        <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-medium text-gray-900">{{ __('frontend.search_fruits') }}</h3>
+                                <button @click="searchOpen = false" class="text-gray-400 hover:text-gray-500">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <form action="{{ route('fruits.index') }}" method="GET">
+                                <input type="hidden" name="locale" value="{{ app()->getLocale() }}">
+                                <div class="relative">
+                                    <input type="text" name="search" placeholder="{{ __('frontend.search_fruits') }}" value="{{ request('search') }}" 
+                                           class="w-full py-2 pl-3 pr-10 text-sm text-gray-900 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                           autofocus>
+                                    <button type="submit" class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-600 hover:text-green-700">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 @auth
                     <x-ui.dropdown align="right" width="48">
                         <x-slot name="trigger">
@@ -80,7 +138,7 @@
                                 <div class="flex items-center">
                                     {{ Auth::user()->name }}
                                     @if(Auth::user()->is_admin)
-                                        <span class="ml-2 px-1.5 py-0.5 text-xs font-medium bg-yellow-500 text-green-900 rounded-full">{{ __('frontend.admin_badge') }}</span>
+                                        <span class="px-1.5 py-0.5 ml-2 text-xs font-medium text-green-900 bg-yellow-500 rounded-full">{{ __('frontend.admin_badge') }}</span>
                                     @endif
                                 </div>
 
@@ -141,13 +199,59 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <!-- Mobile Language Switcher is moved to the section below -->
         
+        <!-- Mobile Search Icon -->
+        <div class="px-4 py-3" x-data="{ mobileSearchOpen: false }">
+            <button @click="mobileSearchOpen = true" class="flex items-center w-full px-4 py-2 text-base font-medium text-white transition duration-150 ease-in-out hover:bg-green-700 focus:outline-none focus:bg-green-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                {{ __('frontend.search_fruits') }}
+            </button>
+            
+            <!-- Mobile Search Dialog -->
+            <div x-show="mobileSearchOpen" 
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-100"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95"
+                 @click.away="mobileSearchOpen = false"
+                 @keydown.escape.window="mobileSearchOpen = false"
+                 class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
+                <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-medium text-gray-900">{{ __('frontend.search_fruits') }}</h3>
+                        <button @click="mobileSearchOpen = false" class="text-gray-400 hover:text-gray-500">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <form action="{{ route('fruits.index') }}" method="GET">
+                        <input type="hidden" name="locale" value="{{ app()->getLocale() }}">
+                        <div class="relative">
+                            <input type="text" name="search" placeholder="{{ __('frontend.search_fruits') }}" value="{{ request('search') }}" 
+                                   class="w-full py-2 pl-3 pr-10 text-sm text-gray-900 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                   autofocus>
+                            <button type="submit" class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-600 hover:text-green-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
         <div class="pt-2 pb-3 space-y-1">
             <x-ui.responsive-nav-link :href="route('home') . '?locale=' . app()->getLocale()" :active="request()->routeIs('home')">
                 {{ __('frontend.home') }}
             </x-ui.responsive-nav-link>
             
             <x-ui.responsive-nav-link :href="route('fruits.index') . '?locale=' . app()->getLocale()" :active="request()->routeIs('fruits.*') && !request()->has('category_id')">
-                {{ __('frontend.fruits') }}
+                {{ __('frontend.products') }}
             </x-ui.responsive-nav-link>
             
             <!-- Hierarchical Categories for Mobile -->            
@@ -200,7 +304,7 @@
                     <div class="flex items-center text-base font-medium text-white">
                         {{ Auth::user()->name }}
                         @if(Auth::user()->is_admin)
-                            <span class="ml-2 px-1.5 py-0.5 text-xs font-medium bg-yellow-500 text-green-900 rounded-full">{{ __('frontend.admin_badge') }}</span>
+                            <span class="px-1.5 py-0.5 ml-2 text-xs font-medium text-green-900 bg-yellow-500 rounded-full">{{ __('frontend.admin_badge') }}</span>
                         @endif
                     </div>
                     <div class="text-sm font-medium text-green-300">{{ Auth::user()->email }}</div>

@@ -1,6 +1,6 @@
 <x-layout.app>
     <x-slot:header>
-        <h2 class="text-xl font-semibold leading-tight text-yellow-300 dark:text-gray-200">
+        <h2 class="mt-4 text-xl font-semibold leading-tight text-yellow-300 dark:text-gray-200">
             {{ __('frontend.quote_request') }}
         </h2>
     </x-slot>
@@ -103,7 +103,7 @@
                     
                     <div class="mt-8 space-y-6">
                         @foreach($userQuotes as $quote)
-                            <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md">
+                            <div class="p-6 bg-gray-50 rounded-lg shadow-md dark:bg-gray-800">
                                 <div class="flex justify-between items-center mb-4">
                                     <div>
                                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ __('frontend.quote_request_number') }} {{ $quote->id }}</h3>
@@ -127,9 +127,9 @@
                                 
                                 <div>
                                     <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('frontend.requested_items') }}:</h4>
-                                    <ul class="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                                    <ul class="grid grid-cols-1 gap-2 mt-2 sm:grid-cols-2 lg:grid-cols-3">
                                         @foreach($quote->fruits as $fruit)
-                                            <li class="flex items-center p-2 bg-white dark:bg-gray-700 rounded-md shadow-sm">
+                                            <li class="flex items-center p-2 bg-white rounded-md shadow-sm dark:bg-gray-700">
                                                 <span class="flex-1">{{ $fruit->name }}</span>
                                                 <span class="text-sm text-gray-500 dark:text-gray-400">{{ __('frontend.quantity_short') }}: {{ $fruit->pivot->quantity }}</span>
                                             </li>

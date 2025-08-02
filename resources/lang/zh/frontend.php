@@ -20,7 +20,7 @@ return [
     
     // Featured Fruits Section
     'featured_fruits' => '精选水果',
-    'our_fruits' => '我们的水果',
+    'our_fruits' => '我们的商品',
     'no_featured_fruits' => '目前没有精选水果。',
     'view_details' => '查看详情',
     'add_to_quote' => '添加到报价',
@@ -157,5 +157,10 @@ return [
     
     // Admin Access
     'admin_access_denied' => '访问被拒绝。您需要管理员权限才能访问此区域',
-    'admin_badge' => '管理员'
+    'admin_badge' => '管理员',
+    
+    // Search
+    'search_fruits' => '搜索商品',
+    'no_products_found' => '未找到符合您标准的商品',
+    'clear_filters' => '清除筛选'
 ];

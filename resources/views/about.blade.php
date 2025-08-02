@@ -1,6 +1,6 @@
 <x-layout.app>
     <x-slot:header>
-        <h2 class="text-xl font-semibold leading-tight text-yellow-300 dark:text-gray-200">
+        <h2 class="mt-4 text-xl font-semibold leading-tight text-yellow-300 dark:text-gray-200">
             {{ __('frontend.about_us') }}
         </h2>
     </x-slot>

@@ -1,6 +1,6 @@
 <x-layout.app>
     <x-slot:header>
-        <h2 class="text-xl font-semibold leading-tight text-yellow-300 dark:text-gray-200">
+        <h2 class="mt-4 text-xl font-semibold leading-tight text-yellow-300 dark:text-gray-200">
             {{ __('frontend.our_fruits') }}
         </h2>
     </x-slot>
@@ -66,8 +66,8 @@
             </div>
         @else
             <div class="py-12 text-center bg-gray-100 rounded-lg dark:bg-gray-800">
-                <p class="text-xl text-gray-600 dark:text-gray-400">No fruits found matching your criteria.</p>
-                <a href="{{ route('fruits.index') }}?locale={{ app()->getLocale() }}" class="inline-block mt-4 text-green-800 dark:text-yellow-400 hover:underline">Clear filters</a>
+                <p class="text-xl text-gray-600 dark:text-gray-400">{{ __('frontend.no_products_found') }}</p>
+                <a href="{{ route('fruits.index') }}?locale={{ app()->getLocale() }}" class="inline-block mt-4 text-green-800 dark:text-yellow-400 hover:underline">{{ __('frontend.clear_filters') }}</a>
             </div>
         @endif
     </div>

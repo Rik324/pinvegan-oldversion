@@ -20,7 +20,7 @@ return [
     
     // Featured Fruits Section
     'featured_fruits' => 'Featured Fruits',
-    'our_fruits' => 'Our Fruits',
+    'our_fruits' => 'Our Products',
     'no_featured_fruits' => 'No featured fruits available at the moment.',
     'view_details' => 'View Details',
     'add_to_quote' => 'Add to Quote',
@@ -157,5 +157,10 @@ return [
     
     // Admin Access
     'admin_access_denied' => 'Access denied. You need administrator privileges to access this area.',
-    'admin_badge' => 'Admin'
+    'admin_badge' => 'Admin',
+    
+    // Search
+    'search_fruits' => 'Search Product',
+    'no_products_found' => 'No products found matching your criteria.',
+    'clear_filters' => 'Clear filters'
 ];

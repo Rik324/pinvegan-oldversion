@@ -20,7 +20,7 @@ return [
     
     // Featured Fruits Section
     'featured_fruits' => 'ผลไม้แนะนำ',
-    'our_fruits' => 'ผลไม้ของเรา',
+    'our_fruits' => 'สินค้าของเรา',
     'no_featured_fruits' => 'ไม่มีผลไม้แนะนำในขณะนี้',
     'view_details' => 'ดูรายละเอียด',
     'add_to_quote' => 'เพิ่มในใบเสนอราคา',
@@ -157,5 +157,10 @@ return [
     
     // Admin Access
     'admin_access_denied' => 'ปฏิเสธการเข้าถึง คุณต้องมีสิทธิ์ผู้ดูแลระบบเพื่อเข้าถึงพื้นที่นี้',
-    'admin_badge' => 'ผู้ดูแล'
+    'admin_badge' => 'ผู้ดูแล',
+    
+    // Search
+    'search_fruits' => 'ค้นหาสินค้า',
+    'no_products_found' => 'ไม่พบสินค้าที่ตรงกับเกณฑ์ของคุณ',
+    'clear_filters' => 'ล้างตัวกรอง'
 ];

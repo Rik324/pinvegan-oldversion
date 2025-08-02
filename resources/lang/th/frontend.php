@@ -145,5 +145,17 @@ return [
     'ascending' => 'จากน้อยไปมาก',
     'descending' => 'จากมากไปน้อย',
     'apply_filters' => 'ใช้ตัวกรอง',
-    'all' => 'ทั้งหมด'
+    'all' => 'ทั้งหมด',
+    
+    // User Submitted Quotes
+    'your_submitted_quotes' => 'คำขอใบเสนอราคาของคุณ',
+    'review_submitted_quotes' => 'ตรวจสอบคำขอใบเสนอราคาที่คุณส่งไปแล้ว',
+    'quote_request_number' => 'คำขอใบเสนอราคา #',
+    'your_message' => 'ข้อความของคุณ',
+    'requested_items' => 'รายการที่ขอ',
+    'quantity_short' => 'จำนวน',
+    
+    // Admin Access
+    'admin_access_denied' => 'ปฏิเสธการเข้าถึง คุณต้องมีสิทธิ์ผู้ดูแลระบบเพื่อเข้าถึงพื้นที่นี้',
+    'admin_badge' => 'ผู้ดูแล'
 ];

@@ -9,23 +9,8 @@
         
         <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
             <div>
-                <label for="name" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('frontend.your_name') }}</label>
-                <input type="text" name="name" id="name" required 
-                    class="w-full rounded-md border-gray-300 shadow-sm dark:border-gray-700 dark:bg-gray-800 focus:border-green-500 focus:ring focus:ring-green-500 focus:ring-opacity-50"
-                    value="{{ old('name') }}">
-                @error('name')
-                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                @enderror
-            </div>
-            
-            <div>
-                <label for="email" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('frontend.email_address') }}</label>
-                <input type="email" name="email" id="email" required 
-                    class="w-full rounded-md border-gray-300 shadow-sm dark:border-gray-700 dark:bg-gray-800 focus:border-green-500 focus:ring focus:ring-green-500 focus:ring-opacity-50"
-                    value="{{ old('email') }}">
-                @error('email')
-                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                @enderror
+                <label class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('frontend.your_name') }}</label>
+                <div class="p-2 bg-gray-100 rounded-md dark:bg-gray-700">{{ Auth::user()->name }}</div>
             </div>
             
             <div>

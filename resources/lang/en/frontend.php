@@ -145,5 +145,17 @@ return [
     'ascending' => 'Ascending',
     'descending' => 'Descending',
     'apply_filters' => 'Apply Filters',
-    'all' => 'All'
+    'all' => 'All',
+    
+    // User Submitted Quotes
+    'your_submitted_quotes' => 'Your Submitted Quotes',
+    'review_submitted_quotes' => 'Review your previously submitted quote requests',
+    'quote_request_number' => 'Quote Request #',
+    'your_message' => 'Your Message',
+    'requested_items' => 'Requested Items',
+    'quantity_short' => 'Qty',
+    
+    // Admin Access
+    'admin_access_denied' => 'Access denied. You need administrator privileges to access this area.',
+    'admin_badge' => 'Admin'
 ];

@@ -145,5 +145,17 @@ return [
     'ascending' => '升序',
     'descending' => '降序',
     'apply_filters' => '应用筛选',
-    'all' => '全部'
+    'all' => '全部',
+    
+    // User Submitted Quotes
+    'your_submitted_quotes' => '您提交的报价请求',
+    'review_submitted_quotes' => '查看您之前提交的报价请求',
+    'quote_request_number' => '报价请求 #',
+    'your_message' => '您的留言',
+    'requested_items' => '请求的物品',
+    'quantity_short' => '数量',
+    
+    // Admin Access
+    'admin_access_denied' => '访问被拒绝。您需要管理员权限才能访问此区域',
+    'admin_badge' => '管理员'
 ];

@@ -1,3 +1,7 @@
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
+
 <nav x-data="{ open: false }" class="text-white bg-green-800 border-b border-green-700 dark:bg-green-900 dark:border-green-800">
     <!-- Primary Navigation Menu -->
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -73,7 +77,12 @@
                     <x-ui.dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-white rounded-md border border-transparent transition duration-150 ease-in-out hover:text-yellow-400 focus:outline-none">
-                                <div>{{ Auth::user()->name }}</div>
+                                <div class="flex items-center">
+                                    {{ Auth::user()->name }}
+                                    @if(Auth::user()->is_admin)
+                                        <span class="ml-2 px-1.5 py-0.5 text-xs font-medium bg-yellow-500 text-green-900 rounded-full">{{ __('frontend.admin_badge') }}</span>
+                                    @endif
+                                </div>
 
                                 <div class="ms-1">
                                     <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -84,9 +93,11 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-ui.dropdown-link :href="route('dashboard') . '?locale=' . app()->getLocale()">
-                                {{ __('frontend.dashboard') }}
-                            </x-ui.dropdown-link>
+                            @if(Auth::check() && Auth::user()->is_admin)
+                                <x-ui.dropdown-link :href="route('dashboard') . '?locale=' . app()->getLocale()">
+                                    {{ __('frontend.dashboard') }}
+                                </x-ui.dropdown-link>
+                            @endif
                             
                             <x-ui.dropdown-link :href="route('profile.edit')">
                                 {{ __('Profile') }}
@@ -186,14 +197,21 @@
         @auth
             <div class="pt-4 pb-1 border-t border-green-700 dark:border-green-800">
                 <div class="px-4">
-                    <div class="text-base font-medium text-white">{{ Auth::user()->name }}</div>
+                    <div class="flex items-center text-base font-medium text-white">
+                        {{ Auth::user()->name }}
+                        @if(Auth::user()->is_admin)
+                            <span class="ml-2 px-1.5 py-0.5 text-xs font-medium bg-yellow-500 text-green-900 rounded-full">{{ __('frontend.admin_badge') }}</span>
+                        @endif
+                    </div>
                     <div class="text-sm font-medium text-green-300">{{ Auth::user()->email }}</div>
                 </div>
 
                 <div class="mt-3 space-y-1">
-                    <x-ui.responsive-nav-link :href="route('dashboard') . '?locale=' . app()->getLocale()">
-                        {{ __('frontend.dashboard') }}
-                    </x-ui.responsive-nav-link>
+                    @if(Auth::user()->is_admin)
+                        <x-ui.responsive-nav-link :href="route('dashboard') . '?locale=' . app()->getLocale()">
+                            {{ __('frontend.dashboard') }}
+                        </x-ui.responsive-nav-link>
+                    @endif
 
                     <!-- Authentication -->
                     <form method="POST" action="{{ route('logout') }}?locale={{ app()->getLocale() }}">

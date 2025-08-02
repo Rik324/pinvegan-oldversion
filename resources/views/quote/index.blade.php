@@ -62,9 +62,87 @@
 
         <!-- Quote Request Form -->
         @if(isset($quoteItems) && count($quoteItems) > 0)
-            <x-quote.form :quoteItems="$quoteItems" />
+            @auth
+                <x-quote.form :quoteItems="$quoteItems" />
+            @else
+                <div class="p-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+                    <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{{ __('frontend.request_quote') }}</h2>
+                    
+                    <div class="p-6 text-center bg-gray-100 rounded-lg dark:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-4 w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        <h3 class="mb-2 text-xl font-semibold text-gray-900 dark:text-white">{{ __('Please login or register to submit your quote request') }}</h3>
+                        <p class="mb-6 text-gray-600 dark:text-gray-400">{{ __('You need to be logged in to submit a quote request. This helps us keep track of your orders and provide better service.') }}</p>
+                        
+                        <div class="flex flex-col justify-center space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+                            <a href="{{ route('login') }}" class="px-6 py-2 font-medium text-white bg-blue-600 rounded-md transition duration-300 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                                {{ __('Login') }}
+                            </a>
+                            <a href="{{ route('register') }}" class="px-6 py-2 font-medium text-gray-800 bg-gray-200 rounded-md transition duration-300 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
+                                {{ __('Register') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endauth
         @endif
     </div>
+
+    <!-- User's Submitted Quotes Section -->
+    @auth
+        @if(isset($userQuotes) && $userQuotes->count() > 0)
+            <div class="bg-white dark:bg-gray-900">
+                <div class="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div class="text-center">
+                        <h2 class="mb-6 text-3xl font-bold text-gray-900 dark:text-white">{{ __('frontend.your_submitted_quotes') }}</h2>
+                        <p class="mx-auto mb-8 max-w-3xl text-xl text-gray-600 dark:text-gray-300">
+                            {{ __('frontend.review_submitted_quotes') }}
+                        </p>
+                    </div>
+                    
+                    <div class="mt-8 space-y-6">
+                        @foreach($userQuotes as $quote)
+                            <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md">
+                                <div class="flex justify-between items-center mb-4">
+                                    <div>
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ __('frontend.quote_request_number') }} {{ $quote->id }}</h3>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ $quote->created_at->format('F j, Y, g:i a') }}</p>
+                                    </div>
+                                    <span class="px-3 py-1 text-xs font-medium rounded-full
+                                        {{ $quote->status == 'new' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : '' }}
+                                        {{ $quote->status == 'processing' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' : '' }}
+                                        {{ $quote->status == 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : '' }}
+                                        {{ $quote->status == 'cancelled' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : '' }}">
+                                        {{ ucfirst($quote->status) }}
+                                    </span>
+                                </div>
+                                
+                                @if($quote->message)
+                                    <div class="mb-4">
+                                        <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('frontend.your_message') }}:</h4>
+                                        <p class="mt-1 text-gray-600 dark:text-gray-400">{{ $quote->message }}</p>
+                                    </div>
+                                @endif
+                                
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('frontend.requested_items') }}:</h4>
+                                    <ul class="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                                        @foreach($quote->fruits as $fruit)
+                                            <li class="flex items-center p-2 bg-white dark:bg-gray-700 rounded-md shadow-sm">
+                                                <span class="flex-1">{{ $fruit->name }}</span>
+                                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ __('frontend.quantity_short') }}: {{ $fruit->pivot->quantity }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        @endif
+    @endauth
 
     <!-- Browse More Fruits Section -->
     <div class="bg-gray-100 dark:bg-gray-800">

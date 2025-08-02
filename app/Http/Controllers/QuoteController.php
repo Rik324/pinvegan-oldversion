@@ -10,6 +10,7 @@ use App\Notifications\QuoteRequestSubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class QuoteController extends Controller
 {
@@ -45,7 +46,16 @@ class QuoteController extends Controller
             }
         }
         
-        return view('quote.index', compact('quoteItems'));
+        // Get the authenticated user's submitted quotes
+        $userQuotes = null;
+        if (Auth::check()) {
+            $userQuotes = QuoteRequest::where('user_id', Auth::id())
+                ->with('fruits')
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+        
+        return view('quote.index', compact('quoteItems', 'userQuotes'));
     }
     
     /**
@@ -143,13 +153,14 @@ class QuoteController extends Controller
             session()->put('locale', $locale);
             session()->save();
         }
-        // Validate the form data
+        // Validate the form data - user is authenticated so we only need additional fields
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
             'message' => 'nullable|string',
         ]);
+        
+        // Get authenticated user data
+        $user = $request->user();
         
         // Get quote items from session
         $sessionItems = Session::get('quote_items', []);
@@ -161,13 +172,14 @@ class QuoteController extends Controller
                 ->with('locale', app()->getLocale());
         }
         
-        // Create the quote request and ensure it's saved to the database
+        // Create the quote request using authenticated user data
         $quoteRequest = new QuoteRequest([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
+            'name' => $user->name,
+            'email' => $user->email,
             'phone' => $validated['phone'] ?? null,
             'message' => $validated['message'] ?? null,
             'status' => 'new',
+            'user_id' => $user->id, // Associate with the authenticated user
         ]);
         
         // Save the quote request to get an ID
@@ -204,7 +216,7 @@ class QuoteController extends Controller
         
         // Send notification to admin users
         try {
-            $admin = User::where('email', 'admin@example.com')->first();
+            $admin = User::where('email', config('app.admin_email', 'admin@example.com'))->first();
             if ($admin) {
                 $admin->notify(new QuoteRequestSubmitted($quoteRequest));
                 Log::info('Quote request notification sent to admin');
@@ -213,11 +225,8 @@ class QuoteController extends Controller
             }
             
             // Send confirmation notification to the customer
-            // We're using the notifyNow method to send the notification immediately without queuing
-            // and using the route method to specify the email address directly
-            \Illuminate\Support\Facades\Notification::route('mail', [
-                $validated['email'] => $validated['name'],
-            ])->notifyNow(new QuoteRequestConfirmation($quoteRequest));
+            // Since the user is authenticated, we can notify them directly
+            $user->notify(new QuoteRequestConfirmation($quoteRequest));
             
             Log::info('Quote request confirmation sent to customer: ' . $validated['email']);
         } catch (\Exception $e) {

@@ -15,6 +15,7 @@ class QuoteRequest extends Model
         'phone',
         'message',
         'status',
+        'user_id',
     ];
 
     /**
@@ -29,5 +30,13 @@ class QuoteRequest extends Model
     public function fruits()
     {
         return $this->belongsToMany(Fruit::class, 'fruit_quote_request')->withPivot('quantity');
+    }
+    
+    /**
+     * Get the user that owns the quote request.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

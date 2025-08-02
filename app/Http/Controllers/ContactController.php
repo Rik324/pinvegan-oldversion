@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class ContactController extends Controller
 {
@@ -80,25 +81,28 @@ class ContactController extends Controller
             // Log successful submission
             Log::info('Contact form submitted successfully from: ' . $validated['email']);
             
-            // Set success flash message
+            // Set success message
             $successMessage = __('frontend.contact_success_message', ['default' => 'Thank you for your message! We will get back to you soon.']);
             
-            // Return redirect with success message (same pattern as QuoteController)
-            return redirect()->route('contact')
-                ->with('success', $successMessage)
-                ->with('locale', app()->getLocale());
+            // Redirect back to contact page with success message as query parameter
+            return redirect()->route('contact', [
+                'locale' => app()->getLocale(),
+                'message' => 'success',
+                'text' => $successMessage
+            ]);
         } catch (\Exception $e) {
             // Log the error
             Log::error('Failed to send contact email: ' . $e->getMessage());
             
-            // Set error flash message
+            // Set error message
             $errorMessage = __('frontend.contact_error_message', ['default' => 'Sorry, there was a problem sending your message. Please try again later.']);
             
-            // Return redirect with error message (same pattern as QuoteController)
-            return redirect()->route('contact')
-                ->with('error', $errorMessage)
-                ->with('locale', app()->getLocale())
-                ->withInput();
+            // Redirect back to contact page with error message as query parameter
+            return redirect()->route('contact', [
+                'locale' => app()->getLocale(),
+                'message' => 'error',
+                'text' => $errorMessage
+            ])->withInput();
         }
     }
 }

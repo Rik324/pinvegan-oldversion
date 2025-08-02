@@ -23,7 +23,19 @@
             <div class="lg:w-2/3">
                 <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{{ __('frontend.send_us_message') }}</h2>
                 
-                <x-ui.flash-message />
+                @if (request()->query('message') == 'success')
+                    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-8" role="alert">
+                        <p class="font-medium">Success!</p>
+                        <p>{{ request()->query('text', 'Thank you for your message! We will get back to you soon.') }}</p>
+                    </div>
+                @endif
+
+                @if (request()->query('message') == 'error')
+                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-8" role="alert">
+                        <p class="font-medium">Error!</p>
+                        <p>{{ request()->query('text', 'Sorry, there was a problem sending your message. Please try again later.') }}</p>
+                    </div>
+                @endif
                 
                 <form action="{{ route('contact.store') }}?locale={{ app()->getLocale() }}" method="POST" class="space-y-6">
                     @csrf

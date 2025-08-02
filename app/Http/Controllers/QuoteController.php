@@ -153,8 +153,9 @@ class QuoteController extends Controller
             session()->put('locale', $locale);
             session()->save();
         }
-        // Validate the form data - user is authenticated so we only need additional fields
+        // Validate the form data - user is authenticated but we allow custom name input
         $validated = $request->validate([
+            'name' => 'required|string|max:255',
             'phone' => 'nullable|string|max:20',
             'message' => 'nullable|string',
         ]);
@@ -172,9 +173,9 @@ class QuoteController extends Controller
                 ->with('locale', app()->getLocale());
         }
         
-        // Create the quote request using authenticated user data
+        // Create the quote request using form input for name and authenticated user data for email
         $quoteRequest = new QuoteRequest([
-            'name' => $user->name,
+            'name' => $validated['name'],
             'email' => $user->email,
             'phone' => $validated['phone'] ?? null,
             'message' => $validated['message'] ?? null,
@@ -226,9 +227,9 @@ class QuoteController extends Controller
             
             // Send confirmation notification to the customer
             // Since the user is authenticated, we can notify them directly
-            $user->notify(new QuoteRequestConfirmation($quoteRequest));
+            // $user->notify(new QuoteRequestConfirmation($quoteRequest));
             
-            Log::info('Quote request confirmation sent to customer: ' . $validated['email']);
+            // Log::info('Quote request confirmation sent to customer: ' . $validated['email']);
         } catch (\Exception $e) {
             Log::error('Failed to send quote request notification: ' . $e->getMessage());
         }

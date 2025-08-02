@@ -52,13 +52,21 @@ class QuoteRequestSubmitted extends Notification implements ShouldQueue
             ->subject('New Quote Request Submitted - #' . $this->quoteRequest->id)
             ->greeting('Hello!')
             ->line('A new quote request has been submitted by ' . $this->quoteRequest->name . '.')
-            ->line('The request includes ' . $fruitText . '.')
             ->line('Customer Details:')
             ->line('Name: ' . $this->quoteRequest->name)
             ->line('Email: ' . $this->quoteRequest->email);
             
         if ($this->quoteRequest->phone) {
             $message->line('Phone: ' . $this->quoteRequest->phone);
+        }
+        
+        // List the requested fruits
+        if ($fruitCount > 0) {
+            $message->line('Your requested items:');
+            
+            foreach ($this->quoteRequest->fruits as $fruit) {
+                $message->line('- ' . $fruit->name . ' (Quantity: ' . $fruit->pivot->quantity . ')');
+            }
         }
         
         if ($this->quoteRequest->message) {

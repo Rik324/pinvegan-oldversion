@@ -53,7 +53,7 @@
                                                 {{ ucfirst($quoteRequest->status) }}
                                             </span>
                                         </td>
-                                        <td class="px-6 py-4 text-sm whitespace-nowrap">{{ $quoteRequest->created_at->format('M d, Y') }}</td>
+                                        <td class="px-6 py-4 text-sm whitespace-nowrap">{{ $quoteRequest->created_at->format('M d, Y H:i') }}</td>
                                         <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                             <a href="{{ route('admin.quotes.show', $quoteRequest) }}" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-200">View</a>
                                             {{-- Delete Form --}}

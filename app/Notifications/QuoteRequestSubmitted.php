@@ -67,7 +67,7 @@ class QuoteRequestSubmitted extends Notification implements ShouldQueue
         
         return $message
             ->action('View Quote Request', $url)
-            ->line('Thank you for using our Fruit Shop application!');
+            ->line('Thank you for using our Pinvegan application!');
     }
 
     /**

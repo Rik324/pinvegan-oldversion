@@ -185,7 +185,7 @@
             var marker = L.marker([{{ $contactInfo['map_location'][0] }}, {{ $contactInfo['map_location'][1] }}]).addTo(map);
             
             // Add a popup to the marker
-            marker.bindPopup("<b>Fahad Mart</b><br>{{ $contactInfo['address'] }}").openPopup();
+            marker.bindPopup("<b>Pinvegan</b><br>{{ $contactInfo['address'] }}").openPopup();
         });
     </script>
 </div>

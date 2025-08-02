@@ -25,6 +25,23 @@ Route::middleware([SetLocale::class])->group(function () {
     Route::get('/about', [AboutController::class, 'index'])->name('about');
     Route::get('/contact', [ContactController::class, 'index'])->name('contact');
     Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+    
+    // Legal pages
+    Route::get('/privacy-policy', function () {
+        return view('legal.privacy');
+    })->name('legal.privacy');
+    
+    Route::get('/terms-of-use', function () {
+        return view('legal.terms');
+    })->name('legal.terms');
+    
+    Route::get('/disclaimer', function () {
+        return view('legal.disclaimer');
+    })->name('legal.disclaimer');
+    
+    Route::get('/cookie-policy', function () {
+        return view('legal.cookies');
+    })->name('legal.cookies');
 
     // Quote request routes
     Route::get('/quote', [QuoteController::class, 'index'])->name('quote.index');

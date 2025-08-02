@@ -11,7 +11,7 @@ return [
     'register' => 'Register',
     'dashboard' => 'Dashboard',
     'logout' => 'Log Out',
-    'fruit_shop' => 'Fruit Shop',
+    'fruit_shop' => 'Pinvegan',
     // Hero Section
     'hero_title' => 'Fresh Fruits for Every Occasion',
     'hero_description' => 'We provide high-quality, fresh fruits sourced from local and international farms. Perfect for events, restaurants, and health-conscious individuals.',
@@ -32,8 +32,8 @@ return [
     'no_categories' => 'No categories available at the moment.',
     
     // About Us Section
-    'about_fahad_mart' => 'About Fahad Mart',
-    'about_description_1' => 'Founded in 2010, Fahad Mart has grown from a small local fruit stand to a trusted supplier for events, restaurants, and health-conscious individuals across the region.',
+    'about_fahad_mart' => 'About Pinvegan',
+    'about_description_1' => 'Founded in 2010, Pinvegan has grown from a small local fruit stand to a trusted supplier for events, restaurants, and health-conscious individuals across the region.',
     'about_description_2' => 'Our mission is to provide the freshest, highest quality fruits while supporting sustainable farming practices and building lasting relationships with our customers and suppliers.',
     'learn_more' => 'Learn More About Us',
     
@@ -65,9 +65,9 @@ return [
     'our_mission' => 'Our Mission',
     'our_mission_text' => ':mission',
     'our_values' => 'Our Values',
-    'about_title' => 'About Fahad Mart',
+    'about_title' => 'About Pinvegan',
     'about_description' => 'We are a premier supplier of high-quality, fresh fruits sourced from local and international farms. Our mission is to provide the freshest and most delicious fruits to our customers.',
-    'about_history' => 'Founded in 2010, Fahad Mart has grown from a small local fruit stand to a trusted supplier for events, restaurants, and health-conscious individuals across the region.',
+    'about_history' => 'Founded in 2010, Pinvegan has grown from a small local fruit stand to a trusted supplier for events, restaurants, and health-conscious individuals across the region.',
     'about_mission' => 'To provide the freshest, highest quality fruits while supporting sustainable farming practices and building lasting relationships with our customers and suppliers.',
     'quality' => 'Quality',
     'quality_description' => 'We are committed to providing only the highest quality, freshest fruits to our customers.',
@@ -82,7 +82,7 @@ return [
     // Team Members
     'team_member_1_name' => 'David Johnson',
     'team_member_1_position' => 'Founder & CEO',
-    'team_member_1_bio' => 'With over 20 years of experience in the fruit industry, David founded Fahad Mart with a vision to bring the freshest fruits to customers.',
+    'team_member_1_bio' => 'With over 20 years of experience in the fruit industry, David founded Pinvegan with a vision to bring the freshest fruits to customers.',
     'team_member_2_name' => 'Sarah Williams',
     'team_member_2_position' => 'Procurement Manager',
     'team_member_2_bio' => 'Sarah ensures we source only the best quality fruits from sustainable farms around the world.',

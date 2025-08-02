@@ -11,7 +11,7 @@ return [
     'register' => '注册',
     'dashboard' => '控制面板',
     'logout' => '退出登录',
-    'fruit_shop' => '水果商店',
+    'fruit_shop' => 'Pinvegan',
     // Hero Section
     'hero_title' => '各种场合的新鲜水果',
     'hero_description' => '我们提供从本地和国际农场采购的高品质、新鲜水果。适合活动、餐厅和注重健康的个人。',
@@ -32,8 +32,8 @@ return [
     'no_categories' => '目前没有可用的类别。',
     
     // About Us Section
-    'about_fahad_mart' => '关于 Fahad Mart',
-    'about_description_1' => 'Fahad Mart 成立于2010年，从一个小型本地水果摊发展成为该地区活动、餐厅和注重健康的个人值得信赖的供应商。',
+    'about_fahad_mart' => '关于 Pinvegan',
+    'about_description_1' => 'Pinvegan 成立于2010年，从一个小型本地水果摊发展成为该地区活动、餐厅和注重健康的个人值得信赖的供应商。',
     'about_description_2' => '我们的使命是提供最新鲜、最高质量的水果，同时支持可持续农业实践，并与我们的客户和供应商建立持久的关系。',
     'learn_more' => '了解更多关于我们',
     
@@ -65,9 +65,9 @@ return [
     'our_mission' => '我们的使命',
     'our_mission_text' => ':mission',
     'our_values' => '我们的价值观',
-    'about_title' => '关于 Fahad Mart',
+    'about_title' => '关于 Pinvegan',
     'about_description' => '我们是一家一流的高质量新鲜水果供应商，从当地和国际农场采购。我们的使命是为客户提供最新鲜、最美味的水果。',
-    'about_history' => 'Fahad Mart 成立于2010年，从一个小型本地水果摆发展成为该地区活动、餐厅和注重健康的个人值得信赖的供应商。',
+    'about_history' => 'Pinvegan 成立于2010年，从一个小型本地水果摆发展成为该地区活动、餐厅和注重健康的个人值得信赖的供应商。',
     'about_mission' => '提供最新鲜、最高质量的水果，同时支持可持续农业实践，并与我们的客户和供应商建立持久的关系。',
     'quality' => '质量',
     'quality_description' => '我们致力于为客户提供最高质量、最新鲜的水果。',
@@ -82,7 +82,7 @@ return [
     // Team Members
     'team_member_1_name' => '大卫·约翰逊',
     'team_member_1_position' => '创始人和首席执行官',
-    'team_member_1_bio' => '几十年来在水果行业的丰富经验，大卫创立了Fahad Mart，希望为客户提供最新鲜的水果。',
+    'team_member_1_bio' => '几十年来在水果行业的丰富经验，大卫创立了Pinvegan，希望为客户提供最新鲜的水果。',
     'team_member_2_name' => '莎拉·威廉姆斯',
     'team_member_2_position' => '采购经理',
     'team_member_2_bio' => '莎拉确保我们从世界各地的可持续农场采购最优质的水果。',

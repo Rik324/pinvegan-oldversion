@@ -50,7 +50,7 @@ class QuoteRequestConfirmation extends Notification implements ShouldQueue
         $message = (new MailMessage)
             ->subject('Your Quote Request Confirmation - #' . $this->quoteRequest->id)
             ->greeting('Hello ' . $this->quoteRequest->name . '!')
-            ->line('Thank you for submitting your quote request with our Fruit Shop.')
+            ->line('Thank you for submitting your quote request with Pinvegan.')
             ->line('We have received your request for ' . $fruitText . '.')
             ->line('Our team will review your request and get back to you shortly with pricing and availability information.');
             
@@ -66,7 +66,7 @@ class QuoteRequestConfirmation extends Notification implements ShouldQueue
         return $message
             ->action('Visit Our Website', url('/'))
             ->line('If you have any questions, please feel free to contact us.')
-            ->salutation('Best regards,\nThe Fruit Shop Team');
+            ->salutation('Best regards,\nThe Pinvegan Team');
     }
 
     /**

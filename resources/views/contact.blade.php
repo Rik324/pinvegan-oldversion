@@ -23,11 +23,7 @@
             <div class="lg:w-2/3">
                 <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{{ __('frontend.send_us_message') }}</h2>
                 
-                @if(session('success'))
-                    <div class="p-4 mb-6 text-green-700 bg-green-100 border-l-4 border-green-500" role="alert">
-                        <p>{{ session('success') }}</p>
-                    </div>
-                @endif
+                <x-ui.flash-message />
                 
                 <form action="{{ route('contact.store') }}?locale={{ app()->getLocale() }}" method="POST" class="space-y-6">
                     @csrf

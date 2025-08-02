@@ -12,14 +12,14 @@
                     <a href="{{ route('home') }}?locale={{ app()->getLocale() }}" class="flex items-center">
                         <!-- Desktop Logo (hidden on small screens) -->
                         <div class="hidden absolute p-1 bg-white border border-green-700 shadow-md sm:block" style="bottom: -25px; left: 0;">
-                            <img src="{{ asset('images/branding/logo2.jpg') }}" alt="{{ __('frontend.fruit_shop') }}" class="w-20 h-20">
+                            <img src="{{ asset('images/branding/pinveganlogo.png') }}" alt="{{ __('frontend.fruit_shop') }}" class="w-20 h-20">
                         </div>
                         <div class="hidden mr-4 w-16 sm:block"></div> <!-- Desktop Spacer -->
                         
                         <!-- Mobile Logo and Brand Text (shown only on small screens) -->
                         <div class="flex items-center sm:hidden">
                             <div class="p-1 bg-white border border-green-700 shadow-sm">
-                                <img src="{{ asset('images/branding/logo2.jpg') }}" alt="{{ __('frontend.fruit_shop') }}" class="w-10 h-10">
+                                <img src="{{ asset('images/branding/pinveganlogo.png') }}" alt="{{ __('frontend.fruit_shop') }}" class="w-10 h-10">
                             </div>
                             <span class="ml-2 text-lg font-bold text-white">Pinvegan</span>
                         </div>

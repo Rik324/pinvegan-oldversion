@@ -132,32 +132,17 @@ class FruitController extends Controller
                 // Generate unique filename
                 $filename = 'fruit_' . Str::slug($nameForFile) . '_' . time() . '.' . $image->getClientOriginalExtension();
                 
-                // Store the file using a more direct approach for Windows compatibility
                 try {
-                    // Ensure the directory exists
-                    $storageDir = public_path('storage/fruits');
-                    if (!file_exists($storageDir)) {
-                        mkdir($storageDir, 0755, true);
-                        Log::info('Created directory: ' . $storageDir);
-                    }
+                    // Store the file using Laravel's Storage facade
+                    $path = Storage::disk('public')->putFileAs('fruits', $image, $filename);
+                    Log::info('Image stored at path: ' . $path);
                     
-                    // Move the uploaded file directly to the storage location
-                    $fullPath = $storageDir . '/' . $filename;
-                    if ($image->move($storageDir, $filename)) {
-                        Log::info('Image successfully moved to: ' . $fullPath);
-                        
-                        // Verify the file exists
-                        if (file_exists($fullPath)) {
-                            Log::info('Verified file exists at: ' . $fullPath);
-                            
-                            // Set the proper URL for database
-                            $nonTranslatableData['image'] = 'storage/fruits/' . $filename;
-                            Log::info('Image URL for database: ' . $nonTranslatableData['image']);
-                        } else {
-                            throw new \Exception('File was not saved to disk: ' . $fullPath);
-                        }
+                    if ($path) {
+                        // Set the proper URL for database - use relative path
+                        $nonTranslatableData['image'] = 'storage/fruits/' . $filename;
+                        Log::info('Image URL for database: ' . $nonTranslatableData['image']);
                     } else {
-                        throw new \Exception('Failed to move uploaded file to storage location');
+                        throw new \Exception('Failed to store uploaded file');
                     }
                 } catch (\Exception $e) {
                     Log::error('Failed to store uploaded file: ' . $e->getMessage());
@@ -303,30 +288,26 @@ class FruitController extends Controller
                 // Generate unique filename
                 $filename = 'fruit_' . Str::slug($nameForFile) . '_' . time() . '.' . $image->getClientOriginalExtension();
                 
-                // Ensure the directory exists
-                $storageDir = storage_path('app/public/fruits');
-                if (!file_exists($storageDir)) {
-                    mkdir($storageDir, 0755, true);
-                    Log::info('Created directory: ' . $storageDir);
-                }
-                
-                // Move the uploaded file directly to the storage location
-                $fullPath = $storageDir . '/' . $filename;
-                if ($image->move($storageDir, $filename)) {
-                    Log::info('Image successfully moved to: ' . $fullPath);
+                try {
+                    // Store the file using Laravel's Storage facade
+                    $path = Storage::disk('public')->putFileAs('fruits', $image, $filename);
+                    Log::info('Image stored at path: ' . $path);
                     
-                    // Verify the file exists
-                    if (file_exists($fullPath)) {
-                        Log::info('Verified file exists at: ' . $fullPath);
-                        
-                        // Set the proper URL for database
+                    if ($path) {
+                        // Set the proper URL for database - use relative path
                         $updateData['image'] = 'storage/fruits/' . $filename;
                         Log::info('Image URL for database: ' . $updateData['image']);
                     } else {
-                        throw new \Exception('File was not saved to disk: ' . $fullPath);
+                        throw new \Exception('Failed to store uploaded file');
                     }
-                } else {
-                    throw new \Exception('Failed to move uploaded file to storage location');
+                } catch (\Exception $e) {
+                    Log::error('Failed to store uploaded file: ' . $e->getMessage());
+                    Log::error($e->getTraceAsString());
+                    
+                    return redirect()->back()
+                        ->withInput()
+                        ->with('error', 'Failed to update fruit. Image upload error: ' . $e->getMessage())
+                        ->with('image_error', 'Image upload failed: ' . $e->getMessage());
                 }
             } catch (\Exception $e) {
                 Log::error('Failed to store uploaded file: ' . $e->getMessage());

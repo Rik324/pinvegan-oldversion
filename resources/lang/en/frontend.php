@@ -67,7 +67,7 @@ return [
     'our_values' => 'Our Values',
     'about_title' => 'About Pinvegan',
     'about_description' => 'We are a premier supplier of high-quality, fresh fruits sourced from local and international farms. Our mission is to provide the freshest and most delicious fruits to our customers.',
-    'about_history' => 'Founded in 2010, Pinvegan has grown from a small local fruit stand to a trusted supplier for events, restaurants, and health-conscious individuals across the region.',
+    'about_history' => 'Founded in 2021, Pinvegan has grown from a small local fruit stand to a trusted supplier for events, restaurants, and health-conscious individuals across the region.',
     'about_mission' => 'To provide the freshest, highest quality fruits while supporting sustainable farming practices and building lasting relationships with our customers and suppliers.',
     'quality' => 'Quality',
     'quality_description' => 'We are committed to providing only the highest quality, freshest fruits to our customers.',

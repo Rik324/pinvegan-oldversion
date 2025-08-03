@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('FILESYSTEM_DISK', 'public'),
 
     /*
     |--------------------------------------------------------------------------
@@ -32,8 +32,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app/private'),
-            'serve' => true,
+            'root' => storage_path('app'),
             'throw' => false,
             'report' => false,
         ],
@@ -42,6 +41,15 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+        
+        'hostinger' => [
+            'driver' => 'local',
+            'root' => env('HOSTINGER_PUBLIC_PATH', '/home/u795170655/domains/wheat-goshawk-159141.hostingersite.com/public_html'),
+            'url' => env('APP_URL'),
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

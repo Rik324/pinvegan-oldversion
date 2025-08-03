@@ -91,6 +91,57 @@ Fruit Shop is a professional web application designed for fruit vendors to showc
    npm run dev
    ```
 
+## Queue Configuration
+
+The application uses Laravel's queue system with the database driver for processing background jobs, including emails.
+
+### Setup Queue Tables
+
+1. Configure your `.env` file to use the database queue driver:
+
+   ```env
+   QUEUE_CONNECTION=database
+   ```
+
+2. Run the migrations to create the queue tables in your local database:
+
+   ```bash
+   php artisan queue:table
+   php artisan migrate
+   ```
+
+### Processing Queues
+
+#### Local Development
+
+For local development, you can process queues using the scheduler:
+
+```bash
+php artisan schedule:work
+```
+
+This will run the scheduler, which processes the queue every minute with the `queue:work --stop-when-empty` command as configured in `routes/console.php`.
+
+Alternatively, you can manually process jobs in the queue:
+
+```bash
+php artisan queue:work
+```
+
+#### Production Environment
+
+Set Up the Cron Job: This is the key to processing your queues on shared hosting.
+In hPanel, go to Advanced -> Cron Jobs.
+
+Under Create a New Cron Job, select Custom.
+
+In the Command to run field, enter the following command, replacing yourdomain.com with your actual domain:
+
+```bash
+/usr/bin/php /home/uXXXXXX/domains/yourdomain.com/artisan schedule:run >> /dev/null 2>&1
+
+```
+
 ## Usage
 
 ### Customer Interface

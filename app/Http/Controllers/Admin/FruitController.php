@@ -15,6 +15,71 @@ use Illuminate\Support\Facades\App;
 class FruitController extends Controller
 {
     /**
+     * Custom method to handle file uploads for Hostinger environment
+     * 
+     * @param \Illuminate\Http\UploadedFile $file
+     * @param string $filename
+     * @return string The relative path to the file
+     */
+    private function uploadFileToHostinger($file, $filename)
+    {
+        // For production environment on Hostinger
+        if (app()->environment('production')) {
+            // Debug the environment
+            Log::info('Current environment: ' . app()->environment());
+            
+            // The correct path for Hostinger - DIRECT PATH
+            $targetPath = '/files/public_html/storage/fruits';
+            
+            // Log all attempts for debugging
+            Log::info('Attempting to upload to path: ' . $targetPath);
+            
+            try {
+                // Ensure directory exists
+                if (!file_exists($targetPath)) {
+                    Log::info('Directory does not exist, creating: ' . $targetPath);
+                    mkdir($targetPath, 0755, true);
+                }
+                
+                // Move file directly to the correct location
+                $file->move($targetPath, $filename);
+                
+                // Log the file path for debugging
+                Log::info('SUCCESS: File uploaded directly to: ' . $targetPath . '/' . $filename);
+                
+                // Return the relative path for URL generation
+                return $filename;
+            } catch (\Exception $e) {
+                // If the direct path fails, try an alternative path
+                Log::error('Failed to upload to ' . $targetPath . ': ' . $e->getMessage());
+                
+                // Try alternative path
+                $altPath = '/home/u795170655/domains/wheat-goshawk-159141.hostingersite.com/public_html/storage/fruits';
+                Log::info('Trying alternative path: ' . $altPath);
+                
+                try {
+                    // Ensure directory exists
+                    if (!file_exists($altPath)) {
+                        Log::info('Alt directory does not exist, creating: ' . $altPath);
+                        mkdir($altPath, 0755, true);
+                    }
+                    
+                    // Move file to alternative location
+                    $file->move($altPath, $filename);
+                    Log::info('SUCCESS: File uploaded to alternative path: ' . $altPath . '/' . $filename);
+                    return $filename;
+                } catch (\Exception $e2) {
+                    Log::error('Failed to upload to alternative path: ' . $e2->getMessage());
+                    throw $e2;
+                }
+            }
+        } else {
+            // For local development, use Laravel's Storage facade
+            $path = Storage::disk('public')->putFileAs('fruits', $file, $filename);
+            return $filename;
+        }
+    }
+    /**
      * Display a listing of the fruits.
      *
      * @return \Illuminate\View\View
@@ -133,14 +198,14 @@ class FruitController extends Controller
                 $filename = 'fruit_' . Str::slug($nameForFile) . '_' . time() . '.' . $image->getClientOriginalExtension();
                 
                 try {
-                    // Store the file using Laravel's Storage facade
-                    $path = Storage::disk('public')->putFileAs('fruits', $image, $filename);
-                    Log::info('Image stored at path: ' . $path);
+                    // Use our custom upload method
+                    $uploadedFilename = $this->uploadFileToHostinger($image, $filename);
+                    Log::info('Image uploaded with filename: ' . $uploadedFilename);
                     
-                    if ($path) {
-                        // Set the proper URL for database - use relative path
-                        $nonTranslatableData['image'] = 'storage/fruits/' . $filename;
-                        Log::info('Image URL for database: ' . $nonTranslatableData['image']);
+                    if ($uploadedFilename) {
+                        // Store just the filename in the database for simplicity
+                        $nonTranslatableData['image'] = $uploadedFilename;
+                        Log::info('Image filename for database: ' . $nonTranslatableData['image']);
                     } else {
                         throw new \Exception('Failed to store uploaded file');
                     }
@@ -289,14 +354,14 @@ class FruitController extends Controller
                 $filename = 'fruit_' . Str::slug($nameForFile) . '_' . time() . '.' . $image->getClientOriginalExtension();
                 
                 try {
-                    // Store the file using Laravel's Storage facade
-                    $path = Storage::disk('public')->putFileAs('fruits', $image, $filename);
-                    Log::info('Image stored at path: ' . $path);
+                    // Use our custom upload method
+                    $uploadedFilename = $this->uploadFileToHostinger($image, $filename);
+                    Log::info('Image uploaded with filename: ' . $uploadedFilename);
                     
-                    if ($path) {
-                        // Set the proper URL for database - use relative path
-                        $updateData['image'] = 'storage/fruits/' . $filename;
-                        Log::info('Image URL for database: ' . $updateData['image']);
+                    if ($uploadedFilename) {
+                        // Store just the filename in the database for simplicity
+                        $updateData['image'] = $uploadedFilename;
+                        Log::info('Image filename for database: ' . $updateData['image']);
                     } else {
                         throw new \Exception('Failed to store uploaded file');
                     }
@@ -364,25 +429,32 @@ class FruitController extends Controller
     {
         // Delete image if exists and not an external URL
         if ($fruit->image && !Str::contains($fruit->image, 'unsplash.com')) {
-            // Get the filename from the image path
+            // Get the filename - might be just the filename or a full path
             $filename = basename($fruit->image);
             
-            // Build the full path to the file
-            $fullPath = storage_path('app/public/fruits/' . $filename);
+            // Try all possible paths where the file might be stored
+            $possiblePaths = [
+                storage_path('app/public/fruits/' . $filename),
+                public_path('storage/fruits/' . $filename),
+                '/files/public_html/storage/fruits/' . $filename,
+                '/files/public_html/storage/public/fruits/' . $filename,
+                '/home/u795170655/domains/wheat-goshawk-159141.hostingersite.com/public_html/storage/fruits/' . $filename
+            ];
             
-            // Check if file exists and delete it
-            if (file_exists($fullPath)) {
-                unlink($fullPath);
-                Log::info('Deleted image file: ' . $fullPath);
-            } else {
-                // Try alternative path format
-                $altPath = public_path('storage/fruits/' . $filename);
-                if (file_exists($altPath)) {
-                    unlink($altPath);
-                    Log::info('Deleted image file from alternate path: ' . $altPath);
-                } else {
-                    Log::warning('Could not find image file to delete: ' . $fruit->image);
+            $deleted = false;
+            
+            // Try to delete from each possible location
+            foreach ($possiblePaths as $path) {
+                if (file_exists($path)) {
+                    unlink($path);
+                    Log::info('Deleted image file from path: ' . $path);
+                    $deleted = true;
+                    break;
                 }
+            }
+            
+            if (!$deleted) {
+                Log::warning('Could not find image file to delete: ' . $fruit->image . ' in any of the expected locations');
             }
         }
 

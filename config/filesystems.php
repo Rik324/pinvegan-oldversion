@@ -54,6 +54,15 @@ return [
             'throw' => false,
             'report' => false,
         ],
+        
+        'hostinger_files' => [
+            'driver' => 'local',
+            'root' => '/files/public_html/storage',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
 
         's3' => [
             'driver' => 's3',

@@ -43,7 +43,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if($fruit->image)
-                                <img src="{{ asset($fruit->image) }}" alt="{{ $fruit->name }}" class="object-cover w-10 h-10 rounded-full">
+                                <img src="{{ url('storage/fruits/' . $fruit->image) }}" alt="{{ $fruit->name }}" class="object-cover w-10 h-10 rounded-full">
                             @else
                                 <div class="flex justify-center items-center w-10 h-10 bg-gray-200 rounded-full">
                                     <span class="text-xs text-gray-500">No img</span>

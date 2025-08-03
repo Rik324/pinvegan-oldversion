@@ -193,7 +193,7 @@
                             <x-input-label for="image" :value="__('Current Image')" />
                             @if($fruit->image)
                                 <div class="mt-2">
-                                    <img src="{{ asset($fruit->image) }}" alt="{{ $fruit->translate('en')->name }}" class="object-cover w-auto h-32 rounded-md">
+                                    <img src="{{ url('storage/fruits/' . $fruit->image) }}" alt="{{ $fruit->translate('en')->name }}" class="object-cover w-auto h-32 rounded-md">
                                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $fruit->image }}</p>
                                 </div>
                             @else

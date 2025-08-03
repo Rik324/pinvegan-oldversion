@@ -128,7 +128,7 @@ return [
     // Footer
     'quick_links' => 'Quick Links',
     'footer_about_description' => 'We provide the freshest, highest quality fruits vegetables, Thai herbs, and Thai products sourced directly from local farmers and delivered with care to you.',
-    'footer_address' => '329 M..4,Donklang,Damnoensaduak,70130 Ratchaburi, Thailand',
+    'footer_address' => '329 Moo 4,Donklang,Damnoensaduak,70130 Ratchaburi, Thailand',
     'footer_phone' => '+66 647973001(Eng) +66 886916554(Thai)',
     'footer_email' => 'pinveganex@gmail.com',
     'instagram' => 'Instagram',

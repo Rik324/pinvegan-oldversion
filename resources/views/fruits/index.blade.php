@@ -1,7 +1,7 @@
 <x-layout.app>
     <x-slot:header>
-        <h2 class="mt-4 text-xl font-semibold leading-tight text-yellow-300 dark:text-gray-200">
-            {{ __('frontend.our_fruits') }}
+        <h2 class=" font-semibold leading-tight text-yellow-300 dark:text-gray-200">
+        
         </h2>
     </x-slot>
 <div class="bg-white dark:bg-gray-900">

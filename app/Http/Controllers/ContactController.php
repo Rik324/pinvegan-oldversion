@@ -26,11 +26,11 @@ class ContactController extends Controller
         }
         // Contact information for the business
         $contactInfo = [
-            'address' => '123 Fruit Street, Orchard District, City, Country',
-            'phone' => '+1 (555) 123-4567',
-            'email' => 'info@pinevegan.com',
-            'hours' => 'Monday - Friday: 8:00 AM - 6:00 PM<br>Saturday: 9:00 AM - 5:00 PM<br>Sunday: Closed',
-            'map_location' => [13.7563, 100.5018], // Bangkok, Thailand coordinates
+            'address' => '329 Moo 4, Donklang, Damnoensaduak, 70130 Ratchaburi, Thailand',
+            'phone' => '+66 647973001(Eng) +66 886916554(Thai)',
+            'email' => 'pinveganex@gmail.com',
+            'hours' => 'Monday - Friday: 8:00 AM - 6:00 PM<br>Saturday: 9:00 AM - 5:00 PM<br>Sunday: Urgent Only',
+            'map_location' => [13.554821, 99.968317], // Ratchaburi, Thailand coordinates
             'map_zoom' => 11, // Zoom level (1-20, where 1 is world view and 20 is max zoom)
         ];
         

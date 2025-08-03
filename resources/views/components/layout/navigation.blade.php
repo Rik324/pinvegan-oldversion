@@ -5,29 +5,31 @@
 <nav x-data="{ open: false }" class="text-white bg-green-800 border-b border-green-700 dark:bg-green-900 dark:border-green-800">
     <!-- Primary Navigation Menu -->
     <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex justify-between h-20">
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex relative items-center shrink-0">
                     <a href="{{ route('home') }}?locale={{ app()->getLocale() }}" class="flex items-center">
                         <!-- Desktop Logo (hidden on small screens) -->
-                        <div class="hidden absolute p-1 bg-white border border-green-700 shadow-md sm:block" style="bottom: -25px; left: 0;">
-                            <img src="{{ asset('images/branding/pinveganlogo.png') }}" alt="{{ __('frontend.fruit_shop') }}" class="w-20 h-20">
-                        </div>
-                        <div class="hidden mr-4 w-16 sm:block"></div> <!-- Desktop Spacer -->
-                        
+                        <div class="hidden sm:flex sm:items-center">
+                            <img class="h-16 w-16" src="{{ asset('images/branding/pinveganlogo.png') }}" alt="{{ __('frontend.fruit_shop') }}">
+                        <span class="flex items-center text-3xl font-bold text-white">
+                             Pinvegan
+                        </span>
+
+                </div>
                         <!-- Mobile Logo and Brand Text (shown only on small screens) -->
                         <div class="flex items-center sm:hidden">
-                            <div class="p-1 bg-white border border-green-700 shadow-sm">
-                                <img src="{{ asset('images/branding/pinveganlogo.png') }}" alt="{{ __('frontend.fruit_shop') }}" class="w-10 h-10">
+                            <div class="shadow-sm">
+                                <img src="{{ asset('images/branding/pinveganlogo.png') }}" alt="{{ __('frontend.fruit_shop') }}" class="w-14 h-14 rounded-full">
                             </div>
-                            <span class="ml-2 text-lg font-bold text-white">Pinvegan</span>
+                            <span class="text-2xl font-bold text-white">Pinvegan</span>
                         </div>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-10 sm:-my-px sm:ms-10 sm:flex">
                     <x-ui.nav-link :href="route('home') . '?locale=' . app()->getLocale()" :active="request()->routeIs('home')">
                         {{ __('frontend.home') }}
                     </x-ui.nav-link>

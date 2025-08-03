@@ -197,7 +197,7 @@ We welcome contributions to the Fruit Shop project! Here's how you can contribut
 
 ![Fruit Shop Homepage](https://github.com/Ekaluk52003/laravel_fruitshop/blob/master/screenshots/homepage.png?raw=true)
 
-The homepage features a vibrant yellow hero section with the tagline "Fresh Fruits for Every Occasion" and showcases the clean, professional navigation design with the green header.
+The homepage features a vibrant yellow hero section with the tagline "The Best of Thailand, Delivered Worldwide" and showcases the clean, professional navigation design with the green header.
 
 ## License
 

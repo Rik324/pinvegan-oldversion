@@ -13,8 +13,8 @@ return [
     'logout' => 'Log Out',
     'fruit_shop' => 'Pinvegan',
     // Hero Section
-    'hero_title' => 'Fresh Fruits for Every Occasion',
-    'hero_description' => 'We provide high-quality, fresh fruits sourced from local and international farms. Perfect for events, restaurants, and health-conscious individuals.',
+    'hero_title' => 'The Best of Thailand, Delivered Worldwide',
+    'hero_description' => 'As a premier export company, we connect the world with a diverse range of authentic Thai products. Our expertise covers everything from exotic fruits and fresh vegetables to aromatic Thai herbs and specialty goods, ensuring quality with every shipment.',
     'browse_fruits' => 'Browse Fruits',
     'request_quote' => 'Request a Quote',
     
@@ -127,10 +127,10 @@ return [
     
     // Footer
     'quick_links' => 'Quick Links',
-    'footer_about_description' => 'We provide the freshest, highest quality fruits sourced directly from local and international farmers.',
-    'footer_address' => '123 Fruit Street, Fruitville, FC 12345',
-    'footer_phone' => '(555) 123-4567',
-    'footer_email' => 'info@fruitshop.com',
+    'footer_about_description' => 'We provide the freshest, highest quality fruits vegetables, Thai herbs, and Thai products sourced directly from local farmers and delivered with care to you.',
+    'footer_address' => '329 M..4,Donklang,Damnoensaduak,70130 Ratchaburi, Thailand',
+    'footer_phone' => '+66 647973001(Eng) +66 886916554(Thai)',
+    'footer_email' => 'pinveganex@gmail.com',
     'instagram' => 'Instagram',
     'all_rights_reserved' => 'All Rights Reserved',
     

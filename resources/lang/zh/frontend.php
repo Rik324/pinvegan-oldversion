@@ -13,8 +13,8 @@ return [
     'logout' => '退出登录',
     'fruit_shop' => 'Pinvegan',
     // Hero Section
-    'hero_title' => '各种场合的新鲜水果',
-    'hero_description' => '我们提供从本地和国际农场采购的高品质、新鲜水果。适合活动、餐厅和注重健康的个人。',
+    'hero_title' => '来自泰国的顶级水果，直达全球',
+    'hero_description' => '作为一家一流的出口公司，我们将世界与各种正宗的泰国产品连接起来。我们的专业知识涵盖从异国水果、新鲜蔬菜到芬芳的泰国草药和特色商品，确保每次发货的质量。',
     'browse_fruits' => '浏览水果',
     'request_quote' => '请求报价',
     
@@ -67,7 +67,7 @@ return [
     'our_values' => '我们的价值观',
     'about_title' => '关于 Pinvegan',
     'about_description' => '我们是一家一流的高质量新鲜水果供应商，从当地和国际农场采购。我们的使命是为客户提供最新鲜、最美味的水果。',
-    'about_history' => 'Pinvegan 成立于2010年，从一个小型本地水果摆发展成为该地区活动、餐厅和注重健康的个人值得信赖的供应商。',
+    'about_history' => 'Pinvegan 成立于2021年，从一个小型本地水果摆发展成为该地区活动、餐厅和注重健康的个人值得信赖的供应商。',
     'about_mission' => '提供最新鲜、最高质量的水果，同时支持可持续农业实践，并与我们的客户和供应商建立持久的关系。',
     'quality' => '质量',
     'quality_description' => '我们致力于为客户提供最高质量、最新鲜的水果。',
@@ -128,9 +128,9 @@ return [
     // Footer
     'quick_links' => '快速链接',
     'footer_about_description' => '我们提供从本地和国际农场直接采购的最新鲜、最高品质的水果。',
-    'footer_address' => '123 水果街, 果园城, FC 12345',
-    'footer_phone' => '(555) 123-4567',
-    'footer_email' => 'info@fruitshop.com',
+    'footer_address' => '泰国叻丕府丹嫩沙多县Donklang镇4村329号，邮政编码：70130',
+    'footer_phone' => '+66 647973001(Eng) +66 886916554(Thai)',
+    'footer_email' => 'pinveganex@gmail.com',
     'instagram' => 'Instagram',
     'all_rights_reserved' => '版权所有',
     

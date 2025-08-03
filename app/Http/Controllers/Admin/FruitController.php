@@ -135,7 +135,7 @@ class FruitController extends Controller
                 // Store the file using a more direct approach for Windows compatibility
                 try {
                     // Ensure the directory exists
-                    $storageDir = storage_path('app/public/fruits');
+                    $storageDir = public_path('storage/fruits');
                     if (!file_exists($storageDir)) {
                         mkdir($storageDir, 0755, true);
                         Log::info('Created directory: ' . $storageDir);
